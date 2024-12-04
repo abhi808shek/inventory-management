@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import "./App.module.css";
 import handleAsync from "./utils/handleAsync";
 import Routers from "./routers/routers";
 import ErrorBoundary from "./components/ErrorBoundary";
+import "./App.module.css";
+import { BrowserRouter } from "react-router-dom";
 
 const App = () => {
   const [loading, setLoading] = useState(false);
@@ -20,7 +21,9 @@ const App = () => {
 
   return (
     <ErrorBoundary>
-      <Routers />
+      <BrowserRouter>
+        <Routers />
+      </BrowserRouter>
     </ErrorBoundary>
   );
 };
