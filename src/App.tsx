@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import handleAsync from "./utils/handleAsync";
 import Routers from "./routers/routers";
 import ErrorBoundary from "./components/ErrorBoundary";
-import "./App.module.css";
+import "./App.css";
 import { BrowserRouter } from "react-router-dom";
 
 const App = () => {
