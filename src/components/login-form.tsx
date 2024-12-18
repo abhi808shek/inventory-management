@@ -13,19 +13,17 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Link } from "react-router-dom";
 import { loginSchema } from "@/validations/auth.validation";
-import { IFormInputs } from "@/types/auth.types";
+import { LoginIFormInputs } from "@/types/auth.types";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
-  // Define the Yup validation schema
-
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IFormInputs>({
+  } = useForm<LoginIFormInputs>({
     defaultValues: {
       email: "",
       password: "",
@@ -33,7 +31,8 @@ export function LoginForm({
     resolver: yupResolver(loginSchema),
   });
 
-  const onSubmit = (data: IFormInputs) => console.log("data", data);
+  // onHandle Login Form
+  const onSubmit = (data: LoginIFormInputs) => console.log("data", data);
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
