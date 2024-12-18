@@ -9,11 +9,31 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Link } from "react-router-dom";
+import { loginSchema } from "@/validations/auth.validation";
+import { IFormInputs } from "@/types/auth.types";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
+  // Define the Yup validation schema
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IFormInputs>({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+    resolver: yupResolver(loginSchema),
+  });
+
+  const onSubmit = (data: IFormInputs) => console.log("data", data);
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -25,18 +45,27 @@ export function LoginForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="grid gap-6">
               <div className="grid gap-6">
+                {/* Email Field Section */}
                 <div className="grid gap-2">
                   <Label htmlFor="email">Email</Label>
                   <Input
                     id="email"
                     type="email"
                     placeholder="Example@email.com"
-                    required
+                    {...register("email")}
+                    className={`${
+                      errors.email ? "border-red-500" : "border-gray-300"
+                    } border-2 focus:outline-none`}
                   />
+                  <p className="h-1 text-red-500 text-xs pl-1">
+                    {errors.email?.message}
+                  </p>
                 </div>
+
+                {/* Password Field Section */}
                 <div className="grid gap-2">
                   <div className="flex items-center">
                     <Label htmlFor="password">Password</Label>
@@ -50,9 +79,15 @@ export function LoginForm({
                   <Input
                     id="password"
                     type="password"
-                    required
+                    {...register("password")}
                     placeholder="At least 8 characters"
+                    className={`${
+                      errors.password ? "border-red-500" : "border-gray-300"
+                    } border-2 focus:outline-none`}
                   />
+                  <p className="h-1 text-red-500 text-xs pl-1">
+                    {errors.password?.message}
+                  </p>
                 </div>
                 <Button type="submit" className="w-full bg-[#5D54C9]">
                   Log in
@@ -85,12 +120,12 @@ export function LoginForm({
               </div>
               <div className="text-center text-sm">
                 Don&apos;t have an account?{" "}
-                <a
-                  href="#"
+                <Link
+                  to="/signup"
                   className="underline underline-offset-4 text-[#5D54C9]"
                 >
                   Sign up
-                </a>
+                </Link>
               </div>
             </div>
           </form>
