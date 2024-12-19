@@ -30,7 +30,7 @@ export function SignupForm({
   } = useForm<SignupIFormInputs>({
     defaultValues: {
       email: "",
-      phoneNumber: undefined,
+      mobile_number: undefined,
       password: "",
     },
     resolver: yupResolver(signupSchema),
@@ -45,7 +45,7 @@ export function SignupForm({
 
     // If the length of the numeric value is less than or equal to 10, set the value
     if (numericValue.length <= 10) {
-      setValue("phoneNumber", numericValue); // Set the value using react-hook-form's setValue
+      setValue("mobile_number", numericValue); // Set the value using react-hook-form's setValue
     }
   };
 
@@ -111,15 +111,17 @@ export function SignupForm({
                     id="number"
                     type="tel"
                     placeholder="+91 63376578949"
-                    {...register("phoneNumber")}
+                    {...register("mobile_number")}
                     maxLength={10}
                     onChange={handlePhoneInputChange}
                     className={`${
-                      errors.phoneNumber ? "border-red-500" : "border-gray-300"
+                      errors.mobile_number
+                        ? "border-red-500"
+                        : "border-gray-300"
                     } border-2 focus:outline-none`}
                   />
                   <p className="h-1 text-red-500 text-xs pl-1">
-                    {errors.phoneNumber?.message}
+                    {errors.mobile_number?.message}
                   </p>
                 </div>
 
