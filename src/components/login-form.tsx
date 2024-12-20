@@ -16,8 +16,8 @@ import { loginSchema } from "@/validations/auth.validation";
 import { LoginIFormInputs } from "@/types/auth.types";
 import { useMutation } from "@tanstack/react-query";
 import { loginApi } from "@/api/auth.api";
-import { useToast } from "@/hooks/use-toast";
 import { ChangeEvent } from "react";
+import toast from "react-hot-toast";
 
 export function LoginForm({
   className,
@@ -38,25 +38,16 @@ export function LoginForm({
   });
 
   // Toaster
-  const { toast } = useToast();
 
   // Handling Login Mutations
   const { mutate: loginFunction, isPending } = useMutation({
     mutationFn: loginApi,
     onSuccess: (data) => {
-      toast({
-        variant: "default",
-        title: data?.data?.message,
-        duration: 3000,
-      });
+      toast(data?.data?.message ?? "Loggedin successfull");
       reset();
     },
     onError: (error) => {
-      toast({
-        variant: "destructive",
-        title: error.message,
-        duration: 3000,
-      });
+      toast.error(error.message);
     },
   });
 
@@ -74,9 +65,12 @@ export function LoginForm({
   };
 
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
+    <div
+      className={cn("flex flex-col gap-1 mt-[4rem] md: mt-0", className)}
+      {...props}
+    >
       <Card>
-        <CardHeader className="">
+        <CardHeader className="pb-5">
           <CardTitle className="text-xl">Welcome Back 👋</CardTitle>
           <CardDescription>
             Today is a new day. It's your day. You shape it. Log in to start
@@ -86,7 +80,7 @@ export function LoginForm({
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="grid gap-6">
-              <div className="grid gap-6">
+              <div className="grid gap-2">
                 {/* Email Field Section */}
                 <div className="grid gap-2">
                   <Label htmlFor="email">Email</Label>

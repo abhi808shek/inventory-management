@@ -2,7 +2,7 @@ import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 
 // Layouts
-const AuthLayout = lazy(() => import("@/layout/AuthLayout"));
+const AuthLayout = lazy(() => import("@/layout/auth"));
 
 //Pages
 const LoginPage = lazy(() => import("@/pages/login"));
