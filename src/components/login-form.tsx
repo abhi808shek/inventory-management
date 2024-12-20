@@ -17,6 +17,7 @@ import { LoginIFormInputs } from "@/types/auth.types";
 import { useMutation } from "@tanstack/react-query";
 import { loginApi } from "@/api/auth.api";
 import { useToast } from "@/hooks/use-toast";
+import { ChangeEvent } from "react";
 
 export function LoginForm({
   className,
@@ -27,6 +28,7 @@ export function LoginForm({
     handleSubmit,
     reset,
     formState: { errors },
+    clearErrors,
   } = useForm<LoginIFormInputs>({
     defaultValues: {
       email: "",
@@ -62,6 +64,16 @@ export function LoginForm({
   const onSubmit = (data: LoginIFormInputs) => {
     loginFunction(data);
   };
+
+  const handleChange = (
+    event: ChangeEvent<HTMLInputElement>,
+    fieldName: "email" | "password"
+  ) => {
+    console.log("event", event.target.value);
+    clearErrors(fieldName);
+    register(fieldName).onChange(event);
+  };
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -87,6 +99,9 @@ export function LoginForm({
                     className={`${
                       errors.email ? "border-red-500" : "border-gray-300"
                     } border-2 focus:outline-none`}
+                    onChange={(e) => {
+                      handleChange(e, "password");
+                    }}
                   />
                   <p className="h-1 text-red-500 text-xs pl-1">
                     {errors.email?.message}
