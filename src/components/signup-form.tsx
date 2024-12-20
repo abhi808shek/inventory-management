@@ -14,10 +14,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { signupSchema } from "@/validations/auth.validation";
 import { SignupIFormInputs } from "@/types/auth.types";
 import { Link } from "react-router-dom";
-import { useToast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import { signupApi } from "@/api/auth.api";
 import { ChangeEvent } from "react";
+import toast from "react-hot-toast";
 export function SignupForm({
   className,
   ...props
@@ -37,7 +37,6 @@ export function SignupForm({
     resolver: yupResolver(signupSchema),
   });
   // Toaster
-  const { toast } = useToast();
   // Function to allow only numbers in the input
   const handlePhoneInputChange = (e: any) => {
     const rawValue = e.target.value;
@@ -54,19 +53,11 @@ export function SignupForm({
   const { mutate: signupFunction, isPending } = useMutation({
     mutationFn: signupApi,
     onSuccess: (data) => {
-      toast({
-        variant: "default",
-        title: data?.data?.message,
-        duration: 3000,
-      });
+      toast.success(data?.data?.message ?? "Successfully signedup");
       reset();
     },
     onError: (error) => {
-      toast({
-        variant: "destructive",
-        title: error.message,
-        duration: 3000,
-      });
+      toast.error(error.message);
     },
   });
 
