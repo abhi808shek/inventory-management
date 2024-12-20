@@ -1,3 +1,4 @@
+import BaseLayout from "@/layout/Base";
 import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 
@@ -14,6 +15,9 @@ const Routers = () => {
         <Route element={<AuthLayout />}>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
+        </Route>
+        <Route path="/home" element={<BaseLayout />}>
+          {/* <Route path="/signup" element={<SignupPage />} /> */}
         </Route>
       </Routes>
     </Suspense>
