@@ -28,7 +28,7 @@ export function LoginForm({
     handleSubmit,
     reset,
     formState: { errors },
-    clearErrors,
+    setValue,
   } = useForm<LoginIFormInputs>({
     defaultValues: {
       email: "",
@@ -65,13 +65,12 @@ export function LoginForm({
     loginFunction(data);
   };
 
-  const handleChange = (
-    event: ChangeEvent<HTMLInputElement>,
-    fieldName: "email" | "password"
-  ) => {
-    console.log("event", event.target.value);
-    clearErrors(fieldName);
-    register(fieldName).onChange(event);
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const name = event.target.name as "email" | "password";
+    const value = event.target.value;
+    setValue(name, value, { shouldValidate: true });
+    // clearErrors(name);
+    // register(name).onChange(event);
   };
 
   return (
@@ -97,11 +96,9 @@ export function LoginForm({
                     placeholder="Example@email.com"
                     {...register("email")}
                     className={`${
-                      errors.email ? "border-red-500" : "border-gray-300"
+                      errors.email ? "border-red-500" : " focus-visible:ring-2"
                     } border-2 focus:outline-none`}
-                    onChange={(e) => {
-                      handleChange(e, "password");
-                    }}
+                    onChange={handleChange}
                   />
                   <p className="h-1 text-red-500 text-xs pl-1">
                     {errors.email?.message}
@@ -125,8 +122,11 @@ export function LoginForm({
                     {...register("password")}
                     placeholder="At least 8 characters"
                     className={`${
-                      errors.password ? "border-red-500" : "border-gray-300"
+                      errors.password
+                        ? "border-red-500"
+                        : " focus-visible:ring-2"
                     } border-2 focus:outline-none`}
+                    onChange={handleChange}
                   />
                   <p className="h-1 text-red-500 text-xs pl-1">
                     {errors.password?.message}
