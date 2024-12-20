@@ -1,4 +1,4 @@
-import BaseLayout from "@/layout/Base";
+import BaseLayout from "@/layout/base";
 import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 

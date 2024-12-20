@@ -18,7 +18,7 @@ const BaseLayout = () => {
   return (
     <div className="w-full h-[100dvh] overflow-hidden">
       {/* Navbar Code */}
-      <div className="w-full h-[88px] bg-red-400"></div>
+      <div className="w-full h-[var(--navbar-height)] bg-red-400"></div>
 
       {/* Header Section */}
       <div className="bg-blue-400" style={{ height: "calc(100vh - 88px)" }}>
