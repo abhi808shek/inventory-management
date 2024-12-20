@@ -17,6 +17,7 @@ import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import { signupApi } from "@/api/auth.api";
+import { ChangeEvent } from "react";
 export function SignupForm({
   className,
   ...props
@@ -45,7 +46,7 @@ export function SignupForm({
 
     // If the length of the numeric value is less than or equal to 10, set the value
     if (numericValue.length <= 10) {
-      setValue("mobile_number", numericValue); // Set the value using react-hook-form's setValue
+      setValue("mobile_number", numericValue, { shouldValidate: true }); // Set the value using react-hook-form's setValue
     }
   };
 
@@ -73,6 +74,13 @@ export function SignupForm({
   const onSubmit = (data: SignupIFormInputs) => {
     signupFunction(data);
   };
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const name = event.target.name as "email" | "password";
+    const value = event.target.value;
+    setValue(name, value, { shouldValidate: true });
+  };
+
   return (
     <div
       className={cn("flex flex-col gap-1 mt-0 md:mt-[4rem]", className)}
@@ -89,9 +97,9 @@ export function SignupForm({
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="grid gap-6">
-              <div className="grid gap-2">
+              <div className="grid gap-3">
                 {/* Email Field */}
-                <div className="grid gap-2">
+                <div className="grid gap-1">
                   <Label htmlFor="email">Email</Label>
                   <Input
                     id="email"
@@ -101,6 +109,7 @@ export function SignupForm({
                     className={`${
                       errors.email ? "border-red-500" : "border-gray-300"
                     } border-2 focus:outline-none`}
+                    onChange={handleChange}
                   />
                   <p className="h-1 text-red-500 text-xs pl-1">
                     {errors.email?.message}
@@ -141,6 +150,7 @@ export function SignupForm({
                     className={`${
                       errors.password ? "border-red-500" : "border-gray-300"
                     } border-2 focus:outline-none`}
+                    onChange={handleChange}
                   />
                   <p className="h-1 text-red-500 text-xs pl-1">
                     {errors.password?.message}

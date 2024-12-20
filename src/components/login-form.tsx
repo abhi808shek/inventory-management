@@ -60,8 +60,6 @@ export function LoginForm({
     const name = event.target.name as "email" | "password";
     const value = event.target.value;
     setValue(name, value, { shouldValidate: true });
-    // clearErrors(name);
-    // register(name).onChange(event);
   };
 
   return (
