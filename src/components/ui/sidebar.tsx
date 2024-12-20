@@ -32,6 +32,8 @@ type SidebarContext = {
   setOpenMobile: (open: boolean) => void;
   isMobile: boolean;
   toggleSidebar: () => void;
+  toggleMouseEvent: (flag: boolean) => void;
+  isHoverOpen: boolean;
 };
 
 const SidebarContext = React.createContext<SidebarContext | null>(null);
@@ -67,6 +69,7 @@ const SidebarProvider = React.forwardRef<
   ) => {
     const isMobile = useIsMobile();
     const [openMobile, setOpenMobile] = React.useState(false);
+    const [isHoverOpen, setIsHoverOpen] = React.useState(false);
 
     // This is the internal state of the sidebar.
     // We use openProp and setOpenProp for control from outside the component.
@@ -93,6 +96,12 @@ const SidebarProvider = React.forwardRef<
         ? setOpenMobile((open) => !open)
         : setOpen((open) => !open);
     }, [isMobile, setOpen, setOpenMobile]);
+
+    // Helper to check is sidebar open by mouse enter
+    const toggleMouseEvent = React.useCallback((flag: boolean) => {
+      console.log("isHoverOpen", isHoverOpen);
+      setIsHoverOpen(flag);
+    }, []);
 
     // Adds a keyboard shortcut to toggle the sidebar.
     React.useEffect(() => {
@@ -123,8 +132,19 @@ const SidebarProvider = React.forwardRef<
         openMobile,
         setOpenMobile,
         toggleSidebar,
+        toggleMouseEvent,
+        isHoverOpen,
       }),
-      [state, open, setOpen, isMobile, openMobile, setOpenMobile, toggleSidebar]
+      [
+        state,
+        open,
+        setOpen,
+        isMobile,
+        openMobile,
+        setOpenMobile,
+        toggleSidebar,
+        toggleMouseEvent,
+      ]
     );
 
     return (
@@ -261,7 +281,7 @@ const SidebarTrigger = React.forwardRef<
   React.ElementRef<typeof Button>,
   React.ComponentProps<typeof Button>
 >(({ className, onClick, ...props }, ref) => {
-  const { toggleSidebar } = useSidebar();
+  const { toggleSidebar, toggleMouseEvent } = useSidebar();
 
   return (
     <Button
@@ -273,6 +293,7 @@ const SidebarTrigger = React.forwardRef<
       onClick={(event) => {
         onClick?.(event);
         toggleSidebar();
+        toggleMouseEvent(false);
       }}
       {...props}
     >

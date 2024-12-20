@@ -15,6 +15,7 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
   SidebarRail,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import {
   Collapsible,
@@ -182,8 +183,18 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { setOpen, toggleMouseEvent, isHoverOpen } = useSidebar();
+
   return (
-    <Sidebar {...props}>
+    <Sidebar
+      {...props}
+      onMouseLeave={() => {
+        if (isHoverOpen) {
+          setOpen(false);
+          toggleMouseEvent(false);
+        }
+      }}
+    >
       <SidebarContent>
         <SidebarGroup>
           <SidebarMenu className=" p-5 ">
@@ -234,7 +245,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </a>
         </SidebarMenuButton>
       </SidebarFooter>
-      <SidebarRail />
+      <SidebarRail
+        onMouseEnter={() => {
+          if (!isHoverOpen) {
+            toggleMouseEvent(true);
+            setOpen(true);
+          }
+        }}
+      />
     </Sidebar>
   );
 }
