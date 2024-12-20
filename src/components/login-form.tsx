@@ -66,7 +66,7 @@ export function LoginForm({
 
   return (
     <div
-      className={cn("flex flex-col gap-1 mt-[4rem] md: mt-0", className)}
+      className={cn("flex flex-col gap-1 mt-[4rem] md:mt-0", className)}
       {...props}
     >
       <Card>
@@ -82,7 +82,7 @@ export function LoginForm({
             <div className="grid gap-6">
               <div className="grid gap-2">
                 {/* Email Field Section */}
-                <div className="grid gap-2">
+                <div className="grid gap-1 mb-2">
                   <Label htmlFor="email">Email</Label>
                   <Input
                     id="email"
@@ -100,7 +100,7 @@ export function LoginForm({
                 </div>
 
                 {/* Password Field Section */}
-                <div className="grid gap-2">
+                <div className="grid gap-1 mb-2">
                   <div className="flex items-center">
                     <Label htmlFor="password">Password</Label>
                     <a

@@ -74,9 +74,12 @@ export function SignupForm({
     signupFunction(data);
   };
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
+    <div
+      className={cn("flex flex-col gap-1 mt-0 md:mt-[4rem]", className)}
+      {...props}
+    >
       <Card>
-        <CardHeader className="">
+        <CardHeader className="pb-5">
           <CardTitle className="text-xl">Welcome Back 👋</CardTitle>
           <CardDescription>
             Today is a new day. It's your day. You shape it. Log in to start
@@ -86,7 +89,7 @@ export function SignupForm({
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="grid gap-6">
-              <div className="grid gap-6">
+              <div className="grid gap-2">
                 {/* Email Field */}
                 <div className="grid gap-2">
                   <Label htmlFor="email">Email</Label>
@@ -105,12 +108,12 @@ export function SignupForm({
                 </div>
 
                 {/* Phone No Field */}
-                <div className="grid gap-2">
-                  <Label htmlFor="email">Mobile Number</Label>
+                <div className="grid gap-1">
+                  <Label htmlFor="mobile_number">Mobile Number</Label>
                   <Input
                     id="number"
                     type="tel"
-                    placeholder="+91 63376578949"
+                    placeholder="63376578949"
                     {...register("mobile_number")}
                     maxLength={10}
                     onChange={handlePhoneInputChange}
