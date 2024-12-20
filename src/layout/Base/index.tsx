@@ -16,7 +16,7 @@ import {
 
 const BaseLayout = () => {
   return (
-    <div className="w-full h-[100dvh]">
+    <div className="w-full h-[100dvh] overflow-hidden">
       {/* Navbar Code */}
       <div className="w-full h-[88px] bg-red-400"></div>
 
