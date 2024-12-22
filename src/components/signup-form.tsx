@@ -9,11 +9,43 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { signupSchema } from "@/validations/auth.validation";
+import { SignupIFormInputs } from "@/types/auth.types";
+import { Link } from "react-router-dom";
 export function SignupForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<SignupIFormInputs>({
+    defaultValues: {
+      email: "",
+      phoneNumber: undefined,
+      password: "",
+    },
+    resolver: yupResolver(signupSchema),
+  });
+
+  // Function to allow only numbers in the input
+  const handlePhoneInputChange = (e: any) => {
+    const rawValue = e.target.value;
+    // Remove all non-numeric characters
+    const numericValue = rawValue.replace(/[^0-9]/g, "");
+
+    // If the length of the numeric value is less than or equal to 10, set the value
+    if (numericValue.length <= 10) {
+      setValue("phoneNumber", numericValue); // Set the value using react-hook-form's setValue
+    }
+  };
+
+  // onHandle Singup Form
+  const onSubmit = (data: SignupIFormInputs) => console.log("data", data);
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -25,7 +57,7 @@ export function SignupForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="grid gap-6">
               <div className="grid gap-6">
                 {/* Email Field */}
@@ -35,8 +67,14 @@ export function SignupForm({
                     id="email"
                     type="email"
                     placeholder="Example@email.com"
-                    required
+                    {...register("email")}
+                    className={`${
+                      errors.email ? "border-red-500" : "border-gray-300"
+                    } border-2 focus:outline-none`}
                   />
+                  <p className="h-1 text-red-500 text-xs pl-1">
+                    {errors.email?.message}
+                  </p>
                 </div>
 
                 {/* Phone No Field */}
@@ -44,29 +82,37 @@ export function SignupForm({
                   <Label htmlFor="email">Mobile Number</Label>
                   <Input
                     id="number"
-                    type="number"
+                    type="tel"
                     placeholder="+91 63376578949"
-                    required
+                    {...register("phoneNumber")}
+                    maxLength={10}
+                    onChange={handlePhoneInputChange}
+                    className={`${
+                      errors.phoneNumber ? "border-red-500" : "border-gray-300"
+                    } border-2 focus:outline-none`}
                   />
+                  <p className="h-1 text-red-500 text-xs pl-1">
+                    {errors.phoneNumber?.message}
+                  </p>
                 </div>
 
                 {/* Password Field */}
                 <div className="grid gap-2">
                   <div className="flex items-center">
                     <Label htmlFor="password">Password</Label>
-                    <a
-                      href="#"
-                      className="ml-auto text-sm underline-offset-4 hover:underline text-[#5D54C9]"
-                    >
-                      Forgot Password?
-                    </a>
                   </div>
                   <Input
                     id="password"
                     type="password"
-                    required
                     placeholder="At least 8 characters"
+                    {...register("password")}
+                    className={`${
+                      errors.password ? "border-red-500" : "border-gray-300"
+                    } border-2 focus:outline-none`}
                   />
+                  <p className="h-1 text-red-500 text-xs pl-1">
+                    {errors.password?.message}
+                  </p>
                 </div>
                 <Button type="submit" className="w-full bg-[#5D54C9]">
                   Sign up
@@ -110,12 +156,12 @@ export function SignupForm({
               </div>
               <div className="text-center text-sm">
                 Already have an account?&nbsp;
-                <a
-                  href="#"
+                <Link
+                  to="/login"
                   className="underline underline-offset-4 text-[#5D54C9]"
                 >
                   Log in
-                </a>
+                </Link>
               </div>
             </div>
           </form>
