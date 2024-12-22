@@ -6,8 +6,10 @@ import { Routes, Route } from "react-router-dom";
 const AuthLayout = lazy(() => import("@/layout/auth"));
 
 //Pages
+import NotFound from "@/pages/notfound";
 const LoginPage = lazy(() => import("@/pages/login"));
 const SignupPage = lazy(() => import("@/pages/signup"));
+
 const Routers = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
@@ -16,8 +18,8 @@ const Routers = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
         </Route>
-        <Route path="/home" element={<BaseLayout />}>
-          {/* <Route path="/signup" element={<SignupPage />} /> */}
+        <Route element={<BaseLayout />}>
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
     </Suspense>

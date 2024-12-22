@@ -1,4 +1,4 @@
-import { AppSidebar } from "@/components/app-sidebar";
+import AppSidebar from "@/components/app-sidebar";
 import { Search, Bell } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
@@ -108,7 +108,7 @@ const BaseLayout = () => {
       </div>
 
       {/* Header Section */}
-      <div className="bg-blue-400" style={{ height: "calc(100vh - 60px)" }}>
+      <div style={{ height: "calc(100vh - var(--navbar-height))" }}>
         <SidebarProvider>
           <AppSidebar />
           <SidebarInset>

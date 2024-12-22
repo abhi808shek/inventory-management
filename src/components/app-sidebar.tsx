@@ -1,13 +1,10 @@
-import * as React from "react";
-import { GalleryVerticalEnd } from "lucide-react";
-import { ChevronRight, type LucideIcon } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
-  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -22,168 +19,16 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-// This is sample data.
-// const data = {
-//   navMain: [
-//     {
-//       title: "Getting Started",
-//       icon: "😄",
-//       url: "#",
-//       items: [
-//         {
-//           title: "Installation",
-//           url: "#",
-//         },
-//         {
-//           title: "Project Structure",
-//           url: "#",
-//         },
-//       ],
-//     },
-//     {
-//       title: "Building Your Application",
-//       icon: "😄",
-//       url: "#",
-//       items: [
-//         {
-//           title: "Routing",
-//           url: "#",
-//         },
-//         {
-//           title: "Data Fetching",
-//           url: "#",
-//           isActive: true,
-//         },
-//         {
-//           title: "Rendering",
-//           url: "#",
-//         },
-//         {
-//           title: "Caching",
-//           url: "#",
-//         },
-//         {
-//           title: "Styling",
-//           url: "#",
-//         },
-//         {
-//           title: "Optimizing",
-//           url: "#",
-//         },
-//         {
-//           title: "Configuring",
-//           url: "#",
-//         },
-//       ],
-//     },
-//     {
-//       title: "API Reference",
-//       icon: "😄",
-//       url: "#",
-//       items: [
-//         {
-//           title: "Components",
-//           url: "#",
-//         },
-//         {
-//           title: "File Conventions",
-//           url: "#",
-//         },
+import { sidebarOptions } from "@/assets/data/sidebarOptions";
+import { Link, useLocation } from "react-router-dom";
+import { memo, useState } from "react";
 
-//         {
-//           title: "Edge Runtime",
-//           url: "#",
-//         },
-//       ],
-//     },
-//     {
-//       title: "Architecture",
-//       icon: "😄",
-//       url: "#",
-//       items: [
-//         {
-//           title: "Accessibility",
-//           url: "#",
-//         },
-//         {
-//           title: "Fast Refresh",
-//           url: "#",
-//         },
-//         {
-//           title: "Next.js Compiler",
-//           url: "#",
-//         },
-//         {
-//           title: "Supported Browsers",
-//           url: "#",
-//         },
-//         {
-//           title: "Turbopack",
-//           url: "#",
-//         },
-//       ],
-//     },
-//     {
-//       title: "Community",
-//       url: "#",
-//       items: [
-//         {
-//           title: "Contribution Guide",
-//           url: "#",
-//         },
-//       ],
-//     },
-//   ],
-// };
-const data = {
-  navMain: [
-    {
-      title: "Dashboard",
-      icon: "🏠",
-      url: "#",
-    },
-    {
-      title: "Reports",
-      icon: "📊", // Assuming an icon for Reports
-      url: "#",
-      items: [
-        {
-          title: "One",
-          url: "#",
-        },
-        {
-          title: "Two",
-          url: "#",
-        },
-        {
-          title: "Three",
-          url: "#",
-          isActive: true,
-        },
-      ],
-    },
-    {
-      title: "Transactions",
-      icon: "💰", // Assuming an icon for Transactions
-      url: "#",
-      items: [],
-    },
-    {
-      title: "Report",
-      icon: "📄", // Assuming an icon for Report
-      url: "#",
-      items: [],
-    },
-    {
-      title: "Settings",
-      icon: "⚙️",
-      url: "#",
-    },
-  ],
-};
+const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
+  const [selectedoption, setSelectedOption] = useState<null | string>(null);
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { setOpen, toggleMouseEvent, isHoverOpen } = useSidebar();
+
+  const location = useLocation();
 
   return (
     <Sidebar
@@ -198,33 +43,38 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <SidebarGroup>
           <SidebarMenu className=" p-5 ">
-            {data.navMain.map((item) => (
+            {sidebarOptions.map((item) => (
               <Collapsible
-                key={item.title}
+                key={item.label}
                 asChild
-                // defaultOpen={true }
+                defaultOpen={true}
                 className="group/collapsible"
               >
-                <SidebarMenuItem key={item.title} className=" py-2">
+                <SidebarMenuItem key={item.label} className=" py-2">
                   <CollapsibleTrigger asChild>
                     <SidebarMenuButton asChild>
-                      <a href={item.url} className="font-medium">
-                        <span className="pr-2">{item.icon}</span>
-                        <span>{item.title}</span>
-                        <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                      </a>
+                      <Link to={item.path} className="font-medium">
+                        <img src={item.icon ?? undefined} alt="ICON" />
+                        <span>{item.label}</span>
+                        {item.children?.length ? (
+                          <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                        ) : null}
+                      </Link>
                     </SidebarMenuButton>
                   </CollapsibleTrigger>
-                  {item.items?.length ? (
+                  {item.children?.length ? (
                     <CollapsibleContent>
                       <SidebarMenuSub>
-                        {item.items.map((item) => (
-                          <SidebarMenuSubItem key={item.title}>
+                        {item.children.map((child) => (
+                          <SidebarMenuSubItem key={child.label}>
                             <SidebarMenuSubButton
                               asChild
-                              isActive={item.isActive}
+                              isActive={
+                                `${item.path}${child.path}` ===
+                                location.pathname
+                              }
                             >
-                              <a href={item.url}>{item.title}</a>
+                              <Link to={child.path}>{child.label}</Link>
                             </SidebarMenuSubButton>
                           </SidebarMenuSubItem>
                         ))}
@@ -255,4 +105,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       />
     </Sidebar>
   );
-}
+};
+
+export default memo(AppSidebar);
