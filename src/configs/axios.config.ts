@@ -1,71 +1,76 @@
 import axios, {
-    AxiosError,
-    AxiosInstance,
-    InternalAxiosRequestConfig,
-  } from "axios";
-  import { customLocalStorage } from "../utils/customLocalStorage";
-  
-  interface ErrorResponseData {
-    error: string;
-  }
-  
-  const getToken = () => customLocalStorage.getData("token");
-  
-  const createAxiosInstance = (): AxiosInstance => {
-    const instance = axios.create({
-      baseURL: `${
-        import.meta.env.VITE_HOST === "localhost"
-          ? import.meta.env.VITE_LOCAL_BASE_URL
-          : import.meta.env.VITE_PROD_BASE_URL
-      }/api/v1`,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-  
-    instance.interceptors.request.use(
-      (config: InternalAxiosRequestConfig) => {
-        const token = getToken();
-        if (token) {
-          config.headers["Authorization"] = `Bearer ${token}`;
-        }
-        return config;
-      },
-      (error) => {
-        return Promise.reject(error);
+  AxiosError,
+  AxiosInstance,
+  InternalAxiosRequestConfig,
+} from "axios";
+import { customLocalStorage } from "../utils/customLocalStorage";
+
+interface ErrorResponseData {
+  message: string;
+}
+
+const getToken = () => customLocalStorage.getData("token");
+console.log(
+  "import.meta.env.VITE_LOCAL_BASE_URL",
+  import.meta.env.VITE_LOCAL_BASE_URL,
+  "import.meta.env.VITE_HOST",
+  import.meta.env.VITE_HOST
+);
+import.meta.env.VITE_HOST;
+const createAxiosInstance = (): AxiosInstance => {
+  const instance = axios.create({
+    baseURL: `${
+      import.meta.env.VITE_HOST === "localhost"
+        ? import.meta.env.VITE_LOCAL_BASE_URL
+        : import.meta.env.VITE_PROD_BASE_URL
+    }/auth/v1`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  instance.interceptors.request.use(
+    (config: InternalAxiosRequestConfig) => {
+      const token = getToken();
+      if (token) {
+        config.headers["Authorization"] = `Bearer ${token}`;
       }
-    );
-  
-    instance.interceptors.response.use(
-      (response) => {
-        return response;
-      },
-      (error: AxiosError<ErrorResponseData>) => {
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+
+  instance.interceptors.response.use(
+    (response) => {
+      return response;
+    },
+    (error: AxiosError<ErrorResponseData>) => {
+      if (error.response) {
+        if (error.response.status === 401) {
+          customLocalStorage.deleteData("token");
+          // notification.error(error.response.data.error);
+          error.message = error.response.data.message;
+          return Promise.reject(error);
+        }
         if (error.response) {
-          if (error.response.status === 401) {
-            customLocalStorage.deleteData("token");
-            // notification.error(error.response.data.error);
-            error.message = error.response.data.error;
-            return Promise.reject(error);
+          if (error.response.data && error.response.data.message) {
+            error.message = error.response.data.message;
           }
-          if (error.response) {
-            if (error.response.data && error.response.data.error) {
-              error.message = error.response.data.error;
-            }
-          }
-        } else if (error.request) {
-          console.error("Request error:", error.request);
-        } else {
-          console.error("Error:", error.message);
         }
-        return Promise.reject(error);
+      } else if (error.request) {
+        console.error("Request error:", error.request);
+      } else {
+        console.error("Error:", error.message);
       }
-    );
-  
-    return instance;
-  };
-  
-  const AXIOS = createAxiosInstance();
-  
-  export default AXIOS;
-  
+      return Promise.reject(error);
+    }
+  );
+
+  return instance;
+};
+
+const AXIOS = createAxiosInstance();
+
+export default AXIOS;
