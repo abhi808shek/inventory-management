@@ -15,7 +15,7 @@ export const signupSchema = Yup.object().shape({
   email: Yup.string()
     .email("Invalid email address") // Validates the email format
     .required("Email is required"), // Ensures the field is not empty
-  phoneNumber: Yup.string()
+  mobile_number: Yup.string()
     .min(10, "Invalid phone number. It must contain 10 digits.") // Regex to validate Indian phone number
     .required("Phone number is required"),
   password: Yup.string()

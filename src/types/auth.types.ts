@@ -5,6 +5,6 @@ export interface LoginIFormInputs {
 
 export interface SignupIFormInputs {
   email: string;
-  phoneNumber: string;
+  mobile_number: string;
   password: string;
 }
