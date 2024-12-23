@@ -63,10 +63,7 @@ export function LoginForm({
   };
 
   return (
-    <div
-      className={cn("flex flex-col gap-1 mt-[4rem] md:mt-0", className)}
-      {...props}
-    >
+    <div className={cn("flex flex-col gap-1", className)} {...props}>
       <Card>
         <CardHeader className="pb-5">
           <CardTitle className="text-xl">Welcome Back 👋</CardTitle>
