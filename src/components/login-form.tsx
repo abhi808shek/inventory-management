@@ -63,12 +63,9 @@ export function LoginForm({
   };
 
   return (
-    <div
-      className={cn("flex flex-col gap-1 mt-[4rem] md:mt-0", className)}
-      {...props}
-    >
+    <div className={cn("flex flex-col gap-1", className)} {...props}>
       <Card>
-        <CardHeader className="pb-5">
+        <CardHeader className="sm:pb-5">
           <CardTitle className="text-xl">Welcome Back 👋</CardTitle>
           <CardDescription>
             Today is a new day. It's your day. You shape it. Log in to start
@@ -92,7 +89,7 @@ export function LoginForm({
                     } border-2 focus:outline-none`}
                     onChange={handleChange}
                   />
-                  <p className="h-1 text-red-500 text-xs pl-1">
+                  <p className="h-3 sm:h-1 text-red-500 text-xs pl-1">
                     {errors.email?.message}
                   </p>
                 </div>
@@ -120,7 +117,7 @@ export function LoginForm({
                     } border-2 focus:outline-none`}
                     onChange={handleChange}
                   />
-                  <p className="h-1 text-red-500 text-xs pl-1">
+                  <p className="h-3 sm:h-1 text-red-500 text-xs pl-1">
                     {errors.password?.message}
                   </p>
                 </div>
