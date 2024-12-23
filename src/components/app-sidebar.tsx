@@ -1,13 +1,17 @@
-import * as React from "react";
-import { GalleryVerticalEnd } from "lucide-react";
-import { ChevronRight, type LucideIcon } from "lucide-react";
-
+import {
+  ComponentProps,
+  memo,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { ChevronRight } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
-  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -22,168 +26,33 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-// This is sample data.
-// const data = {
-//   navMain: [
-//     {
-//       title: "Getting Started",
-//       icon: "😄",
-//       url: "#",
-//       items: [
-//         {
-//           title: "Installation",
-//           url: "#",
-//         },
-//         {
-//           title: "Project Structure",
-//           url: "#",
-//         },
-//       ],
-//     },
-//     {
-//       title: "Building Your Application",
-//       icon: "😄",
-//       url: "#",
-//       items: [
-//         {
-//           title: "Routing",
-//           url: "#",
-//         },
-//         {
-//           title: "Data Fetching",
-//           url: "#",
-//           isActive: true,
-//         },
-//         {
-//           title: "Rendering",
-//           url: "#",
-//         },
-//         {
-//           title: "Caching",
-//           url: "#",
-//         },
-//         {
-//           title: "Styling",
-//           url: "#",
-//         },
-//         {
-//           title: "Optimizing",
-//           url: "#",
-//         },
-//         {
-//           title: "Configuring",
-//           url: "#",
-//         },
-//       ],
-//     },
-//     {
-//       title: "API Reference",
-//       icon: "😄",
-//       url: "#",
-//       items: [
-//         {
-//           title: "Components",
-//           url: "#",
-//         },
-//         {
-//           title: "File Conventions",
-//           url: "#",
-//         },
+import { sidebarOptions } from "@/assets/data/sidebarOptions";
+import { Link, useLocation } from "react-router-dom";
 
-//         {
-//           title: "Edge Runtime",
-//           url: "#",
-//         },
-//       ],
-//     },
-//     {
-//       title: "Architecture",
-//       icon: "😄",
-//       url: "#",
-//       items: [
-//         {
-//           title: "Accessibility",
-//           url: "#",
-//         },
-//         {
-//           title: "Fast Refresh",
-//           url: "#",
-//         },
-//         {
-//           title: "Next.js Compiler",
-//           url: "#",
-//         },
-//         {
-//           title: "Supported Browsers",
-//           url: "#",
-//         },
-//         {
-//           title: "Turbopack",
-//           url: "#",
-//         },
-//       ],
-//     },
-//     {
-//       title: "Community",
-//       url: "#",
-//       items: [
-//         {
-//           title: "Contribution Guide",
-//           url: "#",
-//         },
-//       ],
-//     },
-//   ],
-// };
-const data = {
-  navMain: [
-    {
-      title: "Dashboard",
-      icon: "🏠",
-      url: "#",
-    },
-    {
-      title: "Reports",
-      icon: "📊", // Assuming an icon for Reports
-      url: "#",
-      items: [
-        {
-          title: "One",
-          url: "#",
-        },
-        {
-          title: "Two",
-          url: "#",
-        },
-        {
-          title: "Three",
-          url: "#",
-          isActive: true,
-        },
-      ],
-    },
-    {
-      title: "Transactions",
-      icon: "💰", // Assuming an icon for Transactions
-      url: "#",
-      items: [],
-    },
-    {
-      title: "Report",
-      icon: "📄", // Assuming an icon for Report
-      url: "#",
-      items: [],
-    },
-    {
-      title: "Settings",
-      icon: "⚙️",
-      url: "#",
-    },
-  ],
-};
+const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
+  const [activeOption, setActiveOption] = useState("/dashboard");
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { setOpen, toggleMouseEvent, isHoverOpen } = useSidebar();
+
+  const { pathname } = useLocation();
+
+  const isActive = (path: string) => {
+    return path === pathname;
+  };
+
+  // const sidebarRef = useRef<HTMLDivElement>(null);
+
+  // useEffect(() => {
+  //   const activeElement = sidebarRef.current?.querySelector(".active");
+  //   if (activeElement) {
+  //     const { offsetTop, offsetHeight } = activeElement as HTMLElement;
+  //     setActivePosition({ top: offsetTop, height: offsetHeight });
+  //   }
+  // }, [pathname]);
+
+  useEffect(() => {
+    setActiveOption(pathname);
+  }, []);
 
   return (
     <Sidebar
@@ -195,36 +64,81 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         }
       }}
     >
+      {/* <div
+        className="absolute left-0 w-full bg-blue-600 transition-all duration-300"
+        style={{
+          top: `${activePosition.top}px`,
+          height: `${activePosition.height}px`,
+        }}
+      ></div> */}
       <SidebarContent>
         <SidebarGroup>
-          <SidebarMenu className=" p-5 ">
-            {data.navMain.map((item) => (
+          <SidebarMenu className="p-5">
+            {sidebarOptions.map(({ label, path, Icon, children }) => (
               <Collapsible
-                key={item.title}
+                key={label}
                 asChild
-                // defaultOpen={true }
+                defaultOpen={true}
                 className="group/collapsible"
               >
-                <SidebarMenuItem key={item.title} className=" py-2">
+                <SidebarMenuItem>
                   <CollapsibleTrigger asChild>
-                    <SidebarMenuButton asChild>
-                      <a href={item.url} className="font-medium">
-                        <span className="pr-2">{item.icon}</span>
-                        <span>{item.title}</span>
-                        <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                      </a>
+                    <SidebarMenuButton
+                      asChild
+                      className={`py-6 transition-all duration-300 ${
+                        activeOption === path
+                          ? "bg-[var(--sidebar-selected-option-bg)] text-white hover:bg-[var(--sidebar-selected-option-bg)] hover:text-white"
+                          : "hover:bg-[var(--sidebar-hover-option-bg)] hover:text-white"
+                      }`}
+                      onClick={() =>
+                        setActiveOption(
+                          children?.length ? path + children[0].path : path
+                        )
+                      }
+                    >
+                      <Link
+                        to={children?.length ? path + children[0].path : path}
+                        className="font-medium flex items-center"
+                      >
+                        {Icon && (
+                          <Icon
+                            color={`${
+                              activeOption === path ? "white" : "black"
+                            }`}
+                          />
+                        )}
+                        <span>{label}</span>
+                        {children?.length ? (
+                          <ChevronRight
+                            className={`ml-auto transition-transform duration-200 ${
+                              activeOption.includes(path)
+                                ? "rotate-0"
+                                : "rotate-90"
+                            }`}
+                          />
+                        ) : null}
+                      </Link>
                     </SidebarMenuButton>
                   </CollapsibleTrigger>
-                  {item.items?.length ? (
+                  {children?.length && activeOption.includes(path) ? (
                     <CollapsibleContent>
                       <SidebarMenuSub>
-                        {item.items.map((item) => (
-                          <SidebarMenuSubItem key={item.title}>
+                        {children.map((child) => (
+                          <SidebarMenuSubItem key={child.label}>
                             <SidebarMenuSubButton
                               asChild
-                              isActive={item.isActive}
+                              className={`py-5 transition-all duration-300 ${
+                                activeOption === path + child.path
+                                  ? "bg-[var(--sidebar-selected-option-bg)] text-white hover:bg-[var(--sidebar-selected-option-bg)] hover:text-white"
+                                  : "hover:bg-[var(--sidebar-hover-option-bg)] hover:text-white"
+                              }`}
+                              onClick={() =>
+                                setActiveOption(`${path}${child.path}`)
+                              }
                             >
-                              <a href={item.url}>{item.title}</a>
+                              <Link to={`${path}${child.path}`}>
+                                {child.label}
+                              </Link>
                             </SidebarMenuSubButton>
                           </SidebarMenuSubItem>
                         ))}
@@ -255,4 +169,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       />
     </Sidebar>
   );
-}
+};
+
+export default memo(AppSidebar);
