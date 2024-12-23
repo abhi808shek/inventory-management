@@ -1,11 +1,4 @@
-import {
-  ComponentProps,
-  memo,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { ComponentProps, memo, useEffect, useState } from "react";
 import { ChevronRight } from "lucide-react";
 import {
   Sidebar,
@@ -36,9 +29,9 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
 
   const { pathname } = useLocation();
 
-  const isActive = (path: string) => {
-    return path === pathname;
-  };
+  // const isActive = (path: string) => {
+  //   return path === pathname;
+  // };
 
   // const sidebarRef = useRef<HTMLDivElement>(null);
 
