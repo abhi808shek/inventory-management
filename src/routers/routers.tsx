@@ -6,9 +6,10 @@ import { Routes, Route } from "react-router-dom";
 const AuthLayout = lazy(() => import("@/layout/auth"));
 
 //Pages
-import NotFound from "@/pages/notfound";
 const LoginPage = lazy(() => import("@/pages/login"));
 const SignupPage = lazy(() => import("@/pages/signup"));
+const NotFound = lazy(() => import("@/pages/notfound"));
+const Home = lazy(() => import("@/pages/home"));
 
 const Routers = () => {
   return (
@@ -19,6 +20,7 @@ const Routers = () => {
           <Route path="/signup" element={<SignupPage />} />
         </Route>
         <Route element={<BaseLayout />}>
+          <Route index element={<Home />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

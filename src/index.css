@@ -37,7 +37,9 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
-    --navbar-height: 60px;
+    --navbar-height: 64px;
+    --sidebar-selected-option-bg: #5159b8;
+    --sidebar-hover-option-bg: #747ddb;
   }
   .dark {
     --background: 222.2 84% 4.9%;
