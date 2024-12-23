@@ -1,13 +1,11 @@
 import * as React from "react";
-import { GalleryVerticalEnd } from "lucide-react";
-import { ChevronRight, type LucideIcon } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
-  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -22,119 +20,6 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-// This is sample data.
-// const data = {
-//   navMain: [
-//     {
-//       title: "Getting Started",
-//       icon: "😄",
-//       url: "#",
-//       items: [
-//         {
-//           title: "Installation",
-//           url: "#",
-//         },
-//         {
-//           title: "Project Structure",
-//           url: "#",
-//         },
-//       ],
-//     },
-//     {
-//       title: "Building Your Application",
-//       icon: "😄",
-//       url: "#",
-//       items: [
-//         {
-//           title: "Routing",
-//           url: "#",
-//         },
-//         {
-//           title: "Data Fetching",
-//           url: "#",
-//           isActive: true,
-//         },
-//         {
-//           title: "Rendering",
-//           url: "#",
-//         },
-//         {
-//           title: "Caching",
-//           url: "#",
-//         },
-//         {
-//           title: "Styling",
-//           url: "#",
-//         },
-//         {
-//           title: "Optimizing",
-//           url: "#",
-//         },
-//         {
-//           title: "Configuring",
-//           url: "#",
-//         },
-//       ],
-//     },
-//     {
-//       title: "API Reference",
-//       icon: "😄",
-//       url: "#",
-//       items: [
-//         {
-//           title: "Components",
-//           url: "#",
-//         },
-//         {
-//           title: "File Conventions",
-//           url: "#",
-//         },
-
-//         {
-//           title: "Edge Runtime",
-//           url: "#",
-//         },
-//       ],
-//     },
-//     {
-//       title: "Architecture",
-//       icon: "😄",
-//       url: "#",
-//       items: [
-//         {
-//           title: "Accessibility",
-//           url: "#",
-//         },
-//         {
-//           title: "Fast Refresh",
-//           url: "#",
-//         },
-//         {
-//           title: "Next.js Compiler",
-//           url: "#",
-//         },
-//         {
-//           title: "Supported Browsers",
-//           url: "#",
-//         },
-//         {
-//           title: "Turbopack",
-//           url: "#",
-//         },
-//       ],
-//     },
-//     {
-//       title: "Community",
-//       url: "#",
-//       items: [
-//         {
-//           title: "Contribution Guide",
-//           url: "#",
-//         },
-//       ],
-//     },
-//   ],
-// };
 const data = {
   navMain: [
     {

@@ -73,10 +73,7 @@ export function SignupForm({
   };
 
   return (
-    <div
-      className={cn("flex flex-col gap-1 mt-0 md:mt-[4rem]", className)}
-      {...props}
-    >
+    <div className={cn("flex flex-col gap-1 ", className)} {...props}>
       <Card>
         <CardHeader className="pb-5">
           <CardTitle className="text-xl">Welcome Back 👋</CardTitle>
@@ -102,7 +99,7 @@ export function SignupForm({
                     } border-2 focus:outline-none`}
                     onChange={handleChange}
                   />
-                  <p className="h-1 text-red-500 text-xs pl-1">
+                  <p className="h-3 sm:h-1 text-red-500 text-xs pl-1">
                     {errors.email?.message}
                   </p>
                 </div>
@@ -123,7 +120,7 @@ export function SignupForm({
                         : "border-gray-300"
                     } border-2 focus:outline-none`}
                   />
-                  <p className="h-1 text-red-500 text-xs pl-1">
+                  <p className="h-3 sm:h-1 text-red-500 text-xs pl-1">
                     {errors.mobile_number?.message}
                   </p>
                 </div>
@@ -143,7 +140,7 @@ export function SignupForm({
                     } border-2 focus:outline-none`}
                     onChange={handleChange}
                   />
-                  <p className="h-1 text-red-500 text-xs pl-1">
+                  <p className="h-3 sm:h-1 text-red-500 text-xs pl-1">
                     {errors.password?.message}
                   </p>
                 </div>

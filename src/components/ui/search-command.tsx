@@ -1,22 +1,12 @@
 import {
-  Command,
   CommandDialog,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator,
-  CommandShortcut,
 } from "@/components/ui/command";
-import {
-  Calculator,
-  Calendar,
-  CreditCard,
-  Settings,
-  Smile,
-  User,
-} from "lucide-react";
+
 const SearchCommand = ({ open, setOpen }: any) => {
   return (
     <CommandDialog open={open} onOpenChange={setOpen}>
