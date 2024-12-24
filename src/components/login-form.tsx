@@ -85,10 +85,8 @@ export function LoginForm({
                     id="email"
                     type="email"
                     placeholder="Example@email.com"
+                    error={!!errors.email}
                     {...register("email")}
-                    className={`mt-1 h-12 ${
-                      errors.email ? "border-red-500" : " focus-visible:ring-2"
-                    } border-2 focus:outline-none`}
                     onChange={handleChange}
                   />
                   <p className="h-3 sm:h-1 text-red-500 text-xs pl-1">
@@ -112,11 +110,7 @@ export function LoginForm({
                     type="password"
                     {...register("password")}
                     placeholder="At least 8 characters"
-                    className={`mt-1 h-12 ${
-                      errors.password
-                        ? "border-red-500"
-                        : " focus-visible:ring-2"
-                    } border-2 focus:outline-none`}
+                    error={!!errors.password}
                     onChange={handleChange}
                   />
                   <p className="h-3 sm:h-1 text-red-500 text-xs pl-1">

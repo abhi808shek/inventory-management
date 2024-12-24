@@ -40,6 +40,9 @@
     --navbar-height: 64px;
     --sidebar-selected-option-bg: #5159b8;
     --sidebar-hover-option-bg: #747ddb;
+    --input-bg-color: #f6f3fb;
+    --input-border-color: #d4d7e3;
+    --input-placeholder-color: #8897ad;
   }
   .dark {
     --background: 222.2 84% 4.9%;

@@ -94,9 +94,7 @@ export function SignupForm({
                     type="email"
                     placeholder="Example@email.com"
                     {...register("email")}
-                    className={`mt-1 h-12 ${
-                      errors.email ? "border-red-500" : "border-gray-300"
-                    } border-2 focus:outline-none`}
+                    error={!!errors.email}
                     onChange={handleChange}
                   />
                   <p className="h-3 sm:h-1 text-red-500 text-xs pl-1">
@@ -116,11 +114,7 @@ export function SignupForm({
                     {...register("mobile_number")}
                     maxLength={10}
                     onChange={handlePhoneInputChange}
-                    className={`mt-1 h-12 ${
-                      errors.mobile_number
-                        ? "border-red-500"
-                        : "border-gray-300"
-                    } border-2 focus:outline-none`}
+                    error={!!errors.mobile_number}
                   />
                   <p className="h-3 sm:h-1 text-red-500 text-xs pl-1">
                     {errors.mobile_number?.message}
@@ -137,9 +131,7 @@ export function SignupForm({
                     type="password"
                     placeholder="At least 8 characters"
                     {...register("password")}
-                    className={`h-12 ${
-                      errors.password ? "border-red-500" : "border-gray-300"
-                    } border-2 focus:outline-none`}
+                    error={!!errors.password}
                     onChange={handleChange}
                   />
                   <p className="h-2 sm:h-1 text-red-500 text-xs pl-1">
