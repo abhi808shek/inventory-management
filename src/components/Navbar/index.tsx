@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Search, Bell, Menu } from "lucide-react";
+import { Search, Bell, Menu, MoveLeft } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Popover,
@@ -14,17 +14,25 @@ type PROP_TYPES = {
 };
 
 const Navbar: FC<PROP_TYPES> = ({ setOpen }) => {
-  const { toggleMouseEvent, toggleSidebar } = useSidebar();
+  const { toggleSidebar, openMobile } = useSidebar();
 
   return (
     <div className="flex justify-between w-full h-[60px] px-5 shadow-md mb-2">
       <div className="flex w-1/2 items-center h-full gap-3">
-        <Menu
-          className="block md:hidden h-5"
-          onClick={() => {
-            toggleSidebar();
-          }}
-        />
+        {openMobile ? (
+          <MoveLeft
+            onClick={() => {
+              toggleSidebar();
+            }}
+          />
+        ) : (
+          <Menu
+            className="block md:hidden h-5"
+            onClick={() => {
+              toggleSidebar();
+            }}
+          />
+        )}
         <img src={LOGO} alt="Logo" className="h-[60%] md:h-[80%]" />
       </div>
       <div className="w-1/2 flex justify-end items-center gap-6">

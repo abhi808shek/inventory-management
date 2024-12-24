@@ -43,6 +43,7 @@
     --input-bg-color: #f6f3fb;
     --input-border-color: #d4d7e3;
     --input-placeholder-color: #8897ad;
+    --main-section-bg-color: #f8f7f8;
   }
   .dark {
     --background: 222.2 84% 4.9%;
