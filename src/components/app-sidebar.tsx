@@ -96,9 +96,9 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
                         <div className="font-medium flex items-center">
                           {Icon && (
                             <Icon
-                            // color={`${
-                            //   activeOption === label ? "white" : "black"
-                            // }`}
+                              color={`${
+                                activeOption.includes(path) ? "white" : "black"
+                              }`}
                             />
                           )}
                           <span>{label}</span>
@@ -115,9 +115,15 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
                         >
                           {Icon && (
                             <Icon
-                              color={`${
-                                activeOption === path ? "white" : "black"
-                              }`}
+                              // color={`${
+                              //   activeOption === path ? "white" : "black"
+                              // }`}
+                              className={`transition-colors duration-200 ${
+                                activeOption.includes(path)
+                                  ? "text-white"
+                                  : "text-black"
+                              } 
+                      hover:text-white`}
                             />
                           )}
                           <span>{label}</span>
