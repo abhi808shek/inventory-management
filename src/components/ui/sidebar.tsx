@@ -89,7 +89,6 @@ const SidebarProvider = React.forwardRef<
       },
       [setOpenProp, open]
     );
-
     // Helper to toggle the sidebar.
     const toggleSidebar = React.useCallback(() => {
       return isMobile
@@ -99,7 +98,6 @@ const SidebarProvider = React.forwardRef<
 
     // Helper to check is sidebar open by mouse enter
     const toggleMouseEvent = React.useCallback((flag: boolean) => {
-      console.log("isHoverOpen", isHoverOpen);
       setIsHoverOpen(flag);
     }, []);
 
@@ -159,7 +157,7 @@ const SidebarProvider = React.forwardRef<
               } as React.CSSProperties
             }
             className={cn(
-              "group/sidebar-wrapper flex w-full has-[[data-variant=inset]]:bg-sidebar",
+              "group/sidebar-wrapper flex flex-col w-full has-[[data-variant=inset]]:bg-sidebar",
               className
             )}
             ref={ref}
@@ -253,7 +251,7 @@ const Sidebar = React.forwardRef<
         <div
           className={cn(
             `duration-200 fixed top-[var(--navbar-height)] bottom-0 z-10 hidden h-[calc(100svh - var(--navbar-height))] w-[${
-              open ? "--sidebar-width" : "18%"
+              open ? "--sidebar-width" : "100%"
             }] transition-[left,right,width] ease-linear md:flex`,
             side === "left"
               ? "left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]"
@@ -425,7 +423,7 @@ const SidebarContent = React.forwardRef<
       ref={ref}
       data-sidebar="content"
       className={cn(
-        "flex min-h-0 flex-1 flex-col gap-2 overflow-auto group-data-[collapsible=icon]:overflow-hidden",
+        "flex min-h-0 flex-1 flex-col gap-2 overflow-auto group-data-[collapsible=icon]:overflow-hidden custom-scrollbar",
         className
       )}
       {...props}

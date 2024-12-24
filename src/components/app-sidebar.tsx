@@ -24,6 +24,7 @@ import { sidebarOptions } from "@/assets/data/sidebarOptions";
 import { Link, useLocation } from "react-router-dom";
 import BULB_ICON from "../assets/images/bulb.svg";
 import COLLAPSABLE_ICON from "../assets/images/collapsable.svg";
+import "./style.css";
 
 const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
   const [activeOption, setActiveOption] = useState("/dashboard");
@@ -63,7 +64,7 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
       ></div> */}
       <SidebarContent>
         <SidebarGroup>
-          <SidebarMenu className="p-5">
+          <SidebarMenu className="p-5 pt-0">
             {sidebarOptions.map(({ label, path, Icon, children }) => (
               <Collapsible
                 key={label}

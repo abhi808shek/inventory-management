@@ -6,12 +6,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Separator } from "@/components/ui/separator";
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import SearchCommand from "@/components/ui/search-command";
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
@@ -21,13 +16,16 @@ const BaseLayout = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="w-full h-[100dvh] overflow-hidden">
+    <div className="w-full h-[100svh] overflow-hidden">
       {/* Navbar Code */}
-      <Navbar setOpen={setOpen} />
+      <SidebarProvider>
+        <Navbar setOpen={setOpen} />
 
-      {/* Header Section */}
-      <div style={{ height: "calc(100svh - var(--navbar-height))" }}>
-        <SidebarProvider>
+        {/* Header Section */}
+        <div
+          className="flex"
+          style={{ height: "calc(100svh - var(--navbar-height))" }}
+        >
           <AppSidebar />
           <SidebarInset>
             <header className="flex h-16 shrink-0 items-center gap-2 border-b">
@@ -53,8 +51,8 @@ const BaseLayout = () => {
               <Outlet />
             </div>
           </SidebarInset>
-        </SidebarProvider>
-      </div>
+        </div>
+      </SidebarProvider>
       {open && <SearchCommand open={open} setOpen={setOpen} />}
     </div>
   );

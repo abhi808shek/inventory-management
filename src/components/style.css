@@ -1,0 +1,27 @@
+/* Apply to all scrollable elements */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px; /* Adjust the width of the scrollbar */
+  height: 8px; /* Adjust the height of the scrollbar (for horizontal scrollbar) */
+}
+
+/* Style the scrollbar track */
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Light background for the track */
+  border-radius: 10px; /* Rounded corners */
+}
+
+/* Style the scrollbar thumb */
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #888; /* Thumb color */
+  border-radius: 10px; /* Rounded corners */
+}
+
+/* Hover effect for scrollbar thumb */
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Darker thumb color on hover */
+}
+
+/* Optional: Style for the scrollbar corner (for both horizontal and vertical scrollbars) */
+.custom-scrollbar::-webkit-scrollbar-corner {
+  background: transparent;
+}
