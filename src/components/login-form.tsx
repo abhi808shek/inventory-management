@@ -16,7 +16,8 @@ import { loginSchema } from "@/validations/auth.validation";
 import { LoginIFormInputs } from "@/types/auth.types";
 import { useMutation } from "@tanstack/react-query";
 import { loginApi } from "@/api/auth.api";
-import { useToast } from "@/hooks/use-toast";
+import { ChangeEvent } from "react";
+import toast from "react-hot-toast";
 
 export function LoginForm({
   className,
@@ -27,6 +28,7 @@ export function LoginForm({
     handleSubmit,
     reset,
     formState: { errors },
+    setValue,
   } = useForm<LoginIFormInputs>({
     defaultValues: {
       email: "",
@@ -36,25 +38,16 @@ export function LoginForm({
   });
 
   // Toaster
-  const { toast } = useToast();
 
   // Handling Login Mutations
   const { mutate: loginFunction, isPending } = useMutation({
     mutationFn: loginApi,
     onSuccess: (data) => {
-      toast({
-        variant: "default",
-        title: data?.data?.message,
-        duration: 3000,
-      });
+      toast(data?.data?.message ?? "Loggedin successfull");
       reset();
     },
     onError: (error) => {
-      toast({
-        variant: "destructive",
-        title: error.message,
-        duration: 3000,
-      });
+      toast.error(error.message);
     },
   });
 
@@ -62,10 +55,17 @@ export function LoginForm({
   const onSubmit = (data: LoginIFormInputs) => {
     loginFunction(data);
   };
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const name = event.target.name as "email" | "password";
+    const value = event.target.value;
+    setValue(name, value, { shouldValidate: true });
+  };
+
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
+    <div className={cn("flex flex-col gap-1", className)} {...props}>
       <Card>
-        <CardHeader className="">
+        <CardHeader className="sm:pb-5">
           <CardTitle className="text-xl">Welcome Back 👋</CardTitle>
           <CardDescription>
             Today is a new day. It's your day. You shape it. Log in to start
@@ -75,9 +75,9 @@ export function LoginForm({
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="grid gap-6">
-              <div className="grid gap-6">
+              <div className="grid gap-2">
                 {/* Email Field Section */}
-                <div className="grid gap-2">
+                <div className="grid gap-1 mb-2">
                   <Label htmlFor="email">Email</Label>
                   <Input
                     id="email"
@@ -85,16 +85,17 @@ export function LoginForm({
                     placeholder="Example@email.com"
                     {...register("email")}
                     className={`${
-                      errors.email ? "border-red-500" : "border-gray-300"
+                      errors.email ? "border-red-500" : " focus-visible:ring-2"
                     } border-2 focus:outline-none`}
+                    onChange={handleChange}
                   />
-                  <p className="h-1 text-red-500 text-xs pl-1">
+                  <p className="h-3 sm:h-1 text-red-500 text-xs pl-1">
                     {errors.email?.message}
                   </p>
                 </div>
 
                 {/* Password Field Section */}
-                <div className="grid gap-2">
+                <div className="grid gap-1 mb-2">
                   <div className="flex items-center">
                     <Label htmlFor="password">Password</Label>
                     <a
@@ -110,10 +111,13 @@ export function LoginForm({
                     {...register("password")}
                     placeholder="At least 8 characters"
                     className={`${
-                      errors.password ? "border-red-500" : "border-gray-300"
+                      errors.password
+                        ? "border-red-500"
+                        : " focus-visible:ring-2"
                     } border-2 focus:outline-none`}
+                    onChange={handleChange}
                   />
-                  <p className="h-1 text-red-500 text-xs pl-1">
+                  <p className="h-3 sm:h-1 text-red-500 text-xs pl-1">
                     {errors.password?.message}
                   </p>
                 </div>

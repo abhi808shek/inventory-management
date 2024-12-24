@@ -14,9 +14,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { signupSchema } from "@/validations/auth.validation";
 import { SignupIFormInputs } from "@/types/auth.types";
 import { Link } from "react-router-dom";
-import { useToast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import { signupApi } from "@/api/auth.api";
+import { ChangeEvent } from "react";
+import toast from "react-hot-toast";
 export function SignupForm({
   className,
   ...props
@@ -36,7 +37,6 @@ export function SignupForm({
     resolver: yupResolver(signupSchema),
   });
   // Toaster
-  const { toast } = useToast();
   // Function to allow only numbers in the input
   const handlePhoneInputChange = (e: any) => {
     const rawValue = e.target.value;
@@ -45,7 +45,7 @@ export function SignupForm({
 
     // If the length of the numeric value is less than or equal to 10, set the value
     if (numericValue.length <= 10) {
-      setValue("mobile_number", numericValue); // Set the value using react-hook-form's setValue
+      setValue("mobile_number", numericValue, { shouldValidate: true }); // Set the value using react-hook-form's setValue
     }
   };
 
@@ -53,19 +53,11 @@ export function SignupForm({
   const { mutate: signupFunction, isPending } = useMutation({
     mutationFn: signupApi,
     onSuccess: (data) => {
-      toast({
-        variant: "default",
-        title: data?.data?.message,
-        duration: 3000,
-      });
+      toast.success(data?.data?.message ?? "Successfully signedup");
       reset();
     },
     onError: (error) => {
-      toast({
-        variant: "destructive",
-        title: error.message,
-        duration: 3000,
-      });
+      toast.error(error.message);
     },
   });
 
@@ -73,10 +65,17 @@ export function SignupForm({
   const onSubmit = (data: SignupIFormInputs) => {
     signupFunction(data);
   };
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const name = event.target.name as "email" | "password";
+    const value = event.target.value;
+    setValue(name, value, { shouldValidate: true });
+  };
+
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
+    <div className={cn("flex flex-col gap-1 ", className)} {...props}>
       <Card>
-        <CardHeader className="">
+        <CardHeader className="pb-5">
           <CardTitle className="text-xl">Welcome Back 👋</CardTitle>
           <CardDescription>
             Today is a new day. It's your day. You shape it. Log in to start
@@ -86,9 +85,9 @@ export function SignupForm({
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="grid gap-6">
-              <div className="grid gap-6">
+              <div className="grid gap-3">
                 {/* Email Field */}
-                <div className="grid gap-2">
+                <div className="grid gap-1">
                   <Label htmlFor="email">Email</Label>
                   <Input
                     id="email"
@@ -98,19 +97,20 @@ export function SignupForm({
                     className={`${
                       errors.email ? "border-red-500" : "border-gray-300"
                     } border-2 focus:outline-none`}
+                    onChange={handleChange}
                   />
-                  <p className="h-1 text-red-500 text-xs pl-1">
+                  <p className="h-3 sm:h-1 text-red-500 text-xs pl-1">
                     {errors.email?.message}
                   </p>
                 </div>
 
                 {/* Phone No Field */}
-                <div className="grid gap-2">
-                  <Label htmlFor="email">Mobile Number</Label>
+                <div className="grid gap-1">
+                  <Label htmlFor="mobile_number">Mobile Number</Label>
                   <Input
                     id="number"
                     type="tel"
-                    placeholder="+91 63376578949"
+                    placeholder="63376578949"
                     {...register("mobile_number")}
                     maxLength={10}
                     onChange={handlePhoneInputChange}
@@ -120,7 +120,7 @@ export function SignupForm({
                         : "border-gray-300"
                     } border-2 focus:outline-none`}
                   />
-                  <p className="h-1 text-red-500 text-xs pl-1">
+                  <p className="h-3 sm:h-1 text-red-500 text-xs pl-1">
                     {errors.mobile_number?.message}
                   </p>
                 </div>
@@ -138,8 +138,9 @@ export function SignupForm({
                     className={`${
                       errors.password ? "border-red-500" : "border-gray-300"
                     } border-2 focus:outline-none`}
+                    onChange={handleChange}
                   />
-                  <p className="h-1 text-red-500 text-xs pl-1">
+                  <p className="h-3 sm:h-1 text-red-500 text-xs pl-1">
                     {errors.password?.message}
                   </p>
                 </div>
