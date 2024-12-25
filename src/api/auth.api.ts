@@ -11,14 +11,14 @@ interface SIGNUP_DATA_TYPE extends LOGIN_DATA_TYPE {
 
 // Login Api Async Function
 export const loginApi = async (loginCredentential: LOGIN_DATA_TYPE) => {
-  const endpoint = "/login";
+  const endpoint = "/auth/v1/login";
   const result = await AXIOS.post(endpoint, loginCredentential);
   return result;
 };
 
 // Singup Api Async Function
 export const signupApi = async (signupCredentential: SIGNUP_DATA_TYPE) => {
-  const endpoint = "/registration";
+  const endpoint = "/auth/v1/registration";
   const result = await AXIOS.post(endpoint, signupCredentential);
   return result;
 };

@@ -1,5 +1,11 @@
 import { FC } from "react";
-import { Search, Bell, Menu, MoveLeft } from "lucide-react";
+import {
+  Search,
+  Bell,
+  Menu,
+  MoveLeft,
+  SquareArrowOutUpRight,
+} from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Popover,
@@ -15,6 +21,20 @@ type PROP_TYPES = {
 
 const Navbar: FC<PROP_TYPES> = ({ setOpen }) => {
   const { toggleSidebar, openMobile } = useSidebar();
+
+  const STATIC_USER = {
+    name: "vidu.pareek2000",
+    email: "vidu.pareek2000@gmail.com",
+    avatar: "https://cdn.flyonui.com/fy-assets/avatar/avatar-1.png",
+  };
+
+  const MENU_OPTIONS = [
+    { label: "Profile", href: "#", key: "profile" },
+    { label: "Personal settings", href: "#", key: "settings" },
+    { label: "Notifications", href: "#", key: "notifications", new: true },
+    { label: "Theme", href: "#", key: "theme" },
+    { label: "Log out", href: "#", key: "logout" },
+  ];
 
   return (
     <div className="flex justify-between w-full h-[60px] px-5 shadow-md mb-2">
@@ -40,70 +60,79 @@ const Navbar: FC<PROP_TYPES> = ({ setOpen }) => {
         <Bell className="hidden md:block h-5" />
         <Popover>
           <PopoverTrigger asChild>
-            <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" />
-              <AvatarFallback>CN</AvatarFallback>
+            <Avatar className="cursor-pointer">
+              {/* Check if the avatar URL exists */}
+              {STATIC_USER.avatar ? (
+                <AvatarImage src={STATIC_USER.avatar} alt="User Avatar" />
+              ) : (
+                <AvatarFallback>
+                  {STATIC_USER.name[0].toUpperCase()}
+                  {STATIC_USER.name[STATIC_USER.name.length - 1].toUpperCase()}
+                </AvatarFallback>
+              )}
             </Avatar>
           </PopoverTrigger>
-          <PopoverContent className="w-80">
-            <ul
-              className="dropdown-menu dropdown-open:opacity-100 hidden min-w-52"
-              role="menu"
-              aria-orientation="vertical"
-              aria-labelledby="dropdown-avatar"
-            >
-              <li className="dropdown-header gap-3 border-0 pt-3">
-                <div className="avatar">
-                  <div className="w-10 rounded-full">
-                    <img
-                      src="https://cdn.flyonui.com/fy-assets/avatar/avatar-1.png"
-                      alt="avatar 1"
-                    />
-                  </div>
+          <PopoverContent className="w-65 relative right-5">
+            {/* Account Title */}
+            <div className="text-gray-500 text-sm font-semibold pb-4">
+              Account
+            </div>
+
+            {/* Header */}
+            <div className="flex items-center pb-4">
+              {STATIC_USER.avatar ? (
+                <img
+                  src={STATIC_USER.avatar}
+                  alt="Avatar"
+                  className="w-12 h-12 rounded-full mr-4"
+                />
+              ) : (
+                <div className="w-12 h-12 flex justify-center items-center rounded-full bg-gray-300 mr-4 text-lg font-bold text-white">
+                  {STATIC_USER.name[0].toUpperCase()}
+                  {STATIC_USER.name[STATIC_USER.name.length - 1].toUpperCase()}
                 </div>
-                <div>
-                  <h6 className="text-base-content/90 text-base font-semibold">
-                    John Doe
-                  </h6>
-                  <small className="text-base-content/50">Admin</small>
-                </div>
-              </li>
-              <li>
-                <hr className="border-base-content/25 -mx-2 mb-3" />
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  <span className="icon-[tabler--user]"></span>
-                  My Profile
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  <span className="icon-[tabler--settings]"></span>
-                  Settings
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  <span className="icon-[tabler--receipt-rupee]"></span>
-                  Billing
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  <span className="icon-[tabler--help-triangle]"></span>
-                  FAQs
-                </a>
-              </li>
-              <li>
-                <hr className="border-base-content/25 -mx-2 my-3" />
-              </li>
-              <li>
-                <a className="dropdown-item btn btn-text btn-error" href="#">
-                  <span className="icon-[tabler--logout]"></span>
-                  Sign out
-                </a>
-              </li>
+              )}
+              <div className="flex flex-col">
+                <span className="font-medium text-lg">{STATIC_USER.name}</span>
+                <span className="text-sm text-gray-500">
+                  {STATIC_USER.email}
+                </span>
+              </div>
+            </div>
+
+            {/* Manage Account Option */}
+            <div className="flex items-center justify-between mt-3 mb-3 pb-7 border-b">
+              <a
+                href="#"
+                className="text-gray-700 hover:text-blue-500 text-sm font-medium"
+              >
+                Manage account
+              </a>
+              <SquareArrowOutUpRight width="15px" height="15px" />
+            </div>
+
+            {/* Menu Options */}
+            <ul>
+              {MENU_OPTIONS.map((option) => (
+                <li
+                  key={option.key}
+                  className={`py-2 ${
+                    option.key === "logout" ? "border-t mt-2 pt-2" : ""
+                  }`}
+                >
+                  <a
+                    href={option.href}
+                    className="flex justify-between items-center text-gray-700 hover:text-blue-500"
+                  >
+                    {option.label}
+                    {option.new && (
+                      <span className="ml-2 bg-blue-500 text-white text-xs px-2 py-1 rounded-full">
+                        NEW
+                      </span>
+                    )}
+                  </a>
+                </li>
+              ))}
             </ul>
           </PopoverContent>
         </Popover>

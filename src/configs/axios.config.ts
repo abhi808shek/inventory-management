@@ -10,12 +10,6 @@ interface ErrorResponseData {
 }
 
 const getToken = () => customLocalStorage.getData("token");
-console.log(
-  "import.meta.env.VITE_LOCAL_BASE_URL",
-  import.meta.env.VITE_LOCAL_BASE_URL,
-  "import.meta.env.VITE_HOST",
-  import.meta.env.VITE_HOST
-);
 
 const createAxiosInstance = (): AxiosInstance => {
   const instance = axios.create({
@@ -23,7 +17,7 @@ const createAxiosInstance = (): AxiosInstance => {
       import.meta.env.VITE_HOST === "localhost"
         ? import.meta.env.VITE_LOCAL_BASE_URL
         : import.meta.env.VITE_PROD_BASE_URL
-    }/auth/v1`,
+    }`,
     headers: {
       "Content-Type": "application/json",
     },
