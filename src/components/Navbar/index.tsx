@@ -14,7 +14,7 @@ type PROP_TYPES = {
 };
 
 const Navbar: FC<PROP_TYPES> = ({ setOpen }) => {
-  const { toggleMouseEvent, toggleSidebar } = useSidebar();
+  const { toggleSidebar } = useSidebar();
 
   return (
     <div className="flex justify-between w-full h-[60px] px-5 shadow-md mb-2">
