@@ -29,8 +29,14 @@ export default tseslint.config(
         "error",
         {
           vars: "all",
-          varsIgnorePattern: "^actionTypes$", // Ignore variables named "actionTypes"
+          varsIgnorePattern: "^actionTypes$",
           args: "none",
+        },
+      ],
+      "react-hooks/exhaustive-deps": [
+        "warn",
+        {
+          additionalHooks: "useMyCustomHook",
         },
       ],
     },
