@@ -1,5 +1,5 @@
 import { ComponentProps, memo, useEffect, useState } from "react";
-import { ChevronRight } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -14,6 +14,7 @@ import {
   SidebarRail,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { Separator } from "@/components/ui/separator";
 import {
   Collapsible,
   CollapsibleContent,
@@ -21,30 +22,27 @@ import {
 } from "@/components/ui/collapsible";
 import { sidebarOptions } from "@/assets/data/sidebarOptions";
 import { Link, useLocation } from "react-router-dom";
+import BULB_ICON from "../assets/images/bulb.svg";
+import COLLAPSABLE_ICON from "../assets/images/collapsable.svg";
+import "./style.css";
 
 const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
   const [activeOption, setActiveOption] = useState("/dashboard");
+  const [openDropdown, setOpenDropdown] = useState<null | string>(null);
 
-  const { setOpen, toggleMouseEvent, isHoverOpen } = useSidebar();
+  const { setOpen, toggleMouseEvent, isHoverOpen, toggleSidebar, open } =
+    useSidebar();
 
   const { pathname } = useLocation();
 
-  // const isActive = (path: string) => {
-  //   return path === pathname;
-  // };
-
-  // const sidebarRef = useRef<HTMLDivElement>(null);
-
-  // useEffect(() => {
-  //   const activeElement = sidebarRef.current?.querySelector(".active");
-  //   if (activeElement) {
-  //     const { offsetTop, offsetHeight } = activeElement as HTMLElement;
-  //     setActivePosition({ top: offsetTop, height: offsetHeight });
-  //   }
-  // }, [pathname]);
-
   useEffect(() => {
     setActiveOption(pathname);
+    const mainOption = sidebarOptions.find((option) =>
+      pathname.includes(option.path)
+    );
+    if (mainOption) {
+      setOpenDropdown(mainOption.label);
+    }
   }, []);
 
   return (
@@ -57,70 +55,84 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
         }
       }}
     >
-      {/* <div
-        className="absolute left-0 w-full bg-blue-600 transition-all duration-300"
-        style={{
-          top: `${activePosition.top}px`,
-          height: `${activePosition.height}px`,
-        }}
-      ></div> */}
       <SidebarContent>
         <SidebarGroup>
-          <SidebarMenu className="p-5">
+          <SidebarMenu className="p-5 pt-0">
             {sidebarOptions.map(({ label, path, Icon, children }) => (
               <Collapsible
                 key={label}
                 asChild
-                defaultOpen={true}
+                open={children ? label === openDropdown : undefined}
                 className="group/collapsible"
               >
                 <SidebarMenuItem>
                   <CollapsibleTrigger asChild>
                     <SidebarMenuButton
                       asChild
-                      className={`py-6 transition-all duration-300 ${
+                      className={`py-6 cursor-pointer transition-all duration-300 ${
                         activeOption === path
                           ? "bg-[var(--sidebar-selected-option-bg)] text-white hover:bg-[var(--sidebar-selected-option-bg)] hover:text-white"
-                          : "hover:bg-[var(--sidebar-hover-option-bg)] hover:text-white"
+                          : !children
+                          ? "hover:bg-[var(--sidebar-hover-option-bg)] hover:text-white"
+                          : ""
                       }`}
-                      onClick={() =>
-                        setActiveOption(
-                          children?.length ? path + children[0].path : path
-                        )
-                      }
+                      onClick={() => {
+                        if (children?.length) {
+                          label !== openDropdown
+                            ? setOpenDropdown(label)
+                            : setOpenDropdown(null);
+                        } else {
+                          setActiveOption(path);
+                        }
+                      }}
                     >
-                      <Link
-                        to={children?.length ? path + children[0].path : path}
-                        className="font-medium flex items-center"
-                      >
-                        {Icon && (
-                          <Icon
-                            color={`${
-                              activeOption === path ? "white" : "black"
-                            }`}
-                          />
-                        )}
-                        <span>{label}</span>
-                        {children?.length ? (
-                          <ChevronRight
+                      {children ? (
+                        <div className="font-medium flex items-center">
+                          {Icon && (
+                            <Icon
+                              color={`${
+                                activeOption.includes(path) ? "white" : "black"
+                              }`}
+                            />
+                          )}
+                          <span>{label}</span>
+                          <ChevronDown
                             className={`ml-auto transition-transform duration-200 ${
-                              activeOption.includes(path)
-                                ? "rotate-0"
-                                : "rotate-90"
+                              openDropdown === label ? "rotate-180" : "rotate-0"
                             }`}
                           />
-                        ) : null}
-                      </Link>
+                        </div>
+                      ) : (
+                        <Link
+                          to={path}
+                          className="font-medium flex items-center"
+                        >
+                          {Icon && (
+                            <Icon
+                              // color={`${
+                              //   activeOption === path ? "white" : "black"
+                              // }`}
+                              className={`transition-colors duration-200 ${
+                                activeOption.includes(path)
+                                  ? "text-white"
+                                  : "text-black"
+                              } 
+                      hover:text-white`}
+                            />
+                          )}
+                          <span>{label}</span>
+                        </Link>
+                      )}
                     </SidebarMenuButton>
                   </CollapsibleTrigger>
-                  {children?.length && activeOption.includes(path) ? (
+                  {children && openDropdown === label ? (
                     <CollapsibleContent>
                       <SidebarMenuSub>
                         {children.map((child) => (
                           <SidebarMenuSubItem key={child.label}>
                             <SidebarMenuSubButton
                               asChild
-                              className={`py-5 transition-all duration-300 ${
+                              className={`cursor-pointer py-5 transition-all duration-300 ${
                                 activeOption === path + child.path
                                   ? "bg-[var(--sidebar-selected-option-bg)] text-white hover:bg-[var(--sidebar-selected-option-bg)] hover:text-white"
                                   : "hover:bg-[var(--sidebar-hover-option-bg)] hover:text-white"
@@ -144,12 +156,26 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter>
+      <SidebarFooter className="relative">
+        <img
+          src={COLLAPSABLE_ICON}
+          width="35px"
+          height="35px"
+          className={`absolute right-[-15px] top-[-7px] z-30 cursor-pointer transition-transform duration-200 ${
+            open ? "rotate-0" : "rotate-180"
+          }`}
+          onClick={() => {
+            toggleSidebar();
+            toggleMouseEvent(false);
+          }}
+        />
+        <Separator className="" />
         <SidebarMenuButton asChild>
-          <a href={"#"} className="font-medium">
+          <Link to="/help" className="font-medium">
             <span className="pr-2">{""}</span>
+            <img src={BULB_ICON} width="20px" height="20px" />
             <span>Help</span>
-          </a>
+          </Link>
         </SidebarMenuButton>
       </SidebarFooter>
       <SidebarRail
