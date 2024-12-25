@@ -38,7 +38,7 @@ export function SignupForm({
   });
   // Toaster
   // Function to allow only numbers in the input
-  const handlePhoneInputChange = (e: any) => {
+  const handlePhoneInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const rawValue = e.target.value;
     // Remove all non-numeric characters
     const numericValue = rawValue.replace(/[^0-9]/g, "");
@@ -76,8 +76,10 @@ export function SignupForm({
     <div className={cn("flex flex-col gap-1 ", className)} {...props}>
       <Card>
         <CardHeader className="pb-5">
-          <CardTitle className="text-xl">Welcome Back 👋</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-[22px] font-normal">
+            Welcome Back 👋
+          </CardTitle>
+          <CardDescription className="w-[92%] lg:w-[65%] text-sm font-normal text-[#313957] leading-6">
             Today is a new day. It's your day. You shape it. Log in to start
             managing your projects.
           </CardDescription>
@@ -97,16 +99,14 @@ export function SignupForm({
                     error={!!errors.email}
                     onChange={handleChange}
                   />
-                  <p className="h-3 sm:h-1 text-red-500 text-xs pl-1">
+                  <p className="text-red-500 font-light text-xs pl-1">
                     {errors.email?.message}
                   </p>
                 </div>
 
                 {/* Phone No Field */}
                 <div className="grid gap-1">
-                  <Label htmlFor="mobile_number" className="mt-2">
-                    Mobile Number
-                  </Label>
+                  <Label htmlFor="mobile_number">Mobile Number</Label>
                   <Input
                     id="number"
                     type="tel"
@@ -116,7 +116,7 @@ export function SignupForm({
                     onChange={handlePhoneInputChange}
                     error={!!errors.mobile_number}
                   />
-                  <p className="h-3 sm:h-1 text-red-500 text-xs pl-1">
+                  <p className="text-red-500 font-light text-xs pl-1">
                     {errors.mobile_number?.message}
                   </p>
                 </div>
@@ -134,7 +134,7 @@ export function SignupForm({
                     error={!!errors.password}
                     onChange={handleChange}
                   />
-                  <p className="h-2 sm:h-1 text-red-500 text-xs pl-1">
+                  <p className="text-red-500 font-light text-xs pl-1">
                     {errors.password?.message}
                   </p>
                 </div>
@@ -165,24 +165,32 @@ export function SignupForm({
                     "Sign up"
                   )}
                 </Button>
-                <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-primary  my-2">
-                  By clicking continue, you agree to our{" "}
-                  <a href="#" className="text-[#5D54C9]">
-                    Terms of Service
-                  </a>{" "}
-                  and{" "}
-                  <a href="#" className="text-[#5D54C9]">
-                    Privacy Policy
-                  </a>
-                  .
+                <div className="w-full h-8 flex flex-col text-balance text-center text-[#313957] text-[10px] font-light [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-primary  my-2">
+                  By clicking on ‘Sign up’ you agree to our
+                  <span>
+                    <a
+                      href="#"
+                      className="text-[#6DB6CE] text-[10px] font-light"
+                    >
+                      Terms & Connditions
+                    </a>{" "}
+                    and{" "}
+                    <a
+                      href="#"
+                      className="text-[#6DB6CE] text-[10px] font-light"
+                    >
+                      Privacy Policy
+                    </a>
+                    .
+                  </span>
                 </div>
                 <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border my-2">
-                  <span className="relative z-10 bg-background px-2 text-muted-foreground">
+                  <span className="relative z-10 bg-background px-2 text-[#294957]">
                     Or Sign Up with
                   </span>
                 </div>
                 <div className="grid gap-4 grid-cols-2 sm:grid-cols-2">
-                  <Button variant="outline" className="w-full">
+                  <Button variant="socialMedia">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="3.481 .893 493.038 548.124"
@@ -251,7 +259,7 @@ export function SignupForm({
                     </svg>
                     Apple
                   </Button>
-                  <Button variant="outline" className="w-full">
+                  <Button variant="socialMedia">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       preserveAspectRatio="xMidYMid"
@@ -279,11 +287,11 @@ export function SignupForm({
                   </Button>
                 </div>
               </div>
-              <div className="text-center text-sm">
+              <div className="text-center text-sm text-normal text-[#313957]">
                 Already have an account?&nbsp;
                 <Link
                   to="/login"
-                  className="underline underline-offset-4 text-[#5D54C9]"
+                  className=" text-[#5D54C9] text-normal text-sm"
                 >
                   Log in
                 </Link>

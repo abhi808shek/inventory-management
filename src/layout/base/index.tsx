@@ -47,7 +47,7 @@ const BaseLayout = () => {
                 </Breadcrumb>
               </div>
             </header>
-            <div className="flex flex-1 flex-col gap-4 p-4">
+            <div className="flex flex-1 flex-col gap-4 p-4 bg-[var(--main-section-bg-color)]">
               <Outlet />
             </div>
           </SidebarInset>

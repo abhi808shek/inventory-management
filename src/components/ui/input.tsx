@@ -20,7 +20,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         <input
           type={isPasswordType && showPassword ? "text" : type}
           className={cn(
-            `border-2 placeholder-[var(--input-placeholder-color)!important]  mt-1 h-12 flex h-10 w-full rounded-md border-input bg-[var(--input-bg-color)] px-3 py-2 text-base file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm ${
+            `border-[1px] mt-1 h-12 flex w-full rounded-md border-input bg-[var(--input-bg-color)] px-3 py-2 text-base file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground focus-visible:outline-none focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm ${
               error ? "border-red-500" : "border-[var(--input-border-color)]"
             } focus:outline-none`,
             className

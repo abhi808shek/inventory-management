@@ -1,9 +1,9 @@
 import { useRef, useEffect } from "react";
 
 type Timer = ReturnType<typeof setTimeout>;
-type SomeFunction = (...args: any[]) => void;
+type SomeFunction<Args extends unknown[]> = (...args: Args) => void;
 
-export default function useDebounce<Func extends SomeFunction>(
+export default function useDebounce<Func extends SomeFunction<unknown[]>>(
   func: Func,
   delay = 1000
 ) {
@@ -16,7 +16,7 @@ export default function useDebounce<Func extends SomeFunction>(
     };
   }, []);
 
-  const debouncedFunction = ((...args) => {
+  const debouncedFunction = ((...args: Parameters<Func>) => {
     const newTimer = setTimeout(() => {
       func(...args);
     }, delay);

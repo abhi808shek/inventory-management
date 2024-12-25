@@ -1,8 +1,8 @@
 import { notification } from "../configs/notification.config";
 
-type AsyncFunction<T, A extends any[]> = (...args: A) => Promise<T>;
+type AsyncFunction<T, A extends unknown[]> = (...args: A) => Promise<T>;
 
-const handleAsync = <T, A extends any[]>(
+const handleAsync = <T, A extends unknown[]>(
   asyncFn: AsyncFunction<T, A>,
   onFinally?: () => void,
   onError?: (error: Error) => void

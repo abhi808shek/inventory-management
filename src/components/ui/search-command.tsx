@@ -7,7 +7,12 @@ import {
   CommandList,
 } from "@/components/ui/command";
 
-const SearchCommand = ({ open, setOpen }: any) => {
+type PROP_TYPE = {
+  open: boolean;
+  setOpen: (flag: boolean) => void;
+};
+
+const SearchCommand = ({ open, setOpen }: PROP_TYPE) => {
   return (
     <CommandDialog open={open} onOpenChange={setOpen}>
       <CommandInput placeholder="Type a command or search..." />
