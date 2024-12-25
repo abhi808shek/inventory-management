@@ -56,8 +56,8 @@ const Navbar: FC<PROP_TYPES> = ({ setOpen }) => {
         <img src={LOGO} alt="Logo" className="h-[60%] md:h-[80%]" />
       </div>
       <div className="w-1/2 flex justify-end items-center gap-6">
-        <Search onClick={() => setOpen(true)} />
-        <Bell className="hidden md:block h-5" />
+        <Search className="cursor-pointer" onClick={() => setOpen(true)} />
+        <Bell className="cursor-pointer hidden md:block h-5" />
         <Popover>
           <PopoverTrigger asChild>
             <Avatar className="cursor-pointer">
