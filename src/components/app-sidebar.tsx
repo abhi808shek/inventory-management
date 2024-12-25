@@ -78,9 +78,11 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
                       }`}
                       onClick={() => {
                         if (children?.length) {
-                          label !== openDropdown
-                            ? setOpenDropdown(label)
-                            : setOpenDropdown(null);
+                          if (label !== openDropdown) {
+                            setOpenDropdown(label);
+                          } else {
+                            setOpenDropdown(null);
+                          }
                         } else {
                           setActiveOption(path);
                         }

@@ -16,7 +16,7 @@ console.log(
   "import.meta.env.VITE_HOST",
   import.meta.env.VITE_HOST
 );
-import.meta.env.VITE_HOST;
+
 const createAxiosInstance = (): AxiosInstance => {
   const instance = axios.create({
     baseURL: `${

@@ -38,7 +38,7 @@ export function SignupForm({
   });
   // Toaster
   // Function to allow only numbers in the input
-  const handlePhoneInputChange = (e: any) => {
+  const handlePhoneInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const rawValue = e.target.value;
     // Remove all non-numeric characters
     const numericValue = rawValue.replace(/[^0-9]/g, "");
