@@ -4,7 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center font-light justify-center gap-2 whitespace-nowrap rounded-xl text-base ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex bg-[#5D54C9] items-center font-normal justify-center gap-2 whitespace-nowrap rounded-xl text-base ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
@@ -16,7 +16,7 @@ const buttonVariants = cva(
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         socialMedia:
-          "w-full bg-[var(--input-bg-color)] border-none text-[#313957] font-light text-sm",
+          "w-full bg-[var(--input-bg-color)] border-none text-[#313957] font-normal text-sm",
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {

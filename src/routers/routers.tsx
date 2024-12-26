@@ -2,6 +2,10 @@ import BaseLayout from "@/layout/base";
 import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 
+//Routes
+import PrivateRoute from "../routers/PrivateRoute";
+import PublicRoute from "../routers/PrivateRoute";
+
 // Layouts
 const AuthLayout = lazy(() => import("@/layout/auth"));
 
@@ -15,13 +19,17 @@ const Routers = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Routes>
-        <Route element={<AuthLayout />}>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
+        <Route element={<PublicRoute />}>
+          <Route element={<AuthLayout />}>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+          </Route>
         </Route>
-        <Route element={<BaseLayout />}>
-          <Route index element={<Home />} />
-          <Route path="*" element={<NotFound />} />
+        <Route element={<PrivateRoute />}>
+          <Route element={<BaseLayout />}>
+            <Route index element={<Home />} />
+            <Route path="*" element={<NotFound />} />
+          </Route>
         </Route>
       </Routes>
     </Suspense>

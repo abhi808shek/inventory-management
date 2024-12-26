@@ -22,10 +22,21 @@ input::placeholder {
   letter-spacing: 0.01em;
 }
 
+@media (max-width: 400px) {
+  .responsive-image {
+    /* width: 345px !important; */
+    margin-top: 16px;
+  }
+}
+
 /* Small mobile devices (portrait and landscape, width < 640px) */
 @media (max-width: 639px) {
   input,
   input::placeholder {
     font-size: 14px;
+  }
+  .outlet-wrapper {
+    height: 100% !important;
+    /* background-color: aqua; */
   }
 }

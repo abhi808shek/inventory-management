@@ -66,10 +66,10 @@ export function LoginForm({
     <div className={cn("flex flex-col gap-1", className)} {...props}>
       <Card>
         <CardHeader className="sm:pb-5">
-          <CardTitle className="text-[22px] font-normal">
+          <CardTitle className="text-xl text-[22px] font-normal text-[#0C1421]">
             Welcome Back 👋
           </CardTitle>
-          <CardDescription className="w-[92%] lg:w-[65%] text-sm font-normal text-[#313957] leading-6">
+          <CardDescription className="w-[92%] lg:w-[70%] text-sm font-normal text-[#313957] leading-6">
             Today is a new day. It's your day. You shape it. Log in to start
             managing your projects.
           </CardDescription>
@@ -112,7 +112,7 @@ export function LoginForm({
                   </p>
                   <a
                     href="#"
-                    className="ml-auto text-xs font-light underline-offset-4 hover:underline text-[#5D54C9]"
+                    className="ml-auto text-xs font-normal underline-offset-4 hover:underline text-[#5D54C9]"
                   >
                     Forgot Password?
                   </a>
@@ -120,7 +120,7 @@ export function LoginForm({
                 <Button
                   disabled={isPending}
                   type="submit"
-                  className="w-full bg-[#5D54C9] my-2"
+                  className="w-full  my-2"
                 >
                   {isPending ? (
                     <svg
