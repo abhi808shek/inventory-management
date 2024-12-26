@@ -44,6 +44,8 @@
     --input-border-color: #d4d7e3;
     --input-placeholder-color: #8897ad;
     --main-section-bg-color: #f8f7f8;
+    --light-text: #6a7682;
+    --dark-text: #505861;
   }
   .dark {
     --background: 222.2 84% 4.9%;

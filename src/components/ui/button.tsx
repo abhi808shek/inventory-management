@@ -11,8 +11,8 @@ const buttonVariants = cva(
         default: "bg-[#5D54C9] text-primary-foreground hover:bg-primary/90",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+        filterButton:
+          "h-[31.83px!important] font-normal text-base text-white bg-[#5159B8] rounded-[6.92px]",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         socialMedia:
