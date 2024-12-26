@@ -78,9 +78,11 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
                       }`}
                       onClick={() => {
                         if (children?.length) {
-                          label !== openDropdown
-                            ? setOpenDropdown(label)
-                            : setOpenDropdown(null);
+                          if (label !== openDropdown) {
+                            setOpenDropdown(label);
+                          } else {
+                            setOpenDropdown(null);
+                          }
                         } else {
                           setActiveOption(path);
                         }
@@ -88,13 +90,7 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
                     >
                       {children ? (
                         <div className="font-medium flex items-center">
-                          {Icon && (
-                            <Icon
-                              color={`${
-                                activeOption.includes(path) ? "white" : "black"
-                              }`}
-                            />
-                          )}
+                          {Icon && <Icon />}
                           <span>{label}</span>
                           <ChevronDown
                             className={`ml-auto transition-transform duration-200 ${
