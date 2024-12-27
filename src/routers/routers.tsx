@@ -3,8 +3,8 @@ import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 
 //Routes
-import PrivateRoute from "../routers/PrivateRoute";
-import PublicRoute from "../routers/PublicRoute";
+import PrivateRoute from "@/routers/PrivateRoute";
+import PublicRoute from "@/routers/PublicRoute";
 
 // Layouts
 const AuthLayout = lazy(() => import("@/layout/auth"));
