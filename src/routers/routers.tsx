@@ -14,6 +14,7 @@ const LoginPage = lazy(() => import("@/pages/login"));
 const SignupPage = lazy(() => import("@/pages/signup"));
 const NotFound = lazy(() => import("@/pages/notfound"));
 const Home = lazy(() => import("@/pages/home"));
+const Dashboard = lazy(() => import("@/pages/dashboard"));
 
 const Routers = () => {
   return (
@@ -27,7 +28,7 @@ const Routers = () => {
         </Route>
         <Route element={<PrivateRoute />}>
           <Route element={<BaseLayout />}>
-            <Route index element={<Home />} />
+            <Route index element={<Dashboard />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Route>

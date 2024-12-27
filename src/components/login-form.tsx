@@ -11,13 +11,16 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { loginSchema } from "@/validations/auth.validation";
 import { LoginIFormInputs } from "@/types/auth.types";
 import { useMutation } from "@tanstack/react-query";
 import { loginApi } from "@/api/auth.api";
 import { ChangeEvent } from "react";
 import toast from "react-hot-toast";
+import { customLocalStorage } from "@/utils/customLocalStorage";
+import { useDispatch } from "react-redux";
+import { setUserData } from "@/store/user/user-reducer";
 
 export function LoginForm({
   className,
@@ -36,13 +39,25 @@ export function LoginForm({
     },
     resolver: yupResolver(loginSchema),
   });
-
-  // Toaster
+  const navigate = useNavigate();
+  const location = useLocation();
+  const dispatch = useDispatch();
 
   // Handling Login Mutations
   const { mutate: loginFunction, isPending } = useMutation({
     mutationFn: loginApi,
     onSuccess: (data) => {
+      console.log("data", data);
+      const result = data?.data?.data;
+      dispatch(
+        setUserData({
+          name: result?.name,
+          email: result?.email,
+          mobile_number: result?.mobile_number,
+        })
+      );
+      customLocalStorage.setData("token", result?.access);
+      navigate(location?.state?.prevUrl ?? "/");
       toast(data?.data?.message ?? "Loggedin successfull");
       reset();
     },

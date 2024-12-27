@@ -29,7 +29,7 @@ const BaseLayout = () => {
         >
           <AppSidebar />
           <SidebarInset>
-            <header className="flex h-[70px] shrink-0 justify-center flex-col px-[24px]  pt-[10px]">
+            <header className="flex h-[70px] shrink-0 justify-center flex-col px-[24px] pt-[10px]">
               <div className="flex items-center gap-2">
                 {/* <SidebarTrigger /> */}
                 {/* <Separator orientation="vertical" className="mr-2 h-4" /> */}
