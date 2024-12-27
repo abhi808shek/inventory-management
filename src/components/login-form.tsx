@@ -66,8 +66,10 @@ export function LoginForm({
     <div className={cn("flex flex-col gap-1", className)} {...props}>
       <Card>
         <CardHeader className="sm:pb-5">
-          <CardTitle className="text-xl">Welcome Back 👋</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-xl text-[22px] font-normal text-[#0C1421]">
+            Welcome Back 👋
+          </CardTitle>
+          <CardDescription className="w-[92%] lg:w-[70%] text-sm font-normal text-[#313957] leading-6">
             Today is a new day. It's your day. You shape it. Log in to start
             managing your projects.
           </CardDescription>
@@ -77,10 +79,8 @@ export function LoginForm({
             <div className="grid gap-6">
               <div className="grid gap-2">
                 {/* Email Field Section */}
-                <div className="grid gap-1 mb-2">
-                  <Label htmlFor="email" className="">
-                    Email
-                  </Label>
+                <div className="grid gap-2 mb-2">
+                  <Label htmlFor="email">Email</Label>
                   <Input
                     id="email"
                     type="email"
@@ -89,21 +89,15 @@ export function LoginForm({
                     {...register("email")}
                     onChange={handleChange}
                   />
-                  <p className="h-3 sm:h-1 text-red-500 text-xs pl-1">
+                  <p className=" text-red-500 font-light text-xs pl-1">
                     {errors.email?.message}
                   </p>
                 </div>
 
                 {/* Password Field Section */}
-                <div className="grid gap-1 mb-2">
+                <div className="grid gap-2">
                   <div className="flex items-center">
                     <Label htmlFor="password">Password</Label>
-                    <a
-                      href="#"
-                      className="ml-auto text-sm underline-offset-4 hover:underline text-[#5D54C9]"
-                    >
-                      Forgot Password?
-                    </a>
                   </div>
                   <Input
                     id="password"
@@ -113,14 +107,20 @@ export function LoginForm({
                     error={!!errors.password}
                     onChange={handleChange}
                   />
-                  <p className="h-3 sm:h-1 text-red-500 text-xs pl-1">
+                  <p className="text-red-500 font-light text-xs pl-1">
                     {errors.password?.message}
                   </p>
+                  <a
+                    href="#"
+                    className="ml-auto text-xs font-normal underline-offset-4 hover:underline text-[#5D54C9]"
+                  >
+                    Forgot Password?
+                  </a>
                 </div>
                 <Button
                   disabled={isPending}
                   type="submit"
-                  className="text-white bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 inline-flex items-center bg-[#5D54C9]"
+                  className="w-full  my-2"
                 >
                   {isPending ? (
                     <svg
@@ -146,12 +146,12 @@ export function LoginForm({
                 </Button>
 
                 <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border my-2">
-                  <span className="relative z-10 bg-background px-2 text-muted-foreground">
+                  <span className="relative z-10 bg-background px-2 text-[#294957]">
                     Or Log in with
                   </span>
                 </div>
                 <div className="grid gap-4 grid-cols-2 sm:grid-cols-2 my-2">
-                  <Button variant="outline" className="w-full">
+                  <Button variant="socialMedia">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="3.481 .893 493.038 548.124"
@@ -220,7 +220,7 @@ export function LoginForm({
                     </svg>
                     Apple
                   </Button>
-                  <Button variant="outline" className="w-full ">
+                  <Button variant="socialMedia">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       preserveAspectRatio="xMidYMid"
@@ -248,11 +248,11 @@ export function LoginForm({
                   </Button>
                 </div>
               </div>
-              <div className="text-center text-sm">
+              <div className="text-center text-sm text-normal text-[#313957]">
                 Don&apos;t have an account?{" "}
                 <Link
                   to="/signup"
-                  className="underline underline-offset-4 text-[#5D54C9]"
+                  className=" text-[#5D54C9] text-normal text-sm"
                 >
                   Sign up
                 </Link>

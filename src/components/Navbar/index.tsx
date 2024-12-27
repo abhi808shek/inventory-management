@@ -12,9 +12,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import LOGO from "../../assets/images/logo.png";
+import LOGO from "@/assets/images/logo.png";
 import { useSidebar } from "@/components/ui/sidebar";
-import { MENU_OPTIONS } from "../../assets/data/menuOptions";
+import { MENU_OPTIONS } from "@/assets/data/menuOptions";
 
 type PROP_TYPES = {
   setOpen: (open: boolean) => void;
