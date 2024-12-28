@@ -1,5 +1,3 @@
-import React from "react";
-
 interface PROP_TYPES {
   setViewSettingMode: (val: boolean) => void;
   viewSettingMode: boolean;

@@ -3,8 +3,8 @@ import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 
 //Routes
-import PrivateRoute from "../routers/PrivateRoute";
-import PublicRoute from "../routers/PrivateRoute";
+import PrivateRoute from "@/routers/PrivateRoute";
+import PublicRoute from "@/routers/PublicRoute";
 
 // Layouts
 const AuthLayout = lazy(() => import("@/layout/auth"));
@@ -13,7 +13,7 @@ const AuthLayout = lazy(() => import("@/layout/auth"));
 const LoginPage = lazy(() => import("@/pages/login"));
 const SignupPage = lazy(() => import("@/pages/signup"));
 const NotFound = lazy(() => import("@/pages/notfound"));
-const Home = lazy(() => import("@/pages/home"));
+// const Home = lazy(() => import("@/pages/home"));
 const Dashboard = lazy(() => import("@/pages/dashboard"));
 
 const Routers = () => {

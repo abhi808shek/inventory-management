@@ -39,6 +39,7 @@ export default tseslint.config(
           additionalHooks: "useMyCustomHook",
         },
       ],
+      "@typescript-eslint/no-explicit-any": "off",
     },
   }
 );

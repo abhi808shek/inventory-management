@@ -47,16 +47,30 @@ export function LoginForm({
   const { mutate: loginFunction, isPending } = useMutation({
     mutationFn: loginApi,
     onSuccess: (data) => {
-      console.log("data", data);
-      const result = data?.data?.data;
+      const {
+        id,
+        name,
+        email,
+        mobile_number,
+        user_role,
+        status,
+        address,
+        permissions,
+        token,
+      } = data?.data?.data;
       dispatch(
         setUserData({
-          name: result?.name,
-          email: result?.email,
-          mobile_number: result?.mobile_number,
+          id,
+          name,
+          email,
+          mobile_number,
+          user_role,
+          status,
+          address,
+          permissions,
         })
       );
-      customLocalStorage.setData("token", result?.access);
+      customLocalStorage.setData("token", token);
       navigate(location?.state?.prevUrl ?? "/");
       toast(data?.data?.message ?? "Loggedin successfull");
       reset();
