@@ -12,8 +12,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import LOGO from "../../assets/images/logo.png";
+import LOGO from "@/assets/images/logo.png";
 import { useSidebar } from "@/components/ui/sidebar";
+import { MENU_OPTIONS } from "@/assets/data/menuOptions";
 
 type PROP_TYPES = {
   setOpen: (open: boolean) => void;
@@ -27,14 +28,6 @@ const Navbar: FC<PROP_TYPES> = ({ setOpen }) => {
     email: "vidu.pareek2000@gmail.com",
     avatar: "https://cdn.flyonui.com/fy-assets/avatar/avatar-1.png",
   };
-
-  const MENU_OPTIONS = [
-    { label: "Profile", href: "#", key: "profile" },
-    { label: "Personal settings", href: "#", key: "settings" },
-    { label: "Notifications", href: "#", key: "notifications", new: true },
-    { label: "Theme", href: "#", key: "theme" },
-    { label: "Log out", href: "#", key: "logout" },
-  ];
 
   return (
     <div className="flex justify-between w-full h-[60px] px-5 shadow-md mb-2">

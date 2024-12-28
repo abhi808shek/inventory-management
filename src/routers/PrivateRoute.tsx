@@ -6,7 +6,8 @@ import { Navigate, Outlet, useLocation } from "react-router-dom";
 const PrivateRoute = () => {
   const location = useLocation();
 
-  const { user } = useSelector((state: RootState) => state.user);
+  // const { user } = useSelector((state: RootState) => state.user);
+  const user = true;
   if (user) {
     return (
       <>

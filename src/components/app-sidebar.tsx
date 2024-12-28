@@ -54,6 +54,7 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
           toggleMouseEvent(false);
         }
       }}
+      className="flex flex-col content-between"
     >
       <SidebarContent>
         <SidebarGroup>
@@ -69,7 +70,7 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
                   <CollapsibleTrigger asChild>
                     <SidebarMenuButton
                       asChild
-                      className={`py-6 cursor-pointer transition-all duration-300 ${
+                      className={`py-6 font-medium text-black cursor-pointer transition-all duration-300 ${
                         activeOption === path
                           ? "bg-[var(--sidebar-selected-option-bg)] text-white hover:bg-[var(--sidebar-selected-option-bg)] hover:text-white"
                           : !children
@@ -131,7 +132,7 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
                               className={`cursor-pointer py-5 transition-all duration-300 ${
                                 activeOption === path + child.path
                                   ? "bg-[var(--sidebar-selected-option-bg)] text-white hover:bg-[var(--sidebar-selected-option-bg)] hover:text-white"
-                                  : "hover:bg-[var(--sidebar-hover-option-bg)] hover:text-white"
+                                  : "text-[var(--unselected-sidebar-option-text-color)] hover:bg-[var(--sidebar-hover-option-bg)] hover:text-white"
                               }`}
                               onClick={() =>
                                 setActiveOption(`${path}${child.path}`)
@@ -152,11 +153,11 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="relative">
+      <SidebarFooter className={"relative"}>
         <img
           src={COLLAPSABLE_ICON}
-          width="35px"
-          height="35px"
+          width="40px"
+          height="40px"
           className={`absolute right-[-15px] top-[-7px] z-30 cursor-pointer transition-transform duration-200 ${
             open ? "rotate-0" : "rotate-180"
           }`}
@@ -170,7 +171,7 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
           <Link to="/help" className="font-medium">
             <span className="pr-2">{""}</span>
             <img src={BULB_ICON} width="20px" height="20px" />
-            <span>Help</span>
+            <span className="font-medium">Help</span>
           </Link>
         </SidebarMenuButton>
       </SidebarFooter>
