@@ -45,7 +45,7 @@ const DynamicTable: FC<PROP_TYPE> = ({ colsData, data, rowsPerPage = 4 }) => {
   const StatusCell = ({ status }: { status: string }) => {
     return (
       <div
-        className={`flex w-max items-center px-2 py-1 rounded ${getStatusStyles(
+        className={`m-auto flex w-max items-center px-2 py-1 rounded ${getStatusStyles(
           status
         )}`}
       >
@@ -65,7 +65,7 @@ const DynamicTable: FC<PROP_TYPE> = ({ colsData, data, rowsPerPage = 4 }) => {
             </TableHead>
             {colsData.map((col, index: number) => (
               <TableHead
-                className="text[var(--table-data-heading-text-color)] font-medium"
+                className="text-center text[var(--table-data-heading-text-color)] font-medium"
                 key={index}
               >
                 {col.headerName}
@@ -73,144 +73,146 @@ const DynamicTable: FC<PROP_TYPE> = ({ colsData, data, rowsPerPage = 4 }) => {
             ))}
           </TableRow>
         </TableHeader>
-      </Table>
-      <div className="max-h-[calc(100svh-var(--navbar-height)-280px)] overflow-y-auto custom-scrollbar">
-        <Table>
-          <TableBody className="">
-            {data.map((item, index: number) => (
-              <TableRow key={index}>
-                <TableCell className="text-center text-[var(--table-data-light-variant-text-color)]">
-                  {rowsPerPage * (currentPage - 1) + index + 1}
-                </TableCell>
-                {colsData.map((col, colIndex: number) => {
-                  const config = col.config;
+        <TableBody
+          style={{
+            maxHeight: `calc(100vh - var(--navbar-height) - 280px) !important`,
+            overflowY: "auto",
+          }}
+          // className="max-h-[calc(100svh-var(--navbar-height)-280px)] overflow-y-auto custom-scrollbar"
+        >
+          {data.map((item, index: number) => (
+            <TableRow key={index}>
+              <TableCell className="text-[var(--table-data-light-variant-text-color)]">
+                {rowsPerPage * (currentPage - 1) + index + 1}
+              </TableCell>
+              {colsData.map((col, colIndex: number) => {
+                const config = col.config;
 
-                  // Multi-row data handling (e.g., User column)
-                  if (config.type === "multi_row") {
-                    return (
-                      <TableCell key={colIndex}>
-                        {config?.values?.map((value, valueIndex) => {
-                          const key: string = value.value.key;
-                          const data = item[key as keyof DataItem];
+                // Multi-row data handling (e.g., User column)
+                if (config.type === "multi_row") {
+                  return (
+                    <TableCell key={colIndex} className="text-center">
+                      {config?.values?.map((value, valueIndex) => {
+                        const key: string = value.value.key;
+                        const data = item[key as keyof DataItem];
 
-                          if (
-                            value.value.type === "link" &&
-                            value?.value?.link
-                          ) {
-                            const link = value.value.link.replace(
-                              "[1]",
-                              item.id.toString()
-                            );
-                            return (
-                              <div key={valueIndex}>
-                                <Link
-                                  to={link}
-                                  className="font-normal text-[var(--table-data-link-variant-text-color)] hover:underline"
-                                >
-                                  {data?.toString()}
-                                </Link>
-                              </div>
-                            );
-                          } else {
-                            return (
-                              <div
-                                key={valueIndex}
-                                className="font-normal text-[var(--table-data-light-variant-text-color)]"
+                        if (value.value.type === "link" && value?.value?.link) {
+                          const link = value.value.link.replace(
+                            "[1]",
+                            item.id.toString()
+                          );
+                          return (
+                            <div key={valueIndex}>
+                              <Link
+                                to={link}
+                                className="font-normal text-[var(--table-data-link-variant-text-color)] hover:underline"
                               >
                                 {data?.toString()}
-                              </div>
-                            );
-                          }
-                        })}
-                      </TableCell>
-                    );
-                  }
+                              </Link>
+                            </div>
+                          );
+                        } else {
+                          return (
+                            <div
+                              key={valueIndex}
+                              className="font-normal text-[var(--table-data-light-variant-text-color)]"
+                            >
+                              {data?.toString()}
+                            </div>
+                          );
+                        }
+                      })}
+                    </TableCell>
+                  );
+                }
 
-                  if (
-                    config.type === "data" &&
-                    config.key &&
-                    !Array.isArray(config.key)
-                  ) {
-                    const cellValue = resolveNestedKey(item, config.key);
+                if (
+                  config.type === "data" &&
+                  config.key &&
+                  !Array.isArray(config.key)
+                ) {
+                  const cellValue = resolveNestedKey(item, config.key);
 
-                    // If the column has a link configuration
-                    if (config.link) {
-                      const link = config.link.replace(
-                        "[1]",
-                        resolveNestedKey(
-                          item,
-                          config.linkParams?.[0] as string
-                        ) || ""
-                      );
-                      return (
-                        <TableCell key={colIndex}>
-                          <Link
-                            to={link}
-                            className="text-[var(--table-data-link-variant-text-color)] underline"
-                          >
-                            {cellValue || "-"}
-                          </Link>
-                        </TableCell>
-                      );
-                    }
-
-                    // Render plain data
-                    return (
-                      <TableCell
-                        className="text-[var(--table-data-light-variant-text-color)]"
-                        key={colIndex}
-                      >
-                        {cellValue || "-"}
-                      </TableCell>
-                    );
-                  }
-
-                  // Link data rendering (e.g., Role, Project)
-                  if (
-                    (config.type === "link" || config.type === "dataArray") &&
-                    config.link
-                  ) {
-                    const link = config.link?.replace(
+                  // If the column has a link configuration
+                  if (config.link) {
+                    const link = config.link.replace(
                       "[1]",
-                      (item[config.linkParams?.[0] as keyof DataItem] ||
-                        item.id) as string
+                      resolveNestedKey(
+                        item,
+                        config.linkParams?.[0] as string
+                      ) || ""
                     );
-                    const data = config.key.includes(".")
-                      ? resolveNestedKey(item, config.key as string)
-                      : item[config.key as keyof DataItem];
                     return (
-                      <TableCell key={colIndex}>
+                      <TableCell key={colIndex} className="text-center">
                         <Link
                           to={link}
-                          className="font-medium text-[var(--table-data-link-variant-text-color)] hover:underline"
+                          className="text-[var(--table-data-link-variant-text-color)] underline"
                         >
-                          {data.name || data}
+                          {cellValue || "-"}
                         </Link>
                       </TableCell>
                     );
                   }
 
-                  // Status handling
-                  if (config.type === "status") {
-                    return (
-                      <TableCell key={colIndex} className="w-auto">
-                        <StatusCell
-                          status={
-                            (item[config.key as keyof DataItem] ||
-                              "Unknown") as string
-                          }
-                        />
-                      </TableCell>
-                    );
-                  }
+                  // Render plain data
+                  return (
+                    <TableCell
+                      className="text-center text-[var(--table-data-light-variant-text-color)]"
+                      key={colIndex}
+                    >
+                      {cellValue || "-"}
+                    </TableCell>
+                  );
+                }
 
-                  return <TableCell key={colIndex}>-</TableCell>;
-                })}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+                // Link data rendering (e.g., Role, Project)
+                if (
+                  (config.type === "link" || config.type === "dataArray") &&
+                  config.link
+                ) {
+                  const link = config.link?.replace(
+                    "[1]",
+                    (item[config.linkParams?.[0] as keyof DataItem] ||
+                      item.id) as string
+                  );
+                  const data = config.key.includes(".")
+                    ? resolveNestedKey(item, config.key as string)
+                    : item[config.key as keyof DataItem];
+                  return (
+                    <TableCell key={colIndex} className="text-center">
+                      <Link
+                        to={link}
+                        className="font-medium text-[var(--table-data-link-variant-text-color)] hover:underline"
+                      >
+                        {data.name || data}
+                      </Link>
+                    </TableCell>
+                  );
+                }
+
+                // Status handling
+                if (config.type === "status") {
+                  return (
+                    <TableCell
+                      key={colIndex}
+                      className="w-auto text-center m-auto"
+                    >
+                      <StatusCell
+                        status={
+                          (item[config.key as keyof DataItem] ||
+                            "Unknown") as string
+                        }
+                      />
+                    </TableCell>
+                  );
+                }
+
+                return <TableCell key={colIndex}>-</TableCell>;
+              })}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
       <Pagination
         currentPage={currentPage}
         totalPages={30}
