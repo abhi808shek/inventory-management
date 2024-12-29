@@ -8,7 +8,7 @@ export type OPTION_TYPE = {
 };
 
 export const sidebarOptions: OPTION_TYPE[] = [
-  { label: "Dashboard", path: "/dashboard", Icon: House, children: null },
+  { label: "Dashboard", path: "/", Icon: House, children: null },
   { label: "Items", path: "/items", Icon: ListChecks, children: null },
   {
     label: "Workflows",

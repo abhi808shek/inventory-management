@@ -72,7 +72,7 @@ export function LoginForm({
         })
       );
       customLocalStorage.setData("token", access);
-      navigate(location?.state?.prevUrl ?? "/");
+      navigate("/");
       toast.success(data?.data?.message ?? "Loggedin successfull");
       reset();
     },
