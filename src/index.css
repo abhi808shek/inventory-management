@@ -46,7 +46,7 @@
     --main-section-bg-color: #f8f7f8;
     --light-text: #6a7682;
     --dark-text: #505861;
-    --unselected-sidebar-option-text-color: #999999;
+    --unselected-sidebar-option-text-color: #6a7682;
   }
   .dark {
     --background: 222.2 84% 4.9%;

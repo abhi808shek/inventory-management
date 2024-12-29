@@ -113,7 +113,7 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
                                   ? "text-white"
                                   : "text-black"
                               } 
-                      hover:text-white`}
+                      hover:text-white `}
                             />
                           )}
                           <span>{label}</span>
@@ -128,7 +128,7 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
                           <SidebarMenuSubItem key={child.label}>
                             <SidebarMenuSubButton
                               asChild
-                              className={`pl-4 cursor-pointer py-5 transition-all duration-300  ${
+                              className={`pl-5 cursor-pointer py-5 transition-all duration-300  ${
                                 activeOption === path + child.path
                                   ? "bg-[var(--sidebar-selected-option-bg)] text-white hover:bg-[var(--sidebar-selected-option-bg)] hover:text-white"
                                   : "text-[var(--unselected-sidebar-option-text-color)] hover:bg-[var(--sidebar-hover-option-bg)] hover:text-white"
@@ -137,10 +137,7 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
                                 setActiveOption(`${path}${child.path}`)
                               }
                             >
-                              <Link
-                                to={`${path}${child.path}`}
-                                className="text-[#6A7682]"
-                              >
+                              <Link to={`${path}${child.path}`}>
                                 {child.label}
                               </Link>
                             </SidebarMenuSubButton>
@@ -171,7 +168,7 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
         <Separator className="" />
         <SidebarMenuButton asChild>
           <Link to="/help" className="font-medium">
-            <span className="pr-2">{""}</span>
+            {/* <span className="pr-2">{""}</span> */}
             <img src={BULB_ICON} width="20px" height="20px" />
             <span className="font-medium">Help</span>
           </Link>
