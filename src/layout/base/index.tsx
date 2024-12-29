@@ -21,7 +21,6 @@ const BaseLayout = () => {
       {/* Navbar Code */}
       <SidebarProvider>
         <Navbar setOpen={setOpen} />
-
         {/* Header Section */}
         <div
           className="flex"
