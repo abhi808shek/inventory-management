@@ -21,6 +21,7 @@ import toast from "react-hot-toast";
 // import { customLocalStorage } from "@/utils/customLocalStorage";
 import { useDispatch } from "react-redux";
 import { setUserData } from "@/store/user/user-reducer";
+import { customLocalStorage } from "@/utils/customLocalStorage";
 
 export function LoginForm({
   className,
@@ -47,8 +48,6 @@ export function LoginForm({
   const { mutate: loginFunction, isPending } = useMutation({
     mutationFn: loginApi,
     onSuccess: (data) => {
-      console.log("data", data);
-
       const {
         id,
         name,
@@ -58,7 +57,7 @@ export function LoginForm({
         status,
         address,
         permissions,
-        // token,
+        access,
       } = data?.data?.data;
       dispatch(
         setUserData({
@@ -72,9 +71,9 @@ export function LoginForm({
           permissions,
         })
       );
-      // customLocalStorage.setData("token", token);
+      customLocalStorage.setData("token", access);
       navigate(location?.state?.prevUrl ?? "/");
-      toast(data?.data?.message ?? "Loggedin successfull");
+      toast.success(data?.data?.message ?? "Loggedin successfull");
       reset();
     },
     onError: (error) => {
