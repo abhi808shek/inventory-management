@@ -27,6 +27,9 @@ input::placeholder {
     /* width: 345px !important; */
     margin-top: 16px;
   }
+  .dynamic-height {
+    height: 90% !important;
+  }
 }
 
 /* Small mobile devices (portrait and landscape, width < 640px) */
