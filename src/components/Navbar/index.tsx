@@ -15,20 +15,29 @@ import {
 import LOGO from "@/assets/images/logo.png";
 import { useSidebar } from "@/components/ui/sidebar";
 import { MENU_OPTIONS } from "@/assets/data/menuOptions";
-
+import { useNavigate } from "react-router-dom";
+import { setUserData } from "@/store/user/user-reducer";
+import { useDispatch } from "react-redux";
 type PROP_TYPES = {
   setOpen: (open: boolean) => void;
 };
 
 const Navbar: FC<PROP_TYPES> = ({ setOpen }) => {
   const { toggleSidebar, openMobile } = useSidebar();
-
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const STATIC_USER = {
     name: "vidu.pareek2000",
     email: "vidu.pareek2000@gmail.com",
     avatar: "https://cdn.flyonui.com/fy-assets/avatar/avatar-1.png",
   };
 
+  const logoutFunc = () => {
+    dispatch(setUserData(null));
+
+    localStorage.clear();
+    navigate("/login");
+  };
   return (
     <div className="flex justify-between w-full h-[60px] px-5 shadow-md mb-2">
       <div className="flex w-1/2 items-center h-full gap-3">
@@ -112,18 +121,20 @@ const Navbar: FC<PROP_TYPES> = ({ setOpen }) => {
                   className={`py-2 ${
                     option.key === "logout" ? "border-t mt-2 pt-2" : ""
                   }`}
+                  onClick={() => {
+                    console.log(" option.key", option.key);
+
+                    option.key === "logout" && logoutFunc();
+                  }}
                 >
-                  <a
-                    href={option.href}
-                    className="flex justify-between items-center text-gray-700 hover:text-blue-500"
-                  >
+                  <div className="flex justify-between items-center text-gray-700 hover:text-blue-500">
                     {option.label}
                     {option.new && (
                       <span className="ml-2 bg-blue-500 text-white text-xs px-2 py-1 rounded-full">
                         NEW
                       </span>
                     )}
-                  </a>
+                  </div>
                 </li>
               ))}
             </ul>
