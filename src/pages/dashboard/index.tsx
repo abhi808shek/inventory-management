@@ -154,7 +154,7 @@ const Dashboard = () => {
   return (
     <div className=" w-full h-full flex overflow-x-auto">
       {/* Left Table Sections */}
-      <div className={`leftTable h-[92%] w-full overflow-x-auto`}>
+      <div className={`leftTable h-max max-h-[92%] w-full overflow-x-auto`}>
         <div className="bg-white h-full w-full rounded-lg ">
           <SearchTable
             setViewSettingMode={setViewSettingMode}

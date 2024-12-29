@@ -47,6 +47,7 @@ export function LoginForm({
   const { mutate: loginFunction, isPending } = useMutation({
     mutationFn: loginApi,
     onSuccess: (data) => {
+      console.log("data?.data", data?.data);
       const {
         id,
         name,
@@ -56,7 +57,7 @@ export function LoginForm({
         status,
         address,
         permissions,
-        token,
+        access,
       } = data?.data?.data;
       dispatch(
         setUserData({
@@ -70,9 +71,9 @@ export function LoginForm({
           permissions,
         })
       );
-      customLocalStorage.setData("token", token);
+      customLocalStorage.setData("token", access);
       navigate(location?.state?.prevUrl ?? "/");
-      toast(data?.data?.message ?? "Loggedin successfull");
+      toast.success(data?.data?.message ?? "Loggedin successfull");
       reset();
     },
     onError: (error) => {
