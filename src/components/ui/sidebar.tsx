@@ -221,7 +221,9 @@ const Sidebar = React.forwardRef<
             }
             side={side}
           >
-            <div className="flex w-full flex-col h-[92%]">{children}</div>
+            <div className="flex w-full flex-col h-[92%] dynamic-height">
+              {children}
+            </div>
           </SheetContent>
         </Sheet>
       );

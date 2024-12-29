@@ -49,7 +49,7 @@ const BaseLayout = () => {
                 <span className="text-[28px] font-bold text-[#5159B8]">
                   Users
                 </span>
-                <div className=" gap-[5.76px] flex justify-between items-center">
+                <div className=" gap-[12px] flex justify-between items-center">
                   <span className="h-[28px] w-[43.27px] flex items-center justify-center bg-[#F0F6FF] rounded-[7.64px]">
                     <svg
                       width="11"
