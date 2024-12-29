@@ -5,11 +5,19 @@ import { Toaster } from "react-hot-toast";
 import { useQuery } from "@tanstack/react-query";
 import { getUserData } from "@/api/user.api";
 import "./App.css";
+import { useEffect } from "react";
+import { setUserData } from "./store/user/user-reducer";
 
 const App = () => {
   const userDeatils = useQuery({ queryKey: ["user"], queryFn: getUserData });
   console.log("userDetails", userDeatils);
-
+  const resultFuunct = async () => {
+    const result = await getUserData();
+    setUserData(result.data.data);
+  };
+  useEffect(() => {
+    resultFuunct();
+  }, []);
   return (
     <ErrorBoundary>
       <Toaster />

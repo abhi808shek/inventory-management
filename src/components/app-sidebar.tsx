@@ -32,7 +32,6 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
 
   const { setOpen, toggleMouseEvent, isHoverOpen, toggleSidebar, open } =
     useSidebar();
-
   const { pathname } = useLocation();
 
   useEffect(() => {
@@ -58,7 +57,7 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
     >
       <SidebarContent>
         <SidebarGroup>
-          <SidebarMenu className="p-5 pt-0">
+          <SidebarMenu className="p-2 pt-0">
             {sidebarOptions.map(({ label, path, Icon, children }) => (
               <Collapsible
                 key={label}
@@ -70,7 +69,7 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
                   <CollapsibleTrigger asChild>
                     <SidebarMenuButton
                       asChild
-                      className={`py-6 font-medium text-black cursor-pointer transition-all duration-300 ${
+                      className={`py-6 font-normal text-black cursor-pointer transition-all duration-300  ${
                         activeOption === path
                           ? "bg-[var(--sidebar-selected-option-bg)] text-white hover:bg-[var(--sidebar-selected-option-bg)] hover:text-white"
                           : !children
@@ -90,7 +89,7 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
                       }}
                     >
                       {children ? (
-                        <div className="font-medium flex items-center">
+                        <div className="font-normal text-base flex items-center">
                           {Icon && <Icon />}
                           <span>{label}</span>
                           <ChevronDown
@@ -102,7 +101,7 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
                       ) : (
                         <Link
                           to={path}
-                          className="font-medium flex items-center"
+                          className="font-normal text-base flex items-center"
                         >
                           {Icon && (
                             <Icon
@@ -129,16 +128,19 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
                           <SidebarMenuSubItem key={child.label}>
                             <SidebarMenuSubButton
                               asChild
-                              className={`cursor-pointer py-5 transition-all duration-300 ${
+                              className={`pl-4 cursor-pointer py-5 transition-all duration-300  ${
                                 activeOption === path + child.path
                                   ? "bg-[var(--sidebar-selected-option-bg)] text-white hover:bg-[var(--sidebar-selected-option-bg)] hover:text-white"
                                   : "text-[var(--unselected-sidebar-option-text-color)] hover:bg-[var(--sidebar-hover-option-bg)] hover:text-white"
-                              }`}
+                              } font-normal text-sm`}
                               onClick={() =>
                                 setActiveOption(`${path}${child.path}`)
                               }
                             >
-                              <Link to={`${path}${child.path}`}>
+                              <Link
+                                to={`${path}${child.path}`}
+                                className="text-[#6A7682]"
+                              >
                                 {child.label}
                               </Link>
                             </SidebarMenuSubButton>
