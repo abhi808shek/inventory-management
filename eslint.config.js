@@ -25,6 +25,7 @@ export default tseslint.config(
       ],
       // Replace with TypeScript-specific rule
       "no-unused-vars": "off",
+      "no-unsafe-optional-chaining": "off",
       "@typescript-eslint/no-unused-vars": [
         "error",
         {

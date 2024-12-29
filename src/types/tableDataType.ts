@@ -6,14 +6,14 @@ interface MultiRowValue {
     link?: string;
     type: "link" | "data";
     variant?: string;
-    linkParams?: string[];
+    linkParams?: (keyof DataItem)[];
   };
 }
 
 // Config type for the columns
 interface ColumnConfig {
   key: string | string[];
-  type: "multi_row" | "data" | "link" | "status" | "dataArray";
+  type: string;
   values?: MultiRowValue[];
   variant?: string;
   link?: string;
@@ -41,7 +41,7 @@ interface Role {
 }
 
 // Type for each object in `sampleData`
-interface DataItem {
+export interface DataItem {
   id: number;
   first_name?: string;
   last_name?: string;
@@ -55,6 +55,7 @@ interface DataItem {
   status_name: string;
   role_type_id: number;
   role?: Role;
+  [key: string]: string | number | undefined | Role;
 }
 
 // Full type for `sampleData`

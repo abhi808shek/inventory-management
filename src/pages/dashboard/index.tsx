@@ -2,8 +2,9 @@ import { useState } from "react";
 import DynamicTable from "@/components/dynamicTable";
 import SearchTable from "@/components/search-table";
 import styles from "./style.module.css";
+import { AllColsType } from "@/types/tableDataType";
 
-const allCols = [
+const allCols: AllColsType = [
   {
     config: {
       key: ["name", "email"],
@@ -161,7 +162,7 @@ const Dashboard = () => {
             styles={styles}
           />
           <div>
-            <DynamicTable cols={allCols} data={sampleData} />
+            <DynamicTable colsData={allCols} data={sampleData} />
           </div>
         </div>
       </div>

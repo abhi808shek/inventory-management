@@ -1,24 +1,28 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
 import { Link } from "react-router-dom";
-import { AllColsType, DataType } from "@/types/tableDataType";
+import { AllColsType, DataItem, DataType } from "@/types/tableDataType";
 import { ChevronDown } from "lucide-react";
+import Pagination from "@/components/Pagination";
+import "./style.css";
 
 // Static column definitions (all_cols)
 type PROP_TYPE = {
-  cols: AllColsType;
+  colsData: AllColsType;
   data: DataType;
+  rowsPerPage?: number; // Optional prop for rows per page
 };
 
-const DynamicTable: FC<PROP_TYPE> = ({ cols, data }) => {
+const DynamicTable: FC<PROP_TYPE> = ({ colsData, data, rowsPerPage = 4 }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+
   const resolveNestedKey = (obj: any, key: string): any => {
     return key.split(".").reduce((acc, part) => acc && acc[part], obj);
   };
@@ -52,144 +56,168 @@ const DynamicTable: FC<PROP_TYPE> = ({ cols, data }) => {
   };
 
   return (
-    <Table>
-      <TableHeader>
-        <TableRow className="bg-[var(--table-data-heading-bg-color)]">
-          <TableHead className="w-[50px] text-center text[var(--table-data-heading-text-color)] font-medium">
-            S.NO
-          </TableHead>
-          {cols.map((col, index) => (
-            <TableHead
-              className="text[var(--table-data-heading-text-color)] font-medium"
-              key={index}
-            >
-              {col.headerName}
+    <div className="overflow-hidden border rounded-md shadow">
+      <Table className="table-auto">
+        <TableHeader>
+          <TableRow className="bg-[var(--table-data-heading-bg-color)]">
+            <TableHead className="w-[50px] text-center text[var(--table-data-heading-text-color)] font-medium">
+              S.NO
             </TableHead>
-          ))}
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {data.map((item, index) => (
-          <TableRow key={index}>
-            <TableCell className="text-center text-[var(--table-data-light-variant-text-color)]">
-              {index + 1}
-            </TableCell>
-            {cols.map((col, colIndex) => {
-              const config = col.config;
+            {colsData.map((col, index: number) => (
+              <TableHead
+                className="text[var(--table-data-heading-text-color)] font-medium"
+                key={index}
+              >
+                {col.headerName}
+              </TableHead>
+            ))}
+          </TableRow>
+        </TableHeader>
+      </Table>
+      <div className="max-h-[calc(100svh-var(--navbar-height)-280px)] overflow-y-auto custom-scrollbar">
+        <Table>
+          <TableBody className="">
+            {data.map((item, index: number) => (
+              <TableRow key={index}>
+                <TableCell className="text-center text-[var(--table-data-light-variant-text-color)]">
+                  {rowsPerPage * (currentPage - 1) + index + 1}
+                </TableCell>
+                {colsData.map((col, colIndex: number) => {
+                  const config = col.config;
 
-              // Multi-row data handling (e.g., User column)
-              if (config.type === "multi_row") {
-                return (
-                  <TableCell key={colIndex}>
-                    {config?.values?.map((value, valueIndex) => {
-                      const key = value.value.key;
-                      const data = item[key];
+                  // Multi-row data handling (e.g., User column)
+                  if (config.type === "multi_row") {
+                    return (
+                      <TableCell key={colIndex}>
+                        {config?.values?.map((value, valueIndex) => {
+                          const key: string = value.value.key;
+                          const data = item[key as keyof DataItem];
 
-                      if (value.value.type === "link" && value?.value?.link) {
-                        const link = value.value.link.replace(
-                          "[1]",
-                          item.id.toString()
-                        );
-                        return (
-                          <div key={valueIndex}>
-                            <Link
-                              to={link}
-                              className="font-normal text-[var(--table-data-link-variant-text-color)] hover:underline"
-                            >
-                              {data}
-                            </Link>
-                          </div>
-                        );
-                      } else {
-                        return (
-                          <div
-                            key={valueIndex}
-                            className="font-normal text-[var(--table-data-light-variant-text-color)]"
+                          if (
+                            value.value.type === "link" &&
+                            value?.value?.link
+                          ) {
+                            const link = value.value.link.replace(
+                              "[1]",
+                              item.id.toString()
+                            );
+                            return (
+                              <div key={valueIndex}>
+                                <Link
+                                  to={link}
+                                  className="font-normal text-[var(--table-data-link-variant-text-color)] hover:underline"
+                                >
+                                  {data?.toString()}
+                                </Link>
+                              </div>
+                            );
+                          } else {
+                            return (
+                              <div
+                                key={valueIndex}
+                                className="font-normal text-[var(--table-data-light-variant-text-color)]"
+                              >
+                                {data?.toString()}
+                              </div>
+                            );
+                          }
+                        })}
+                      </TableCell>
+                    );
+                  }
+
+                  if (
+                    config.type === "data" &&
+                    config.key &&
+                    !Array.isArray(config.key)
+                  ) {
+                    const cellValue = resolveNestedKey(item, config.key);
+
+                    // If the column has a link configuration
+                    if (config.link) {
+                      const link = config.link.replace(
+                        "[1]",
+                        resolveNestedKey(
+                          item,
+                          config.linkParams?.[0] as string
+                        ) || ""
+                      );
+                      return (
+                        <TableCell key={colIndex}>
+                          <Link
+                            to={link}
+                            className="text-[var(--table-data-link-variant-text-color)] underline"
                           >
-                            {data}
-                          </div>
-                        );
-                      }
-                    })}
-                  </TableCell>
-                );
-              }
+                            {cellValue || "-"}
+                          </Link>
+                        </TableCell>
+                      );
+                    }
 
-              if (
-                config.type === "data" &&
-                config.key &&
-                !Array.isArray(config.key)
-              ) {
-                const cellValue = resolveNestedKey(item, config.key);
-
-                // If the column has a link configuration
-                if (config.link) {
-                  const link = config.link.replace(
-                    "[1]",
-                    resolveNestedKey(item, config.linkParams?.[0]) || ""
-                  );
-                  return (
-                    <TableCell key={colIndex}>
-                      <Link
-                        to={link}
-                        className="text-[var(--table-data-link-variant-text-color)] underline"
+                    // Render plain data
+                    return (
+                      <TableCell
+                        className="text-[var(--table-data-light-variant-text-color)]"
+                        key={colIndex}
                       >
                         {cellValue || "-"}
-                      </Link>
-                    </TableCell>
-                  );
-                }
+                      </TableCell>
+                    );
+                  }
 
-                // Render plain data
-                return (
-                  <TableCell
-                    className="text-[var(--table-data-light-variant-text-color)]"
-                    key={colIndex}
-                  >
-                    {cellValue || "-"}
-                  </TableCell>
-                );
-              }
+                  // Link data rendering (e.g., Role, Project)
+                  if (
+                    (config.type === "link" || config.type === "dataArray") &&
+                    config.link
+                  ) {
+                    const link = config.link?.replace(
+                      "[1]",
+                      (item[config.linkParams?.[0] as keyof DataItem] ||
+                        item.id) as string
+                    );
+                    const data = config.key.includes(".")
+                      ? resolveNestedKey(item, config.key as string)
+                      : item[config.key as keyof DataItem];
+                    return (
+                      <TableCell key={colIndex}>
+                        <Link
+                          to={link}
+                          className="font-medium text-[var(--table-data-link-variant-text-color)] hover:underline"
+                        >
+                          {data.name || data}
+                        </Link>
+                      </TableCell>
+                    );
+                  }
 
-              // Link data rendering (e.g., Role, Project)
-              if (
-                (config.type === "link" || config.type === "dataArray") &&
-                config.link
-              ) {
-                const link = config.link?.replace(
-                  "[1]",
-                  item[config.linkParams[0] as keyof typeof item] || item.id
-                );
-                const data = config.key.includes(".")
-                  ? resolveNestedKey(item, config.key)
-                  : item[config.key];
-                return (
-                  <TableCell key={colIndex}>
-                    <Link
-                      to={link}
-                      className="font-medium text-[var(--table-data-link-variant-text-color)] hover:underline"
-                    >
-                      {data.name || data}
-                    </Link>
-                  </TableCell>
-                );
-              }
+                  // Status handling
+                  if (config.type === "status") {
+                    return (
+                      <TableCell key={colIndex} className="w-auto">
+                        <StatusCell
+                          status={
+                            (item[config.key as keyof DataItem] ||
+                              "Unknown") as string
+                          }
+                        />
+                      </TableCell>
+                    );
+                  }
 
-              // Status handling
-              if (config.type === "status") {
-                return (
-                  <TableCell key={colIndex} className="w-auto">
-                    <StatusCell status={item[config.key] || "Unknown"} />
-                  </TableCell>
-                );
-              }
-
-              return <TableCell key={colIndex}>-</TableCell>;
-            })}
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+                  return <TableCell key={colIndex}>-</TableCell>;
+                })}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={30}
+        onClick={(page: number) => setCurrentPage(page)}
+        rowsPerPage={rowsPerPage}
+      />
+    </div>
   );
 };
 
