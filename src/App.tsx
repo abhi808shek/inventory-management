@@ -2,27 +2,24 @@ import Routers from "./routers/routers";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { BrowserRouter } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-import { useQuery } from "@tanstack/react-query";
+// import { useQuery } from "@tanstack/react-query";
 import { getUserData } from "@/api/user.api";
 import "./App.css";
 import { setUserData } from "./store/user/user-reducer";
+import { useEffect } from "react";
 
 const App = () => {
-  const { data } = useQuery({
-    queryKey: ["user"],
-    queryFn: getUserData,
-    onSuccess: (data: any) => {
-      console.log("Get Fetchjed Data", data);
+  // const userDeatils = useQuery({ queryKey: ["user"], queryFn: getUserData });
+  // console.log("userDetails", userDeatils);
 
-      setUserData(data); // Update global state
-    },
-    onError: (error: any) => {
-      console.log("Errror ", error);
+  const resultFuunct = async () => {
+    const result = await getUserData();
+    setUserData(result.data.data);
+  };
 
-      // toast.error(error.message);
-    },
-  });
-  console.log("FTexhed Data", data);
+  useEffect(() => {
+    resultFuunct();
+  }, []);
 
   return (
     <ErrorBoundary>

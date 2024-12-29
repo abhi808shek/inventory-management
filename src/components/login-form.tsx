@@ -18,7 +18,7 @@ import { useMutation } from "@tanstack/react-query";
 import { loginApi } from "@/api/auth.api";
 import { ChangeEvent } from "react";
 import toast from "react-hot-toast";
-import { customLocalStorage } from "@/utils/customLocalStorage";
+// import { customLocalStorage } from "@/utils/customLocalStorage";
 import { useDispatch } from "react-redux";
 import { setUserData } from "@/store/user/user-reducer";
 
@@ -58,7 +58,7 @@ export function LoginForm({
         status,
         address,
         permissions,
-        token,
+        // token,
       } = data?.data?.data;
       dispatch(
         setUserData({

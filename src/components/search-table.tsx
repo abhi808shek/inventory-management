@@ -4,7 +4,7 @@ interface PROP_TYPES {
   styles: any;
 }
 
-const SearcTable = ({
+const SearchTable = ({
   styles,
   setViewSettingMode,
   viewSettingMode,
@@ -53,4 +53,4 @@ const SearcTable = ({
   );
 };
 
-export default SearcTable;
+export default SearchTable;

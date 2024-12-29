@@ -46,7 +46,12 @@
     --main-section-bg-color: #f8f7f8;
     --light-text: #6a7682;
     --dark-text: #505861;
-    --unselected-sidebar-option-text-color: #6a7682;
+    --unselected-sidebar-option-text-color: #999999;
+    --table-data-light-variant-text-color: #4a5154;
+    --table-data-light-variant-text-color: #4a5154;
+    --table-data-link-variant-text-color: #5159b8;
+    --table-data-heading-text-color: #4a5154;
+    --table-data-heading-bg-color: #f6f7f8;
   }
   .dark {
     --background: 222.2 84% 4.9%;
@@ -81,6 +86,11 @@
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+    --table-data-light-variant-text-color: #4a5154;
+    --table-data-light-variant-text-color: #4a5154;
+    --table-data-link-variant-text-color: #5159b8;
+    --table-data-heading-text-color: #4a5154;
+    --table-data-heading-bg-color: #f6f7f8;
   }
 }
 @layer base {
