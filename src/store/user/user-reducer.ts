@@ -1,9 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type USER_TYPE = {
+  id: number;
   name: string;
   email: string;
   mobile_number: boolean;
+  user_role: string;
+  status: string;
+  address: null | string;
+  permissions: null | string;
 };
 
 type UserStateType = {
