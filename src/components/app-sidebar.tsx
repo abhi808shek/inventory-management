@@ -27,7 +27,7 @@ import COLLAPSABLE_ICON from "../assets/images/collapsable.svg";
 import "./style.css";
 
 const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
-  const [activeOption, setActiveOption] = useState("/dashboard");
+  const [activeOption, setActiveOption] = useState("/");
   const [openDropdown, setOpenDropdown] = useState<null | string>(null);
 
   const { setOpen, toggleMouseEvent, isHoverOpen, toggleSidebar, open } =
@@ -42,6 +42,9 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
     if (mainOption) {
       setOpenDropdown(mainOption.label);
     }
+    return () => {
+      setActiveOption("/");
+    };
   }, []);
 
   return (

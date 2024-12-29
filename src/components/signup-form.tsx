@@ -13,7 +13,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { signupSchema } from "@/validations/auth.validation";
 import { SignupIFormInputs } from "@/types/auth.types";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { signupApi } from "@/api/auth.api";
 import { ChangeEvent } from "react";
@@ -22,6 +22,7 @@ export function SignupForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -53,7 +54,9 @@ export function SignupForm({
   const { mutate: signupFunction, isPending } = useMutation({
     mutationFn: signupApi,
     onSuccess: (data) => {
+      navigate("/login");
       toast.success(data?.data?.message ?? "Successfully signedup");
+
       reset();
     },
     onError: (error) => {

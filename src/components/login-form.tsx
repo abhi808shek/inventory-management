@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { loginSchema } from "@/validations/auth.validation";
 import { LoginIFormInputs } from "@/types/auth.types";
 import { useMutation } from "@tanstack/react-query";
@@ -41,7 +41,6 @@ export function LoginForm({
     resolver: yupResolver(loginSchema),
   });
   const navigate = useNavigate();
-  const location = useLocation();
   const dispatch = useDispatch();
 
   // Handling Login Mutations
@@ -72,7 +71,7 @@ export function LoginForm({
         })
       );
       customLocalStorage.setData("token", access);
-      navigate(location?.state?.prevUrl ?? "/");
+      navigate("/");
       toast.success(data?.data?.message ?? "Loggedin successfull");
       reset();
     },

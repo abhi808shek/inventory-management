@@ -103,7 +103,7 @@ const Navbar: FC<PROP_TYPES> = ({ setOpen }) => {
             </div>
 
             {/* Manage Account Option */}
-            <div className="flex items-center justify-between mt-3 mb-3 pb-7 border-b">
+            <div className="flex items-center justify-between mt-3 mb-3 pb-7 pl-2 border-b">
               <a
                 href="#"
                 className="text-gray-700 hover:text-blue-500 text-sm font-medium"
@@ -118,7 +118,7 @@ const Navbar: FC<PROP_TYPES> = ({ setOpen }) => {
               {MENU_OPTIONS.map((option) => (
                 <li
                   key={option.key}
-                  className={`py-2 ${
+                  className={` ${
                     option.key === "logout" ? "border-t mt-2 pt-2" : ""
                   }`}
                   onClick={() => {
@@ -127,7 +127,10 @@ const Navbar: FC<PROP_TYPES> = ({ setOpen }) => {
                     }
                   }}
                 >
-                  <div className="flex justify-between items-center text-gray-700 hover:text-blue-500">
+                  <div
+                    className="flex justify-between items-center text-gray-700 hover:text-white py-2 pl-2 hover:bg-[#5159B8] mb-1 hover:rounded-lg cursor-pointer"
+                    onClick={() => option.key === "logout" && logoutFunc()}
+                  >
                     {option.label}
                     {option.new && (
                       <span className="ml-2 bg-blue-500 text-white text-xs px-2 py-1 rounded-full">
