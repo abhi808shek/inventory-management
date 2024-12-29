@@ -2,31 +2,36 @@ import Routers from "./routers/routers";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { BrowserRouter } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getUserData } from "@/api/user.api";
 import LoadingComponent from "@/components/Loading";
-import "./App.css";
 import { setUserData } from "./store/user/user-reducer";
 import { useDispatch } from "react-redux";
+import useApi from "@/hooks/useApi";
+import handleAsync from "@/utils/handleAsync";
+import "./App.css";
 import { useEffect } from "react";
 
 const App = () => {
-  const { data, isLoading } = useQuery({
-    queryKey: ["user"],
-    queryFn: getUserData,
-    enabled: false,
-    staleTime: Infinity,
-  });
-
   const dispatch = useDispatch();
 
-  dispatch(setUserData(data?.data ?? null));
+  const fetchUser = handleAsync(async () => {
+    const res = await getUserData();
+    console.log("res", res);
+    dispatch(setUserData(res.data?.data ?? null));
+    return res;
+  });
+
+  const { pending, execute } = useApi(fetchUser);
+
+  useEffect(() => {
+    execute();
+  }, []);
 
   return (
     <ErrorBoundary>
       <Toaster />
       <BrowserRouter>
-        {isLoading ? (
+        {pending ? (
           <div className="w-full h-[100svh] flex items-center justify-center">
             <LoadingComponent />
           </div>

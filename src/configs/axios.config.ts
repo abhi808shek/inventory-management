@@ -9,8 +9,6 @@ interface ErrorResponseData {
   message: string;
 }
 
-const getToken = () => customLocalStorage.getData("token");
-
 const createAxiosInstance = (): AxiosInstance => {
   const instance = axios.create({
     baseURL: `${
@@ -25,7 +23,10 @@ const createAxiosInstance = (): AxiosInstance => {
 
   instance.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
+      const getToken = () => customLocalStorage.getData("token");
+      console.log("getToken", getToken());
       const token = getToken();
+      console.log("tokennnn Outer", token);
 
       if (token) {
         console.log("token", token);
@@ -42,6 +43,8 @@ const createAxiosInstance = (): AxiosInstance => {
 
   instance.interceptors.response.use(
     (response) => {
+      console.log("response ", response);
+
       return response;
     },
     (error: AxiosError<ErrorResponseData>) => {
