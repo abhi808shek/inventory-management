@@ -53,11 +53,11 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
           toggleMouseEvent(false);
         }
       }}
-      className="flex flex-col content-between"
+      className="flex flex-col justify-between sm:content-between"
     >
       <SidebarContent>
         <SidebarGroup>
-          <SidebarMenu className="p-2 pt-0">
+          <SidebarMenu className="p-4 sm:p-2 pt-0">
             {sidebarOptions.map(({ label, path, Icon, children }) => (
               <Collapsible
                 key={label}
@@ -168,7 +168,7 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
         <Separator className="" />
         <SidebarMenuButton asChild>
           <Link to="/help" className="font-medium">
-            {/* <span className="pr-2">{""}</span> */}
+            <span className="sm:hidden">{""}</span>
             <img src={BULB_ICON} width="20px" height="20px" />
             <span className="font-medium">Help</span>
           </Link>

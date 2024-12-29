@@ -46,7 +46,7 @@ const Navbar: FC<PROP_TYPES> = ({ setOpen }) => {
             }}
           />
         )}
-        <img src={LOGO} alt="Logo" className="h-[60%] md:h-[80%]" />
+        <img src={LOGO} alt="Logo" className="h-[60%] md:h-[70%]" />
       </div>
       <div className="w-1/2 flex justify-end items-center gap-6">
         <Search className="cursor-pointer" onClick={() => setOpen(true)} />
