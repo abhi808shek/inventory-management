@@ -56,16 +56,16 @@ const DynamicTable: FC<PROP_TYPE> = ({ colsData, data, rowsPerPage = 4 }) => {
   };
 
   return (
-    <div className="overflow-hidden border rounded-md shadow">
+    <div className="w-full overflow-x-auto h-[calc(100svh - var(--navbar-height)">
       <Table className="table-auto">
         <TableHeader>
-          <TableRow className="bg-[var(--table-data-heading-bg-color)]">
-            <TableHead className="w-[50px] text-center text[var(--table-data-heading-text-color)] font-medium">
+          <TableRow>
+            <TableHead className="bg-[var(--table-data-heading-bg-color)] sticky top-0 w-[50px] text-center text[var(--table-data-heading-text-color)] font-medium">
               S.NO
             </TableHead>
             {colsData.map((col, index: number) => (
               <TableHead
-                className="text-center text[var(--table-data-heading-text-color)] font-medium"
+                className="bg-[var(--table-data-heading-bg-color)] sticky top-0 text-center text[var(--table-data-heading-text-color)] font-medium"
                 key={index}
               >
                 {col.headerName}
@@ -74,11 +74,11 @@ const DynamicTable: FC<PROP_TYPE> = ({ colsData, data, rowsPerPage = 4 }) => {
           </TableRow>
         </TableHeader>
         <TableBody
-          style={{
-            maxHeight: `calc(100vh - var(--navbar-height) - 280px) !important`,
-            overflowY: "auto",
-          }}
-          // className="max-h-[calc(100svh-var(--navbar-height)-280px)] overflow-y-auto custom-scrollbar"
+          // style={{
+          //   maxHeight: `calc(100vh - var(--navbar-height) - 280px) !important`,
+          //   overflowY: "auto",
+          // }}
+          className="max-h-[calc(100svh-var(--navbar-height)-280px)) overflow-y-auto custom-scrollbar"
         >
           {data.map((item, index: number) => (
             <TableRow key={index}>

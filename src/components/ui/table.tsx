@@ -1,12 +1,12 @@
 import * as React from "react";
-
 import { cn } from "@/lib/utils";
+import "@/components/style.css";
 
 const Table = React.forwardRef<
   HTMLTableElement,
   React.HTMLAttributes<HTMLTableElement>
 >(({ className, ...props }, ref) => (
-  <div className="relative w-full overflow-auto">
+  <div className="relative w-full max-h-[calc(100svh-var(--navbar-height)-200px)] overflow-auto custom-scrollbar">
     <table
       ref={ref}
       className={cn("w-full caption-bottom text-sm", className)}
@@ -20,7 +20,11 @@ const TableHeader = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>
 >(({ className, ...props }, ref) => (
-  <thead ref={ref} className={cn("[&_tr]:border-b", className)} {...props} />
+  <thead
+    ref={ref}
+    className={cn("[&_tr]:border-b [&_tr:first-child]:border-0", className)}
+    {...props}
+  />
 ));
 TableHeader.displayName = "TableHeader";
 
@@ -30,11 +34,7 @@ const TableBody = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <tbody
     ref={ref}
-    className={cn(
-      "w-full [&_tr:last-child]:border-0",
-      "max-h-[400px] overflow-y-auto", // Add fixed max-height and scroll behavior
-      className
-    )}
+    className={cn("[&_tr:last-child]:border-0", className)}
     {...props}
   />
 ));

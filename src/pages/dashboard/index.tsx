@@ -152,16 +152,16 @@ const sampleData = [
 const Dashboard = () => {
   const [viewSettingMode, setViewSettingMode] = useState(false);
   return (
-    <div className=" w-full h-full flex">
+    <div className=" w-full h-full flex overflow-x-auto">
       {/* Left Table Sections */}
-      <div className={`leftTable h-[90%] w-full overflow-x-auto`}>
+      <div className={`leftTable h-[92%] w-full overflow-x-auto`}>
         <div className="bg-white h-full w-full rounded-lg ">
           <SearchTable
             setViewSettingMode={setViewSettingMode}
             viewSettingMode={viewSettingMode}
             styles={styles}
           />
-          <div>
+          <div className="w-full overflow-x-auto">
             <DynamicTable colsData={allCols} data={sampleData} />
           </div>
         </div>
