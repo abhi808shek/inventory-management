@@ -1,7 +1,7 @@
 import { useState } from "react";
 import DynamicTable from "@/components/dynamicTable";
-import styles from "./style.module.css";
 import SearchTable from "@/components/search-table";
+import styles from "./style.module.css";
 
 const allCols = [
   {
@@ -153,7 +153,7 @@ const Dashboard = () => {
   return (
     <div className=" w-full h-full flex">
       {/* Left Table Sections */}
-      <div className={`leftTable h-[90%] w-[100%] overflow-x-auto`}>
+      <div className={`leftTable h-[90%] w-full overflow-x-auto`}>
         <div className="bg-white h-full w-full rounded-lg ">
           <SearchTable
             setViewSettingMode={setViewSettingMode}
