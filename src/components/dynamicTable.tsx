@@ -87,7 +87,7 @@ const DynamicTable: FC<PROP_TYPE> = ({ colsData, data, rowsPerPage = 4 }) => {
         >
           {data.map((item, index: number) => (
             <TableRow key={index}>
-              <TableCell className="text-[var(--light-text)]">
+              <TableCell className="text-[var(--light-text)] text-center">
                 {rowsPerPage * (currentPage - 1) + index + 1}
               </TableCell>
               {colsData.map((col, colIndex: number) => {
