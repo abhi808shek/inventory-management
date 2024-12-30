@@ -10,19 +10,19 @@ import useApi from "@/hooks/useApi";
 import handleAsync from "@/utils/handleAsync";
 import "./App.css";
 import { useEffect } from "react";
+// import { customLocalStorage } from "./utils/customLocalStorage";
 
 const App = () => {
   const dispatch = useDispatch();
 
   const fetchUser = handleAsync(async () => {
     const res = await getUserData();
-    console.log("res", res);
     dispatch(setUserData(res.data?.data ?? null));
     return res;
   });
 
   const { pending, execute } = useApi(fetchUser);
-
+  // const token = customLocalStorage.getData("token");
   useEffect(() => {
     execute();
   }, []);

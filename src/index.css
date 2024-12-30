@@ -29,6 +29,7 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.75rem;
+    --deafult-Btn-color: #5159b8;
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 240 5.9% 10%;
@@ -47,8 +48,8 @@
     --light-text: #6a7682;
     --dark-text: #505861;
     --unselected-sidebar-option-text-color: #999999;
-    --table-data-light-variant-text-color: #4a5154;
-    --table-data-light-variant-text-color: #4a5154;
+    --table-data-light-variant-text-color: #6a7682;
+    --table-data-dark-variant-text-color: #4a5154;
     --table-data-link-variant-text-color: #5159b8;
     --table-data-heading-text-color: #4a5154;
     --table-data-heading-bg-color: #f6f7f8;
