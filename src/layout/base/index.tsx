@@ -40,7 +40,7 @@ const BaseLayout = () => {
           style={{ height: "calc(100svh - var(--navbar-height))" }}
         >
           <AppSidebar />
-          <SidebarInset className="rounded shadow-lg">
+          <SidebarInset className="rounded shadow-lg w-full">
             <header className="flex h-[70px] shrink-0 justify-center flex-col px-[24px] pt-[10px] bg-[#F8F7F8]">
               <div className="flex items-center gap-2">
                 {/* <SidebarTrigger /> */}
