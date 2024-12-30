@@ -152,7 +152,7 @@ const sampleData = [
 const Dashboard = () => {
   const [viewSettingMode, setViewSettingMode] = useState(false);
   return (
-    <div className=" w-full h-full flex overflow-x-auto">
+    <div className=" w-full h-full flex overflow-hidden">
       {/* Left Table Sections */}
       <div className={`leftTable h-max max-h-[92%] w-full overflow-x-auto`}>
         <div className="bg-white h-full w-full rounded-lg ">

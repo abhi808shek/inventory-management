@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/table";
 import { Link } from "react-router-dom";
 import { AllColsType, DataItem, DataType } from "@/types/tableDataType";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, EllipsisVertical } from "lucide-react";
 import Pagination from "@/components/Pagination";
 import "./style.css";
 
@@ -45,7 +45,7 @@ const DynamicTable: FC<PROP_TYPE> = ({ colsData, data, rowsPerPage = 4 }) => {
   const StatusCell = ({ status }: { status: string }) => {
     return (
       <div
-        className={`m-auto flex w-max items-center px-2 py-1 rounded ${getStatusStyles(
+        className={`m-auto flex w-24 items-center px-2 py-1 rounded ${getStatusStyles(
           status
         )}`}
       >
@@ -65,12 +65,17 @@ const DynamicTable: FC<PROP_TYPE> = ({ colsData, data, rowsPerPage = 4 }) => {
             </TableHead>
             {colsData.map((col, index: number) => (
               <TableHead
-                className="bg-[var(--table-data-heading-bg-color)] sticky top-0 text-center text[var(--table-data-heading-text-color)] font-medium"
+                className={`bg-[var(--table-data-heading-bg-color)] sticky top-0 ${
+                  col.config.type === "status" ? "text-center" : "text-start"
+                } text[var(--table-data-heading-text-color)] font-medium`}
                 key={index}
               >
                 {col.headerName}
               </TableHead>
             ))}
+            <TableHead className="bg-[var(--table-data-heading-bg-color)] sticky top-0 w-[50px] text-center text[var(--table-data-heading-text-color)] font-medium">
+              Action
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody
@@ -82,7 +87,7 @@ const DynamicTable: FC<PROP_TYPE> = ({ colsData, data, rowsPerPage = 4 }) => {
         >
           {data.map((item, index: number) => (
             <TableRow key={index}>
-              <TableCell className="text-[var(--table-data-light-variant-text-color)]">
+              <TableCell className="text-center text-[var(--table-data-light-variant-text-color)]">
                 {rowsPerPage * (currentPage - 1) + index + 1}
               </TableCell>
               {colsData.map((col, colIndex: number) => {
@@ -91,7 +96,7 @@ const DynamicTable: FC<PROP_TYPE> = ({ colsData, data, rowsPerPage = 4 }) => {
                 // Multi-row data handling (e.g., User column)
                 if (config.type === "multi_row") {
                   return (
-                    <TableCell key={colIndex} className="text-center">
+                    <TableCell key={colIndex}>
                       {config?.values?.map((value, valueIndex) => {
                         const key: string = value.value.key;
                         const data = item[key as keyof DataItem];
@@ -143,7 +148,7 @@ const DynamicTable: FC<PROP_TYPE> = ({ colsData, data, rowsPerPage = 4 }) => {
                       ) || ""
                     );
                     return (
-                      <TableCell key={colIndex} className="text-center">
+                      <TableCell key={colIndex} className="text-start">
                         <Link
                           to={link}
                           className="text-[var(--table-data-link-variant-text-color)] underline"
@@ -157,7 +162,7 @@ const DynamicTable: FC<PROP_TYPE> = ({ colsData, data, rowsPerPage = 4 }) => {
                   // Render plain data
                   return (
                     <TableCell
-                      className="text-center text-[var(--table-data-light-variant-text-color)]"
+                      className="text-start text-[var(--table-data-light-variant-text-color)]"
                       key={colIndex}
                     >
                       {cellValue || "-"}
@@ -179,7 +184,7 @@ const DynamicTable: FC<PROP_TYPE> = ({ colsData, data, rowsPerPage = 4 }) => {
                     ? resolveNestedKey(item, config.key as string)
                     : item[config.key as keyof DataItem];
                   return (
-                    <TableCell key={colIndex} className="text-center">
+                    <TableCell key={colIndex} className="text-start">
                       <Link
                         to={link}
                         className="font-medium text-[var(--table-data-link-variant-text-color)] hover:underline"
@@ -209,6 +214,11 @@ const DynamicTable: FC<PROP_TYPE> = ({ colsData, data, rowsPerPage = 4 }) => {
 
                 return <TableCell key={colIndex}>-</TableCell>;
               })}
+              <TableCell>
+                <div className="bg-[#F5F6F7] m-auto w-[26px] h-[26px] rounded-full flex items-center justify-center">
+                  <EllipsisVertical width={16} height={16} />
+                </div>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

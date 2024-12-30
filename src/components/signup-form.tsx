@@ -56,7 +56,6 @@ export function SignupForm({
     onSuccess: (data) => {
       navigate("/login");
       toast.success(data?.data?.message ?? "Successfully signedup");
-
       reset();
     },
     onError: (error) => {
