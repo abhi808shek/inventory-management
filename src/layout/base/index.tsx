@@ -22,7 +22,7 @@ import Navbar from "@/components/Navbar";
 const BaseLayout = () => {
   const [open, setOpen] = useState(false);
 
-  const actionButton = [
+  const actionButtonOptions = [
     { Icon: DollarSign, label: "Edit" },
     { Icon: File, label: "Delete" },
     { Icon: House, label: "View" },
@@ -92,7 +92,7 @@ const BaseLayout = () => {
                       sideOffset={5}
                       className="w-40 flex flex-col gap-2"
                     >
-                      {actionButton?.map((item) => (
+                      {actionButtonOptions?.map((item) => (
                         <div className="flex gap-1 cursor-pointer hover:bg-[var(--deafult-Btn-color)] hover:text-white py-2 rounded-lg text-sm pl-2">
                           {item?.Icon && <item.Icon size={18} />}
                           {item?.label}
