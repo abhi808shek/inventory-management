@@ -7,10 +7,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Link } from "react-router-dom";
 import { AllColsType, DataItem, DataType } from "@/types/tableDataType";
 import { ChevronDown, EllipsisVertical } from "lucide-react";
 import Pagination from "@/components/Pagination";
+import { Pencil, Trash2, Eye } from "lucide-react";
 import "./style.css";
 
 // Static column definitions (all_cols)
@@ -26,6 +32,12 @@ const DynamicTable: FC<PROP_TYPE> = ({ colsData, data, rowsPerPage = 4 }) => {
   const resolveNestedKey = (obj: any, key: string): any => {
     return key.split(".").reduce((acc, part) => acc && acc[part], obj);
   };
+
+  const actionButtonOptions = [
+    { Icon: Pencil, label: "Edit", iconColor: "#007BFF" },
+    { Icon: Trash2, label: "Delete", iconColor: "#FF4D4D" },
+    { Icon: Eye, label: "View", iconColor: "#28A745" },
+  ];
 
   const getStatusStyles = (status: string) => {
     switch (status) {
@@ -60,20 +72,20 @@ const DynamicTable: FC<PROP_TYPE> = ({ colsData, data, rowsPerPage = 4 }) => {
       <Table className="table-auto">
         <TableHeader>
           <TableRow>
-            <TableHead className="bg-[var(--table-data-heading-bg-color)] sticky top-0 w-[50px] text-center text[var(--table-data-heading-text-color)] font-medium">
+            <TableHead className="bg-[var(--table-data-heading-bg-color)] sticky top-0 w-[50px] text-center font-medium">
               S.NO
             </TableHead>
             {colsData.map((col, index: number) => (
               <TableHead
                 className={`bg-[var(--table-data-heading-bg-color)] sticky top-0 ${
                   col.config.type === "status" ? "text-center" : "text-start"
-                } text[var(--table-data-heading-text-color)] font-medium`}
+                } font-medium`}
                 key={index}
               >
                 {col.headerName}
               </TableHead>
             ))}
-            <TableHead className="bg-[var(--table-data-heading-bg-color)] sticky top-0 w-[50px] text-center text[var(--table-data-heading-text-color)] font-medium">
+            <TableHead className="bg-[var(--table-data-heading-bg-color)] sticky top-0 w-[50px] text-center font-medium">
               Action
             </TableHead>
           </TableRow>
@@ -214,10 +226,33 @@ const DynamicTable: FC<PROP_TYPE> = ({ colsData, data, rowsPerPage = 4 }) => {
 
                 return <TableCell key={colIndex}>-</TableCell>;
               })}
-              <TableCell>
-                <div className="bg-[#F5F6F7] m-auto w-[26px] h-[26px] rounded-full flex items-center justify-center">
-                  <EllipsisVertical width={16} height={16} />
-                </div>
+              <TableCell className="text-center">
+                <Popover>
+                  <PopoverTrigger>
+                    <div className="bg-[#F5F6F7] m-auto w-[26px] h-[26px] rounded-full flex items-center justify-center cursor-pointer">
+                      <EllipsisVertical width={16} height={16} />
+                    </div>
+                  </PopoverTrigger>
+                  <PopoverContent
+                    className="w-[150px] bg-white shadow-lg"
+                    align="end"
+                    sideOffset={0}
+                  >
+                    <ul>
+                      {actionButtonOptions?.map((item) => (
+                        <li className="flex gap-3 cursor-pointer hover:bg-[var(--deafult-Btn-color)] hover:text-white p-2 pl-1 rounded text-sm">
+                          {item?.Icon && (
+                            <item.Icon
+                              size={18}
+                              style={{ color: item.iconColor }}
+                            />
+                          )}
+                          {item?.label}
+                        </li>
+                      ))}
+                    </ul>
+                  </PopoverContent>
+                </Popover>
               </TableCell>
             </TableRow>
           ))}
