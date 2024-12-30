@@ -338,11 +338,16 @@ const SidebarInset = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"main">
 >(({ className, ...props }, ref) => {
+  const { isHoverOpen } = useSidebar();
   return (
     <main
       ref={ref}
       className={cn(
-        "overflow-auto relative flex min-h-svh flex-1 flex-col bg-background",
+        `${
+          isHoverOpen
+            ? "absolute top-var(--navbar-height))"
+            : "relative min-h-svh"
+        } flex  flex-1 flex-col bg-background`,
         "peer-data-[variant=inset]:min-h-[calc(100svh-theme(spacing.4))] md:peer-data-[variant=inset]:m-2 md:peer-data-[state=collapsed]:peer-data-[variant=inset]:ml-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow",
         className
       )}
