@@ -15,7 +15,7 @@ const SignupPage = lazy(() => import("@/pages/signup"));
 const NotFound = lazy(() => import("@/pages/notfound"));
 // const Home = lazy(() => import("@/pages/home"));
 const Dashboard = lazy(() => import("@/pages/dashboard"));
-
+const Workflow = lazy(() => import("@/pages/workflow/index"));
 const Routers = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
@@ -29,6 +29,7 @@ const Routers = () => {
         <Route element={<PrivateRoute />}>
           <Route element={<BaseLayout />}>
             <Route index element={<Dashboard />} />
+            <Route path="/invoice" element={<Workflow />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Route>
