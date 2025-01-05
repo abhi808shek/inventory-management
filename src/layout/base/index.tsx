@@ -3,7 +3,6 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import {
@@ -13,14 +12,45 @@ import {
 } from "@/components/ui/popover";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { DollarSign, File, House, ListChecks } from "lucide-react";
 import SearchCommand from "@/components/ui/search-command";
 import AppSidebar from "@/components/app-sidebar";
 import Navbar from "@/components/Navbar";
+import { sidebarOptions } from "@/assets/data/sidebarOptions";
+
+// interface SidebarOption {
+//   path: string;
+//   label: string;
+//   children?: SidebarOption[];
+//   pageTitle?: string;
+// }
+
+const getCurrentSidebarOption = (path: string) => {
+  const mainOption = sidebarOptions.find((option) => option.path === path);
+  if (mainOption) {
+    return mainOption;
+  }
+
+  for (const option of sidebarOptions) {
+    if (option.children) {
+      const child = option.children.find(
+        (child) => `${option.path}${child.path}` === path
+      );
+      if (child) {
+        return child;
+      }
+    }
+  }
+
+  return null;
+};
+
 const BaseLayout = () => {
   const [open, setOpen] = useState(false);
+
+  const location = useLocation();
 
   const actionButtonOptions = [
     { Icon: DollarSign, label: "Edit" },
@@ -28,6 +58,47 @@ const BaseLayout = () => {
     { Icon: House, label: "View" },
     { Icon: ListChecks, label: "Settings" },
   ];
+
+  const currentOption: any = getCurrentSidebarOption(location.pathname);
+
+  const generateBreadcrumb = (): JSX.Element[] => {
+    const breadcrumbItems: JSX.Element[] = [];
+
+    const findParentPath = (option: any | null): any[] => {
+      if (!option) return [];
+      const parentPath = option.path.split("/")[0];
+      const parentOption = sidebarOptions.find(
+        (opt) => opt.path === parentPath
+      );
+      if (parentOption) {
+        return [...findParentPath(parentOption), parentOption];
+      }
+      return [];
+    };
+
+    const currentHierarchy = findParentPath(currentOption);
+    if (currentOption) {
+      currentHierarchy.push(currentOption);
+    }
+
+    currentHierarchy.forEach((item, index) => {
+      breadcrumbItems.push(
+        <BreadcrumbItem key={item.path}>
+          <BreadcrumbLink>{item.label}</BreadcrumbLink>
+        </BreadcrumbItem>
+      );
+      if (index < currentHierarchy.length - 1) {
+        breadcrumbItems.push(
+          <BreadcrumbSeparator
+            key={`${item.path}-separator`}
+            className="block text-[#6A7682]"
+          />
+        );
+      }
+    });
+
+    return breadcrumbItems;
+  };
 
   return (
     <div className="w-full h-[100svh] overflow-hidden">
@@ -47,19 +118,17 @@ const BaseLayout = () => {
                 {/* <Separator orientation="vertical" className="mr-2 h-4" /> */}
                 <Breadcrumb>
                   <BreadcrumbList>
-                    <BreadcrumbItem className="block">
-                      <BreadcrumbLink>Page title</BreadcrumbLink>
-                    </BreadcrumbItem>
+                    {generateBreadcrumb()}
                     <BreadcrumbSeparator className="block text-[#6A7682]" />
-                    <BreadcrumbItem>
-                      <BreadcrumbPage>Page title</BreadcrumbPage>
+                    <BreadcrumbItem className="block">
+                      <BreadcrumbLink>{currentOption?.label}</BreadcrumbLink>
                     </BreadcrumbItem>
                   </BreadcrumbList>
                 </Breadcrumb>
               </div>
               <div className="flex justify-between">
                 <span className="text-[28px] font-bold text-[var(--deafult-Btn-color)]">
-                  Users
+                  {currentOption?.pageTitle || currentOption?.label}
                 </span>
                 <div className="gap-[12px] flex justify-between items-center">
                   <Popover>

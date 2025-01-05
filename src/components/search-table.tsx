@@ -1,20 +1,19 @@
-import { Link } from "react-router-dom";
-
 interface PROP_TYPES {
   setViewSettingMode?: (val: boolean) => void;
   viewSettingMode?: boolean;
   styles?: any;
 }
 
-const SearchTable = ({}: // styles,
-// setViewSettingMode,
-// viewSettingMode,
-PROP_TYPES) => {
+const SearchTable = ({
+  styles,
+  setViewSettingMode,
+  viewSettingMode,
+}: PROP_TYPES) => {
   return (
     <div className="h-[56px] flex">
       {/* Search Section */}
       <div className="w-[70%] sm:w-1/2 flex items-center pl-4">
-        {/* <div className="flex items-center justify-evenly w-[170px] h-[32px] border-2 rounded-lg">
+        <div className="flex items-center justify-evenly w-[170px] h-[32px] border-2 rounded-lg">
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
             <path
               fillRule="evenodd"
@@ -28,18 +27,17 @@ PROP_TYPES) => {
             placeholder="Search"
             className={`w-[80%] pl-1 outline-none text-xs ${styles.searchPlaceholder}`}
           />
-        </div> */}
-        <Link
+        </div>
+        {/* <Link
           to={"/"}
           className="text-[#666666] font-normal text-xl border-b-[1px] border-[#666666]"
         >
           New Role
-        </Link>
+        </Link> */}
       </div>
       <div className="w-[30%] sm:w-1/2 flex items-center justify-end pr-4 cursor-pointer ">
         {/* View Setting Button */}
-        {/* <span
-          className="bg-blue-500"
+        <span
           onClick={() =>
             setViewSettingMode && setViewSettingMode(!viewSettingMode)
           }
@@ -58,10 +56,10 @@ PROP_TYPES) => {
               fill="#5D54C9"
             />
           </svg>
-        </span> */}
+        </span>
 
         {/* Select All Button */}
-        <div className=" flex justify-center items-center gap-4 sm:gap-5">
+        {/* <div className=" flex justify-center items-center gap-4 sm:gap-5">
           <span className="w-[75px] sm:w-[83px] flex items-center gap-1">
             <input
               type="checkbox"
@@ -85,7 +83,7 @@ PROP_TYPES) => {
               />
             </svg>
           </span>
-        </div>
+        </div> */}
       </div>
     </div>
   );
