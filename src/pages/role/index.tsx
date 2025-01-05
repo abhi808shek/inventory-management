@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const Roles = () => {
   return (
-    <div className="bg-white w-full max-h-[calc(100svh-var(--navbar-height)-100px)] flex overflow-hidden shadow">
+    <div className="bg-white w-full rounded-sm max-h-[calc(100svh-var(--navbar-height)-100px)] flex overflow-hidden shadow">
       {/* Left Table Sections */}
       <div
         className={`leftTable h-max max-h-[92%] w-full overflow-hidden overflow-x-auto pb-3`}
