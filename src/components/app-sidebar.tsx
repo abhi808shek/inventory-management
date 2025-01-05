@@ -29,6 +29,7 @@ import "./style.css";
 const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
   const [activeOption, setActiveOption] = useState("/");
   const [openDropdown, setOpenDropdown] = useState<null | string>(null);
+  const [isHovered, setIsHovered] = useState("");
 
   const { setOpen, toggleMouseEvent, isHoverOpen, toggleSidebar, open } =
     useSidebar();
@@ -76,7 +77,7 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
                         activeOption === path
                           ? "bg-[var(--sidebar-selected-option-bg)] text-white hover:bg-[var(--sidebar-selected-option-bg)] hover:text-white"
                           : !children
-                          ? "hover:bg-[var(--sidebar-hover-option-bg)] hover:text-white"
+                          ? "hover:bg-[var(--sidebar-hover-option-bg)] hover:text-white !important"
                           : ""
                       }`}
                       onClick={() => {
@@ -104,19 +105,17 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
                       ) : (
                         <Link
                           to={path}
-                          className="font-normal text-base flex items-center"
+                          className="font-normal text-base flex items-center hover:text-white group"
+                          onMouseEnter={() =>
+                            activeOption !== path && setIsHovered(label)
+                          }
+                          onMouseLeave={() => setIsHovered("")}
                         >
                           {Icon && (
                             <Icon
-                              // color={`${
-                              //   activeOption === path ? "white" : "black"
-                              // }`}
-                              className={`transition-colors duration-200 ${
-                                activeOption.includes(path)
-                                  ? "text-white"
-                                  : "text-black"
-                              } 
-                      hover:text-white `}
+                              className={`transition-colors duration-100 ${
+                                isHovered === label ? "text-white" : ""
+                              } hover:text-white`}
                             />
                           )}
                           <span>{label}</span>
