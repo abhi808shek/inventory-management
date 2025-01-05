@@ -377,7 +377,7 @@ const FormRenderer: React.FC = () => {
         </div>
       </div>
       <div>
-        <div className="mt-3">
+        <div className="mt-6">
           <h2 className="text-lg font-semibold mb-2 text-[#6A7682]">
             Custom Fields
           </h2>
