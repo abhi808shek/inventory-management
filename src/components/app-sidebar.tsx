@@ -76,7 +76,7 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
                         activeOption === path
                           ? "bg-[var(--sidebar-selected-option-bg)] text-white hover:bg-[var(--sidebar-selected-option-bg)] hover:text-white"
                           : !children
-                          ? "hover:bg-[var(--sidebar-hover-option-bg)] hover:text-white"
+                          ? "hover:bg-[var(--sidebar-hover-option-bg)] text-black hover:text-white"
                           : ""
                       }`}
                       onClick={() => {
@@ -116,7 +116,7 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
                                   ? "text-white"
                                   : "text-black"
                               } 
-                      hover:text-white `}
+                        hover:text-white group-hover:stroke-white`}
                             />
                           )}
                           <span>{label}</span>
