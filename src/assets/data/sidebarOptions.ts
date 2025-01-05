@@ -1,4 +1,12 @@
-import { DollarSign, File, House, ListChecks, LucideIcon } from "lucide-react";
+import {
+  BriefcaseBusiness,
+  Calculator,
+  DollarSign,
+  File,
+  House,
+  ListChecks,
+  LucideIcon,
+} from "lucide-react";
 
 export type OPTION_TYPE = {
   label: string;
@@ -26,7 +34,7 @@ export const sidebarOptions: OPTION_TYPE[] = [
   {
     label: "Workflows",
     path: "/workflows",
-    Icon: House,
+    Icon: BriefcaseBusiness,
     pageTitle: "Workflows",
     children: [
       {
@@ -39,7 +47,7 @@ export const sidebarOptions: OPTION_TYPE[] = [
       { label: "Challan", path: "/challan", Icon: null, children: null },
     ],
   },
-  { label: "Ledger", path: "/ledger", Icon: House, children: null },
+  { label: "Ledger", path: "/ledger", Icon: Calculator, children: null },
   {
     label: "Reports",
     path: "/reports",

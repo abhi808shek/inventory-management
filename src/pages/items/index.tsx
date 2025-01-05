@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import UPLOAD_IMAGE from "@/assets/images/image 86.png";
 import QR_IMAGE from "@/assets/images/qr_image.png";
 import BAR_CODE_IMAGE from "@/assets/images/bar_code_image.png";
@@ -6,6 +6,9 @@ import SCANNER_IMAGE from "@/assets/images/scan_image.png";
 import { Separator } from "@/components/ui/separator";
 import MultiInput from "@/components/MultiInput";
 import { ChevronDownIcon } from "lucide-react";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import SHIELD_ICON from "@/assets/images/shield_icon.svg";
 
 const options = [
   { label: "Option 1", value: "option1" },
@@ -187,8 +190,17 @@ const InputField = ({
   const [value, setValue] = useState("");
   const [focused, setFocused] = useState(false);
 
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleLabelClick = () => {
+    if (inputRef.current) {
+      inputRef.current.focus(); // Focus the select element
+      inputRef.current.click(); // Simulate a click to open the dropdown
+    }
+  };
+
   return (
-    <div className="relative w-[200px]">
+    <div className="relative w-full">
       {/* Label inside the border */}
       <label
         className={`text-sm absolute left-2 px-1 bg-white transition-all ${
@@ -196,11 +208,13 @@ const InputField = ({
             ? "text-[12px] -top-2 text-[#999999]"
             : "text-gray-400 top-1/2 -translate-y-1/2"
         }`}
+        onClick={handleLabelClick}
       >
         {label}
       </label>
       {/* Input field */}
       <input
+        ref={inputRef}
         type={type}
         className="border border-gray-300 rounded-md px-2 pt-2 pb-1 w-full focus:outline-none  placeholder:text-xs"
         placeholder={focused ? placeholder : ""}
@@ -217,6 +231,15 @@ const FloatingTextArea = ({ label = "Label", placeholder = "Placeholder" }) => {
   const [value, setValue] = useState("");
   const [focused, setFocused] = useState(false);
 
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+
+  const handleLabelClick = () => {
+    if (textAreaRef.current) {
+      textAreaRef.current.focus(); // Focus the select element
+      textAreaRef.current.click(); // Simulate a click to open the dropdown
+    }
+  };
+
   return (
     <div className="relative w-full">
       {/* Floating Label */}
@@ -226,11 +249,13 @@ const FloatingTextArea = ({ label = "Label", placeholder = "Placeholder" }) => {
             ? "text-sm -top-2 text-[#999999]"
             : "text-gray-400 top-3"
         }`}
+        onClick={handleLabelClick}
       >
         {label}
       </label>
       {/* Text Area */}
       <textarea
+        ref={textAreaRef}
         className="border border-gray-300 rounded-md p-2 pt-6 w-full focus:outline-none placeholder:text-xs"
         placeholder={focused ? placeholder : ""}
         value={value}
@@ -246,22 +271,29 @@ const FloatingTextArea = ({ label = "Label", placeholder = "Placeholder" }) => {
 const FloatingSelect = ({ label = "Label", options = [] }: any) => {
   const [value, setValue] = useState("");
   const [focused, setFocused] = useState(false);
+  const selectRef = useRef<HTMLSelectElement>(null);
+
+  const handleLabelClick = () => {
+    if (selectRef.current) {
+      selectRef.current.focus();
+    }
+  };
 
   return (
-    <div className="relative w-[200px]">
-      {/* Floating Label */}
+    <div className="relative w-full">
       <label
         className={`text-sm absolute left-2 px-1 bg-white transition-all z-10 ${
           focused || value
             ? "text-sm -top-2 text-[#999999]"
             : "text-gray-400 top-1/2 -translate-y-1/2"
         }`}
+        onClick={handleLabelClick}
       >
         {label}
       </label>
-      {/* Select Dropdown */}
       <div className="relative">
         <select
+          ref={selectRef}
           className="appearance-none border border-gray-300 rounded-md px-2 pt-2 pb-1 w-full focus:outline-none placeholder:text-xs"
           value={value}
           onChange={(e) => setValue(e.target.value)}
@@ -275,7 +307,6 @@ const FloatingSelect = ({ label = "Label", options = [] }: any) => {
             </option>
           ))}
         </select>
-        {/* Custom Arrow Icon */}
         <ChevronDownIcon className="absolute top-1/2 right-2 w-5 h-5 text-gray-400 pointer-events-none transform -translate-y-1/2" />
       </div>
     </div>
@@ -284,24 +315,43 @@ const FloatingSelect = ({ label = "Label", options = [] }: any) => {
 
 const FormRenderer: React.FC = () => {
   return (
-    <div className="container mx-auto p-4 h-[calc(100svh-var(--navbar-height)-100px)] overflow-y-auto">
+    <div className="container bg-white rounded-sm shadow-xl mx-auto p-4 pt-6 h-[calc(100svh-var(--navbar-height)-100px)] overflow-y-auto custom-scrollbar">
       {/* Form Top Section */}
       <div className="flex justify-between mb-2 px-1">
         {formData["form-top"].map((element: any, index: any) => (
-          <FormField key={index} element={element} />
+          <div className="w-[150px]">
+            <FormField key={index} element={element} />
+          </div>
         ))}
       </div>
       <Separator className="w-full text-[#EDEDED] mb-6" />
       {/* Form Body Section */}
       {formData["form-body"].map((section: any, sectionIndex: any) => (
-        <div key={sectionIndex} className="mb-8 flex gap-3 justify-between">
+        <div key={sectionIndex} className="flex gap-3 justify-between">
           {section.map((row: any, rowIndex: number) => (
             <div key={rowIndex} className="mb-4 flex-1 max-w-[48%]">
               {row.map((element: any, elementIndex: any) => (
-                <div key={elementIndex} className="mb-4 flex gap-1">
+                <div
+                  key={elementIndex}
+                  className={`flex gap-3 justify-between ${
+                    element.some(
+                      (childElem: any) => childElem.type === "multi-upload"
+                    )
+                      ? "h-[80%]"
+                      : ""
+                  }`}
+                >
                   {element.map((childElem: any) => {
                     return (
-                      <div className="flex flex-1 h-max">
+                      <div
+                        className={`flex flex-1  ${
+                          childElem.type === "multi-upload"
+                            ? "mb-2 h-full"
+                            : childElem.title
+                            ? "mb-2"
+                            : "mb-6 h-max"
+                        }`}
+                      >
                         {childElem.title && (
                           <h2 className="text-sm font-semibold mb-2 text-[#6A7682]">
                             {childElem.title}
@@ -317,6 +367,34 @@ const FormRenderer: React.FC = () => {
           ))}
         </div>
       ))}
+      <div className="flex items-center space-x-2 gap-3">
+        <Label htmlFor="" className="text-[#768898] font-[14px]">
+          This item has variants
+        </Label>
+        <div className="flex gap-1">
+          <Switch id="airplane-mode" className="h-4 w-8" />
+          <img src={SHIELD_ICON} />
+        </div>
+      </div>
+      <div>
+        <div className="mt-6">
+          <h2 className="text-lg font-semibold mb-2 text-[#6A7682]">
+            Custom Fields
+          </h2>
+          <div className="flex">
+            <div className="flex mr-6 gap-1">
+              <img src={SHIELD_ICON} />
+              <div className="text-[#768898] font-normal">Add new fields</div>
+            </div>
+            <div className="flex gap-1">
+              <img src={SHIELD_ICON} />
+              <div className="text-[#768898] font-normal">
+                Manage custom fields
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
@@ -325,11 +403,24 @@ const FormField: React.FC<{ element: any }> = ({ element }) => {
   const [multiInputValues, setMultiInputValues] = useState<
     { input: string; option: string }[]
   >([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleDivClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files) {
+      console.log("Selected files:", files);
+    }
+  };
+
   switch (element.type) {
     case "input":
       return (
         <input
-          className="border-b-2 border-[#999999] bg-transparent p-2 pb-0 focus:outline-none placeholder:font-normal w-[200px]"
+          className="border-b-2 border-[#999999] bg-transparent p-1 pb-0 focus:outline-none placeholder:font-normal w-[200px]"
           placeholder={String(element.placeholder)}
         />
       );
@@ -388,10 +479,19 @@ const FormField: React.FC<{ element: any }> = ({ element }) => {
       );
     case "multi-upload":
       return (
-        <div className="flex items-center justify-center w-full max-w-[500px] h-40 bg-[#F0F0F0] border border-[#999999] rounded-lg">
+        <div
+          className="flex cursor-pointer items-center justify-center w-full max-w-[500px] h-full bg-[#F0F0F0] border border-[#999999] rounded-lg"
+          onClick={handleDivClick}
+        >
           <div className="flex flex-col items-center justify-center">
             <img src={UPLOAD_IMAGE} width={50} height={50} />
           </div>
+          <input
+            ref={fileInputRef}
+            type="file"
+            className="hidden"
+            onChange={handleFileChange}
+          />
         </div>
       );
     case "qr":

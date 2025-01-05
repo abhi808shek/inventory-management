@@ -1,7 +1,6 @@
 import * as React from "react";
 import { cva } from "class-variance-authority";
-import { CheckIcon, XCircle, ChevronDown, WandSparkles } from "lucide-react";
-
+import { CheckIcon, XCircle, ChevronDown, WandSparkles, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
@@ -197,7 +196,7 @@ const MultiInput = React.forwardRef<any, any>(
           >
             {selectedValues.length > 0 ? (
               <div className="flex justify-between items-center w-full">
-                <div className="flex flex-wrap items-center">
+                <div className="flex flex-wrap gap-2 items-center">
                   {selectedValues.slice(0, maxCount).map((value) => {
                     const option = options.find((o: any) => o.value === value);
                     const IconComponent = option?.icon;
@@ -205,8 +204,9 @@ const MultiInput = React.forwardRef<any, any>(
                       <Badge
                         key={value}
                         className={cn(
-                          isAnimating ? "animate-bounce" : "",
-                          multiSelectVariants({ variant })
+                          "bg-[#F6F7F9] rounded flex gap-1 items-center border-none text-[#4C5C6B] p-1 text-[14px]"
+                          // isAnimating ? "animate-bounce" : "",
+                          // multiSelectVariants({ variant })
                         )}
                         style={{ animationDuration: `${animation}s` }}
                       >
@@ -214,7 +214,7 @@ const MultiInput = React.forwardRef<any, any>(
                           <IconComponent className="h-4 w-4 mr-2" />
                         )}
                         {option?.label}
-                        <XCircle
+                        <X
                           className="ml-2 h-4 w-4 cursor-pointer"
                           onClick={(event) => {
                             event.stopPropagation();
@@ -261,7 +261,7 @@ const MultiInput = React.forwardRef<any, any>(
               </div>
             ) : (
               <div className="flex items-center justify-between w-full mx-auto">
-                <span className="text-sm text-muted-foreground mx-3">
+                <span className="text-sm text-[#999999] mx-3">
                   {placeholder}
                 </span>
                 <ChevronDown className="h-4 cursor-pointer text-muted-foreground mx-2" />
