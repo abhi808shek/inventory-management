@@ -15,6 +15,8 @@ const SignupPage = lazy(() => import("@/pages/signup"));
 const NotFound = lazy(() => import("@/pages/notfound"));
 // const Home = lazy(() => import("@/pages/home"));
 const Dashboard = lazy(() => import("@/pages/dashboard"));
+const Roles = lazy(() => import("@/pages/role"));
+const Items = lazy(() => import("@/pages/items"));
 const Workflow = lazy(() => import("@/pages/workflow/index"));
 const Routers = () => {
   return (
@@ -29,6 +31,12 @@ const Routers = () => {
         <Route element={<PrivateRoute />}>
           <Route element={<BaseLayout />}>
             <Route index element={<Dashboard />} />
+            <Route path="/access_control">
+              <Route path="roles" element={<Roles />} />
+            </Route>
+            <Route path="/items">
+              <Route index element={<Items />} />
+            </Route>
             <Route path="/invoice" element={<Workflow />} />
             <Route path="*" element={<NotFound />} />
           </Route>

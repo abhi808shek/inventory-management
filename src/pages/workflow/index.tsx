@@ -1,7 +1,5 @@
-import React from "react";
-import DynamicFormTable from "../../components/dynamic-form-table";
-// import styles from "./style.module.css";
 import SearchTable from "../../components/search-table";
+
 const Workflow = () => {
   return (
     <div className=" w-full h-full flex overflow-hidden">
@@ -14,9 +12,9 @@ const Workflow = () => {
           // styles={styles}
           />
           <div className="w-full overflow-x-auto">
-            <DynamicFormTable
+            {/* <DynamicFormTable
               colsData={["View", "Create", "Modify", "Delete"]}
-            />
+            /> */}
           </div>
         </div>
       </div>
