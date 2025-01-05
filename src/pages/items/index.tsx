@@ -315,7 +315,7 @@ const FloatingSelect = ({ label = "Label", options = [] }: any) => {
 
 const FormRenderer: React.FC = () => {
   return (
-    <div className="container bg-white rounded-sm shadow-sm mx-auto p-4 h-[calc(100svh-var(--navbar-height)-100px)] overflow-y-auto">
+    <div className="container bg-white rounded-sm shadow-xl mx-auto p-4 pt-6 h-[calc(100svh-var(--navbar-height)-100px)] overflow-y-auto custom-scrollbar">
       {/* Form Top Section */}
       <div className="flex justify-between mb-2 px-1">
         {formData["form-top"].map((element: any, index: any) => (
@@ -327,7 +327,7 @@ const FormRenderer: React.FC = () => {
       <Separator className="w-full text-[#EDEDED] mb-6" />
       {/* Form Body Section */}
       {formData["form-body"].map((section: any, sectionIndex: any) => (
-        <div key={sectionIndex} className="mb-8 flex gap-3 justify-between">
+        <div key={sectionIndex} className="flex gap-3 justify-between">
           {section.map((row: any, rowIndex: number) => (
             <div key={rowIndex} className="mb-4 flex-1 max-w-[48%]">
               {row.map((element: any, elementIndex: any) => (
@@ -376,6 +376,25 @@ const FormRenderer: React.FC = () => {
           <img src={SHIELD_ICON} />
         </div>
       </div>
+      <div>
+        <div className="mt-3">
+          <h2 className="text-lg font-semibold mb-2 text-[#6A7682]">
+            Custom Fields
+          </h2>
+          <div className="flex">
+            <div className="flex mr-6 gap-1">
+              <img src={SHIELD_ICON} />
+              <div className="text-[#768898] font-normal">Add new fields</div>
+            </div>
+            <div className="flex gap-1">
+              <img src={SHIELD_ICON} />
+              <div className="text-[#768898] font-normal">
+                Manage custom fields
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
@@ -393,7 +412,7 @@ const FormField: React.FC<{ element: any }> = ({ element }) => {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files) {
-      console.log("Selected files:", files); // Handle file selection logic
+      console.log("Selected files:", files);
     }
   };
 
