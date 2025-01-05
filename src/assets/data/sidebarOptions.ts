@@ -16,11 +16,18 @@ export const sidebarOptions: OPTION_TYPE[] = [
     children: null,
     pageTitle: "User",
   },
-  { label: "Items", path: "/items", Icon: ListChecks, children: null },
+  {
+    label: "Items",
+    path: "/items",
+    Icon: ListChecks,
+    children: null,
+    pageTitle: "Item",
+  },
   {
     label: "Workflows",
     path: "/workflows",
     Icon: House,
+    pageTitle: "Workflows",
     children: [
       {
         label: "Purchase Orders",

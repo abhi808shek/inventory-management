@@ -1,5 +1,4 @@
 import {
-  Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
@@ -14,11 +13,17 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { DollarSign, File, House, ListChecks } from "lucide-react";
+import {
+  ChevronRight,
+  DollarSign,
+  File,
+  House,
+  ListChecks,
+} from "lucide-react";
 import SearchCommand from "@/components/ui/search-command";
 import AppSidebar from "@/components/app-sidebar";
 import Navbar from "@/components/Navbar";
-import { sidebarOptions } from "@/assets/data/sidebarOptions";
+import { OPTION_TYPE, sidebarOptions } from "@/assets/data/sidebarOptions";
 
 // interface SidebarOption {
 //   path: string;
@@ -27,20 +32,27 @@ import { sidebarOptions } from "@/assets/data/sidebarOptions";
 //   pageTitle?: string;
 // }
 
-const getCurrentSidebarOption = (path: string) => {
-  const mainOption = sidebarOptions.find((option) => option.path === path);
-  if (mainOption) {
-    return mainOption;
-  }
+const findBreadcrumbPath = (
+  options: OPTION_TYPE[],
+  path: string,
+  currentPath: any[] = [],
+  parentLink = ""
+) => {
+  for (const option of options) {
+    const fullPath = parentLink + option.path;
 
-  for (const option of sidebarOptions) {
+    if (fullPath === path) {
+      return [...currentPath, option];
+    }
+
     if (option.children) {
-      const child = option.children.find(
-        (child) => `${option.path}${child.path}` === path
+      const childPath: any = findBreadcrumbPath(
+        option.children,
+        path,
+        [...currentPath, option],
+        fullPath
       );
-      if (child) {
-        return child;
-      }
+      if (childPath) return childPath;
     }
   }
 
@@ -59,46 +71,9 @@ const BaseLayout = () => {
     { Icon: ListChecks, label: "Settings" },
   ];
 
-  const currentOption: any = getCurrentSidebarOption(location.pathname);
+  const breadcrumbPath = findBreadcrumbPath(sidebarOptions, location.pathname);
 
-  const generateBreadcrumb = (): JSX.Element[] => {
-    const breadcrumbItems: JSX.Element[] = [];
-
-    const findParentPath = (option: any | null): any[] => {
-      if (!option) return [];
-      const parentPath = option.path.split("/")[0];
-      const parentOption = sidebarOptions.find(
-        (opt) => opt.path === parentPath
-      );
-      if (parentOption) {
-        return [...findParentPath(parentOption), parentOption];
-      }
-      return [];
-    };
-
-    const currentHierarchy = findParentPath(currentOption);
-    if (currentOption) {
-      currentHierarchy.push(currentOption);
-    }
-
-    currentHierarchy.forEach((item, index) => {
-      breadcrumbItems.push(
-        <BreadcrumbItem key={item.path}>
-          <BreadcrumbLink>{item.label}</BreadcrumbLink>
-        </BreadcrumbItem>
-      );
-      if (index < currentHierarchy.length - 1) {
-        breadcrumbItems.push(
-          <BreadcrumbSeparator
-            key={`${item.path}-separator`}
-            className="block text-[#6A7682]"
-          />
-        );
-      }
-    });
-
-    return breadcrumbItems;
-  };
+  console.log("breadcrumbPath", breadcrumbPath);
 
   return (
     <div className="w-full h-[100svh] overflow-hidden">
@@ -116,19 +91,46 @@ const BaseLayout = () => {
               <div className="flex items-center gap-2">
                 {/* <SidebarTrigger /> */}
                 {/* <Separator orientation="vertical" className="mr-2 h-4" /> */}
-                <Breadcrumb>
-                  <BreadcrumbList>
-                    {generateBreadcrumb()}
-                    <BreadcrumbSeparator className="block text-[#6A7682]" />
-                    <BreadcrumbItem className="block">
-                      <BreadcrumbLink>{currentOption?.label}</BreadcrumbLink>
+                <BreadcrumbList>
+                  {breadcrumbPath?.map((item: any, index: number) => (
+                    <BreadcrumbItem key={item.link}>
+                      <BreadcrumbLink
+                        href={item.link}
+                        className={`capitalize ${
+                          index === breadcrumbPath.length - 1
+                            ? "text-[#505861] font-semibold"
+                            : "font-normal text-[#6A7682]"
+                        }`}
+                      >
+                        {item.label}
+                      </BreadcrumbLink>
+                      {index < breadcrumbPath.length - 1 && (
+                        <BreadcrumbSeparator className="">
+                          <ChevronRight />
+                        </BreadcrumbSeparator> // Add separator between items
+                      )}
                     </BreadcrumbItem>
-                  </BreadcrumbList>
-                </Breadcrumb>
+                  ))}
+                </BreadcrumbList>
+                {/* <nav aria-label="breadcrumb">
+                  <ol className="breadcrumb">
+                    {breadcrumbPath?.map((item: any, index: number) => (
+                      <li
+                        key={item.link}
+                        className={`breadcrumb-item ${
+                          index === breadcrumbPath.length - 1 ? "active" : ""
+                        }`}
+                      >
+                        {item.label}
+                      </li>
+                    ))}
+                  </ol>
+                </nav> */}
               </div>
               <div className="flex justify-between">
                 <span className="text-[28px] font-bold text-[var(--deafult-Btn-color)]">
-                  {currentOption?.pageTitle || currentOption?.label}
+                  {breadcrumbPath[breadcrumbPath.length - 1]?.pageTitle ??
+                    breadcrumbPath[breadcrumbPath.length - 1]?.label}
                 </span>
                 <div className="gap-[12px] flex justify-between items-center">
                   <Popover>
