@@ -148,7 +148,7 @@ const PermissionsTable: React.FC = () => {
                 }`}
               >
                 <td
-                  className="pl-1 pr-4 py-2 font-medium text-[14px] text-[#333333]"
+                  className="pl-3 pr-4 py-2 font-medium text-[14px] text-[#333333]"
                   onClick={() => toggleGroup(group.label)}
                 >
                   <span className="flex items-center">

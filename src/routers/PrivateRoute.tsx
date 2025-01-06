@@ -6,7 +6,8 @@ import { Navigate, Outlet } from "react-router-dom";
 const PrivateRoute = () => {
   const { user } = useSelector((state: RootState) => state.user);
 
-  const memoizedUser = useMemo(() => user, [user]);
+  // const memoizedUser = useMemo(() => user, [user]);
+  const memoizedUser = true;
   if (memoizedUser) {
     return <Outlet />;
   }

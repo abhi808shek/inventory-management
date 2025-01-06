@@ -372,7 +372,7 @@ const FormRenderer: React.FC = () => {
           This item has variants
         </Label>
         <div className="flex gap-1">
-          <Switch id="airplane-mode" className="h-4 w-8" />
+          <Switch id="airplane-mode" className="h-4 w-9" />
           <img src={SHIELD_ICON} />
         </div>
       </div>

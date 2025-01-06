@@ -34,9 +34,9 @@ const DynamicTable: FC<PROP_TYPE> = ({ colsData, data, rowsPerPage = 4 }) => {
   };
 
   const actionButtonOptions = [
-    { Icon: Pencil, label: "Edit", iconColor: "#007BFF" },
-    { Icon: Trash2, label: "Delete", iconColor: "#FF4D4D" },
-    { Icon: Eye, label: "View", iconColor: "#28A745" },
+    { Icon: Pencil, label: "Edit" },
+    { Icon: Trash2, label: "Delete" },
+    { Icon: Eye, label: "View" },
   ];
 
   const getStatusStyles = (status: string) => {
@@ -240,13 +240,8 @@ const DynamicTable: FC<PROP_TYPE> = ({ colsData, data, rowsPerPage = 4 }) => {
                   >
                     <ul>
                       {actionButtonOptions?.map((item) => (
-                        <li className="flex gap-3 cursor-pointer hover:bg-[var(--deafult-Btn-color)] hover:text-white p-2 pl-1 rounded text-sm">
-                          {item?.Icon && (
-                            <item.Icon
-                              size={18}
-                              style={{ color: item.iconColor }}
-                            />
-                          )}
+                        <li className="flex gap-3 cursor-pointer hover:bg-[var(--hover-bg-option)] p-2 pl-1 rounded text-sm">
+                          {item?.Icon && <item.Icon size={18} />}
                           {item?.label}
                         </li>
                       ))}
