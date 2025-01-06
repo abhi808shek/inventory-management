@@ -16,7 +16,7 @@ import { Link } from "react-router-dom";
 import { AllColsType, DataItem, DataType } from "@/types/tableDataType";
 import { ChevronDown, EllipsisVertical } from "lucide-react";
 import Pagination from "@/components/Pagination";
-import { Pencil, Trash2, Eye } from "lucide-react";
+import { Pencil, Trash2, Eye, ArrowUpDown } from "lucide-react";
 import "./style.css";
 
 // Static column definitions (all_cols)
@@ -82,7 +82,15 @@ const DynamicTable: FC<PROP_TYPE> = ({ colsData, data, rowsPerPage = 4 }) => {
                 } font-medium`}
                 key={index}
               >
-                {col.headerName}
+                <div className="flex items-center gap-1">
+                  <span> {col.headerName}</span>
+                  <span className="cursor-pointer">
+                    <ArrowUpDown
+                      size={14}
+                      className="text-[var(--light-text)]"
+                    />
+                  </span>
+                </div>
               </TableHead>
             ))}
             <TableHead className="bg-[var(--table-data-heading-bg-color)] sticky top-0 w-[50px] text-center font-medium">
