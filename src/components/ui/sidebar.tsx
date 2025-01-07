@@ -190,7 +190,8 @@ const Sidebar = React.forwardRef<
     },
     ref
   ) => {
-    const { isMobile, state, openMobile, setOpenMobile, open } = useSidebar();
+    const { isMobile, state, openMobile, setOpenMobile, open, isHoverOpen } =
+      useSidebar();
 
     if (collapsible === "none") {
       return (
@@ -241,7 +242,9 @@ const Sidebar = React.forwardRef<
         {/* This is what handles the sidebar gap on desktop */}
         <div
           className={cn(
-            "duration-200 relative h-svh w-[--sidebar-width] bg-transparent transition-[width] ease-linear",
+            `duration-200 ${
+              isHoverOpen ? "absolute" : "relative"
+            } h-svh w-[--sidebar-width] bg-transparent transition-[width] ease-linear`,
             "group-data-[collapsible=offcanvas]:w-5",
             "group-data-[side=right]:rotate-180",
             variant === "floating" || variant === "inset"
@@ -344,9 +347,7 @@ const SidebarInset = React.forwardRef<
       ref={ref}
       className={cn(
         `${
-          isHoverOpen
-            ? "absolute top-var(--navbar-height))"
-            : "relative min-h-svh"
+          isHoverOpen ? "absolute top-var(--navbar-height))" : "min-h-svh"
         } flex flex-1 flex-col bg-background`,
         "peer-data-[variant=inset]:min-h-[calc(100svh-theme(spacing.4))] md:peer-data-[variant=inset]:m-2 md:peer-data-[state=collapsed]:peer-data-[variant=inset]:ml-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow",
         className
@@ -442,11 +443,18 @@ const SidebarGroup = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div">
 >(({ className, ...props }, ref) => {
+  const { isHoverOpen } = useSidebar();
+
   return (
     <div
       ref={ref}
       data-sidebar="group"
-      className={cn("relative flex w-full min-w-0 flex-col p-2", className)}
+      className={cn(
+        `${
+          isHoverOpen ? "absolute" : "relative"
+        } flex w-full min-w-0 flex-col p-2`,
+        className
+      )}
       {...props}
     />
   );

@@ -34,12 +34,6 @@ const permissionsData: PermissionsResponse = {
   results: [
     {
       label: "Items",
-      perms: {
-        view: { id: 1, codename: "itemview" },
-        create: { id: 2, codename: "itemcreate" },
-        modify: { id: 3, codename: "itemupdate" },
-        delete: { id: 4, codename: "itemdelete" },
-      },
       children: [
         {
           label: "Stock",
@@ -162,7 +156,7 @@ const PermissionsTable: React.FC = () => {
                     {group.label}
                   </span>
                 </td>
-                {renderPermissionCells(group.perms)}
+                {/* {renderPermissionCells(group.perms)} */}
               </tr>
 
               {/* Child Rows */}

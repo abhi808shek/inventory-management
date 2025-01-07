@@ -17,12 +17,6 @@ const DynamicFormTable = () => {
       children: [
         {
           label: "Stock",
-          perms: {
-            view: { id: 1, codename: "itemview" },
-            create: { id: 2, codename: "itemcreate" },
-            modify: { id: 3, codename: "itemupdate" },
-            delete: { id: 4, codename: "itemdelete" },
-          },
         },
       ],
     },
@@ -65,17 +59,18 @@ const DynamicFormTable = () => {
           <TableCell className="font-semibold">{row.label}</TableCell>
           {colsData.map((col) => (
             <TableCell key={col} className="text-center">
-              {row.perms?.[col.toLowerCase()] ? (
+              {/* Render checkbox only for child rows */}
+              {row.isChild ? (
                 <input
                   type="checkbox"
-                  defaultChecked={!!row.perms[col.toLowerCase()]}
-                  // disabled
+                  defaultChecked={!!row.perms?.[col.toLowerCase()]}
                   className="cursor-not-allowed"
                 />
               ) : null}
             </TableCell>
           ))}
         </TableRow>
+        {/* Recursively render children rows */}
         {row.children && renderRows(row.children)}
       </React.Fragment>
     ));
