@@ -294,7 +294,7 @@ const FloatingSelect = ({ label = "Label", options = [] }: any) => {
       <div className="relative">
         <select
           ref={selectRef}
-          className="appearance-none border border-gray-300 rounded-md px-2 pt-2 pb-1 w-full focus:outline-none placeholder:text-xs"
+          className="appearance-none border border-gray-300 rounded-md px-2 pt-2 pb-1 w-full focus:outline-none placeholder:text-xs z-30"
           value={value}
           onChange={(e) => setValue(e.target.value)}
           onFocus={() => setFocused(true)}

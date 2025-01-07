@@ -47,6 +47,7 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
       setActiveOption("/");
     };
   }, []);
+  console.log("isHoverOpen", isHoverOpen);
 
   return (
     <Sidebar
@@ -179,8 +180,8 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
       <SidebarRail
         onMouseEnter={() => {
           if (!isHoverOpen) {
-            toggleMouseEvent(true);
             setOpen(true);
+            toggleMouseEvent(true);
           }
         }}
       />
