@@ -57,7 +57,7 @@ const DynamicTable: FC<PROP_TYPE> = ({ colsData, data, rowsPerPage = 4 }) => {
   const StatusCell = ({ status }: { status: string }) => {
     return (
       <div
-        className={`m-auto flex w-24 items-center px-2 py-1 rounded ${getStatusStyles(
+        className={` flex w-24 items-center px-2 py-1 rounded ${getStatusStyles(
           status
         )}`}
       >
@@ -75,7 +75,7 @@ const DynamicTable: FC<PROP_TYPE> = ({ colsData, data, rowsPerPage = 4 }) => {
             <TableHead className="bg-[var(--table-data-heading-bg-color)] sticky top-0 w-[50px] text-center font-medium">
               S.NO
             </TableHead>
-            {colsData.map((col, index: number) => (
+            {colsData?.map((col, index: number) => (
               <TableHead
                 className={`bg-[var(--table-data-heading-bg-color)] sticky top-0 ${
                   col.config.type === "status" ? "text-center" : "text-start"
@@ -105,12 +105,12 @@ const DynamicTable: FC<PROP_TYPE> = ({ colsData, data, rowsPerPage = 4 }) => {
           // }}
           className="max-h-[calc(100svh-var(--navbar-height)-280px)) overflow-y-auto custom-scrollbar"
         >
-          {data.map((item, index: number) => (
+          {data?.map((item, index: number) => (
             <TableRow key={index}>
               <TableCell className="text-[var(--light-text)] text-center">
                 {rowsPerPage * (currentPage - 1) + index + 1}
               </TableCell>
-              {colsData.map((col, colIndex: number) => {
+              {colsData?.map((col, colIndex: number) => {
                 const config = col.config;
 
                 // Multi-row data handling (e.g., User column)
@@ -209,7 +209,7 @@ const DynamicTable: FC<PROP_TYPE> = ({ colsData, data, rowsPerPage = 4 }) => {
                         to={link}
                         className="font-medium text-[var(--table-data-link-variant-text-color)] hover:underline"
                       >
-                        {data.name || data}
+                        {data?.name || data}
                       </Link>
                     </TableCell>
                   );
@@ -247,8 +247,11 @@ const DynamicTable: FC<PROP_TYPE> = ({ colsData, data, rowsPerPage = 4 }) => {
                     sideOffset={0}
                   >
                     <ul>
-                      {actionButtonOptions?.map((item) => (
-                        <li className="flex gap-3 cursor-pointer hover:bg-[var(--hover-bg-option)] p-2 pl-1 rounded text-sm">
+                      {actionButtonOptions?.map((item, index) => (
+                        <li
+                          className="flex gap-3 cursor-pointer hover:bg-[var(--hover-bg-option)] p-2 pl-1 rounded text-sm"
+                          key={index}
+                        >
                           {item?.Icon && <item.Icon size={18} />}
                           {item?.label}
                         </li>

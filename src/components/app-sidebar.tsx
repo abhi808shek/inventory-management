@@ -144,9 +144,7 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
                                 setActiveOption(`${path}${child.path}`)
                               }
                             >
-                              <Link to={`${path}${child.path}`}>
-                                {child.label}
-                              </Link>
+                              <Link to={`${child.path}`}>{child.label}</Link>
                             </SidebarMenuSubButton>
                           </SidebarMenuSubItem>
                         ))}

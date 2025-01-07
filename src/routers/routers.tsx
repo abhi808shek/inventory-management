@@ -14,10 +14,14 @@ const LoginPage = lazy(() => import("@/pages/login"));
 const SignupPage = lazy(() => import("@/pages/signup"));
 const NotFound = lazy(() => import("@/pages/notfound"));
 // const Home = lazy(() => import("@/pages/home"));
-const Dashboard = lazy(() => import("@/pages/dashboard"));
-const Roles = lazy(() => import("@/pages/role"));
+const Users = lazy(() => import("@/pages/users"));
+const Roles = lazy(() => import("@/pages/roles"));
+const Notifications = lazy(() => import("@/pages/notifications"));
+const Permissions = lazy(() => import("@/pages/permissions"));
 const Items = lazy(() => import("@/pages/items"));
-const Workflow = lazy(() => import("@/pages/workflow/index"));
+const PurchaseOrders = lazy(() => import("@/pages/purchaseOrders"));
+const Invoicing = lazy(() => import("@/pages/invoices"));
+const Challan = lazy(() => import("@/pages/challan"));
 const Routers = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
@@ -30,14 +34,31 @@ const Routers = () => {
         </Route>
         <Route element={<PrivateRoute />}>
           <Route element={<BaseLayout />}>
-            <Route index element={<Dashboard />} />
-            <Route path="/access_control">
-              <Route path="roles" element={<Roles />} />
+            {/* <Route index element={<Dashboard />} /> */}
+            <Route path="/roles">
+              <Route index element={<Roles />} />
             </Route>
             <Route path="/items">
               <Route index element={<Items />} />
             </Route>
-            <Route path="/invoice" element={<Workflow />} />
+            <Route path="/users">
+              <Route index element={<Users />} />
+            </Route>
+            <Route path="/permissions">
+              <Route index element={<Permissions />} />
+            </Route>
+            <Route path="/purchase-orders">
+              <Route index element={<PurchaseOrders />} />
+            </Route>
+            <Route path="/invoicing">
+              <Route index element={<Invoicing />} />
+            </Route>
+            <Route path="/challan">
+              <Route index element={<Challan />} />
+            </Route>
+            <Route path="/notifications">
+              <Route index element={<Notifications />} />
+            </Route>
             <Route path="*" element={<NotFound />} />
           </Route>
         </Route>

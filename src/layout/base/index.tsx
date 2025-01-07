@@ -127,8 +127,8 @@ const BaseLayout = () => {
               </div>
               <div className="flex justify-between">
                 <span className="text-[28px] font-bold text-[var(--deafult-Btn-color)]">
-                  {breadcrumbPath[breadcrumbPath.length - 1]?.pageTitle ??
-                    breadcrumbPath[breadcrumbPath.length - 1]?.label}
+                  {/* {breadcrumbPath[breadcrumbPath?.length - 1]?.pageTitle ??
+                    breadcrumbPath[breadcrumbPath?.length - 1]?.label} */}
                 </span>
                 <div className="gap-[12px] flex justify-between items-center">
                   <Popover>

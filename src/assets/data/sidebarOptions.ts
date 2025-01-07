@@ -39,11 +39,11 @@ export const sidebarOptions: OPTION_TYPE[] = [
     children: [
       {
         label: "Purchase Orders",
-        path: "/purchase_orders",
+        path: "/purchase-orders",
         Icon: null,
         children: null,
       },
-      { label: "Invoices", path: "/invoices", Icon: null, children: null },
+      { label: "Invoices", path: "/invoicing", Icon: null, children: null },
       { label: "Challan", path: "/challan", Icon: null, children: null },
     ],
   },

@@ -2,7 +2,7 @@ import PermissionsTable from "@/components/PermissionsTable";
 import { Check } from "lucide-react";
 import { Link } from "react-router-dom";
 
-const Roles = () => {
+const Permissions = () => {
   return (
     <div className="bg-white w-full rounded-sm max-h-[calc(100svh-var(--navbar-height)-100px)] flex overflow-hidden shadow">
       {/* Left Table Sections */}
@@ -117,4 +117,4 @@ const Roles = () => {
   );
 };
 
-export default Roles;
+export default Permissions;

@@ -1,14 +1,15 @@
-interface PROP_TYPES {
-  setViewSettingMode?: (val: boolean) => void;
-  viewSettingMode?: boolean;
-  styles?: any;
-}
+// interface PROP_TYPES {
+//   setViewSettingMode?: (val: boolean) => void;
+//   viewSettingMode?: boolean;
+//   styles?: any;
+// }
 
 const SearchTable = ({
   styles,
   setViewSettingMode,
   viewSettingMode,
-}: PROP_TYPES) => {
+}: // buttonTypeList,
+any) => {
   return (
     <div className="h-[56px] flex">
       {/* Search Section */}
