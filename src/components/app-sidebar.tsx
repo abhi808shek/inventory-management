@@ -37,7 +37,6 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
     isHoverOpen,
     toggleSidebar,
     open,
-    isOnlyHoverOpen,
     setIsOnlyHoverOpen,
   } = useSidebar();
   const { pathname } = useLocation();
