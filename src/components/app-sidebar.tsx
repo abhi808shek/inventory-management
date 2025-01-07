@@ -74,11 +74,11 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
                   <CollapsibleTrigger asChild>
                     <SidebarMenuButton
                       asChild
-                      className={`py-6 font-normal text-black cursor-pointer transition-all duration-300  ${
+                      className={`py-6 font-normal text-black cursor-pointer transition-all duration-300 ${
                         activeOption === path
-                          ? "bg-[var(--sidebar-selected-option-bg)] text-white hover:bg-[var(--sidebar-selected-option-bg)] hover:text-white"
+                          ? "bg-[var(--sidebar-selected-option-bg)] text-white hover:bg-[var(--sidebar-selected-option-bg)]"
                           : !children
-                          ? "hover:bg-[var(--sidebar-hover-option-bg)] hover:text-white !important"
+                          ? "hover:bg-[var(--hover-bg-option)] hover:text-white !important"
                           : ""
                       }`}
                       onClick={() => {
@@ -106,7 +106,7 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
                       ) : (
                         <Link
                           to={path}
-                          className="font-normal text-base flex items-center hover:text-white group"
+                          className="font-normal text-base flex items-center hover:text-black"
                           onMouseEnter={() =>
                             activeOption !== path && setIsHovered(label)
                           }
@@ -115,8 +115,12 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
                           {Icon && (
                             <Icon
                               className={`transition-colors duration-100 ${
-                                isHovered === label ? "text-white" : ""
-                              } hover:text-white`}
+                                isHovered === label
+                                  ? activeOption === path
+                                    ? "text-white"
+                                    : "text-black"
+                                  : ""
+                              } `}
                             />
                           )}
                           <span>{label}</span>
@@ -134,7 +138,7 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
                               className={`pl-5 cursor-pointer py-5 transition-all duration-300  ${
                                 activeOption === path + child.path
                                   ? "bg-[var(--sidebar-selected-option-bg)] text-white hover:bg-[var(--sidebar-selected-option-bg)] hover:text-white"
-                                  : "text-[var(--unselected-sidebar-option-text-color)] hover:bg-[var(--sidebar-hover-option-bg)] hover:text-white"
+                                  : "text-[var(--light-text)] hover:text-[var(--light-text)] hover:bg-[var(--hover-bg-option)]"
                               } font-normal text-sm`}
                               onClick={() =>
                                 setActiveOption(`${path}${child.path}`)

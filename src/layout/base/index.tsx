@@ -73,8 +73,6 @@ const BaseLayout = () => {
 
   const breadcrumbPath = findBreadcrumbPath(sidebarOptions, location.pathname);
 
-  console.log("breadcrumbPath", breadcrumbPath);
-
   return (
     <div className="w-full h-[100svh] overflow-hidden">
       {/* Navbar Code */}
@@ -164,7 +162,7 @@ const BaseLayout = () => {
                       className="w-40 flex flex-col gap-2"
                     >
                       {actionButtonOptions?.map((item) => (
-                        <div className="flex gap-1 cursor-pointer hover:bg-[var(--deafult-Btn-color)] hover:text-white py-2 rounded-lg text-sm pl-2">
+                        <div className="flex gap-2 cursor-pointer hover:bg-[var(--hover-bg-option)] py-2 rounded-lg text-sm pl-2">
                           {item?.Icon && <item.Icon size={18} />}
                           {item?.label}
                         </div>
