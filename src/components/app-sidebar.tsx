@@ -31,8 +31,15 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
   const [openDropdown, setOpenDropdown] = useState<null | string>(null);
   const [isHovered, setIsHovered] = useState("");
 
-  const { setOpen, toggleMouseEvent, isHoverOpen, toggleSidebar, open } =
-    useSidebar();
+  const {
+    setOpen,
+    toggleMouseEvent,
+    isHoverOpen,
+    toggleSidebar,
+    open,
+    isOnlyHoverOpen,
+    setIsOnlyHoverOpen,
+  } = useSidebar();
   const { pathname } = useLocation();
 
   useEffect(() => {
@@ -47,7 +54,6 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
       setActiveOption("/");
     };
   }, []);
-  console.log("isHoverOpen", isHoverOpen);
 
   return (
     <Sidebar
@@ -168,6 +174,7 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
             open ? "rotate-0" : "rotate-180"
           }`}
           onClick={() => {
+            setIsOnlyHoverOpen(open);
             toggleSidebar();
             toggleMouseEvent(false);
           }}

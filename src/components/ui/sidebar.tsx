@@ -29,10 +29,12 @@ type SidebarContext = {
   setOpen: (flag: boolean) => void;
   openMobile: boolean;
   setOpenMobile: (open: boolean) => void;
+  setIsOnlyHoverOpen: (open: boolean) => void;
   isMobile: boolean;
   toggleSidebar: () => void;
   toggleMouseEvent: (flag: boolean) => void;
   isHoverOpen: boolean;
+  isOnlyHoverOpen: boolean;
 };
 
 const SidebarContext = React.createContext<SidebarContext | null>(null);
@@ -69,6 +71,7 @@ const SidebarProvider = React.forwardRef<
     const isMobile = useIsMobile();
     const [openMobile, setOpenMobile] = React.useState(false);
     const [isHoverOpen, setIsHoverOpen] = React.useState(false);
+    const [isOnlyHoverOpen, setIsOnlyHoverOpen] = React.useState(false);
 
     // This is the internal state of the sidebar.
     // We use openProp and setOpenProp for control from outside the component.
@@ -131,6 +134,8 @@ const SidebarProvider = React.forwardRef<
         toggleSidebar,
         toggleMouseEvent,
         isHoverOpen,
+        isOnlyHoverOpen,
+        setIsOnlyHoverOpen,
       }),
       [
         state,
@@ -141,6 +146,7 @@ const SidebarProvider = React.forwardRef<
         setOpenMobile,
         toggleSidebar,
         toggleMouseEvent,
+        setIsOnlyHoverOpen,
       ]
     );
 
@@ -190,8 +196,14 @@ const Sidebar = React.forwardRef<
     },
     ref
   ) => {
-    const { isMobile, state, openMobile, setOpenMobile, open, isHoverOpen } =
-      useSidebar();
+    const {
+      isMobile,
+      state,
+      openMobile,
+      setOpenMobile,
+      open,
+      isOnlyHoverOpen,
+    } = useSidebar();
 
     if (collapsible === "none") {
       return (
@@ -243,7 +255,7 @@ const Sidebar = React.forwardRef<
         <div
           className={cn(
             `duration-200 ${
-              isHoverOpen ? "absolute" : "relative"
+              isOnlyHoverOpen ? "absolute" : "relative"
             } h-svh w-[--sidebar-width] bg-transparent transition-[width] ease-linear`,
             "group-data-[collapsible=offcanvas]:w-5",
             "group-data-[side=right]:rotate-180",
