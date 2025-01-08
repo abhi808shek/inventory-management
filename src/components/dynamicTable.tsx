@@ -85,10 +85,11 @@ const DynamicTable: FC<PROP_TYPE> = ({ colsData, data, rowsPerPage = 4 }) => {
                 <div className="flex items-center gap-1">
                   <span> {col.headerName}</span>
                   <span className="cursor-pointer">
-                    <ArrowUpDown
+                    {/* <ArrowUpDown
                       size={14}
                       className="text-[var(--light-text)]"
-                    />
+                    /> */}
+                    <ArrowUpDown size={14} className="text-[#c0c0c0]" />
                   </span>
                 </div>
               </TableHead>

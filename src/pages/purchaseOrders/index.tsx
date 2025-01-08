@@ -9,10 +9,9 @@ import { useDispatch, useSelector } from "react-redux";
 import styles from "../style.module.css";
 const PurchaseOrders = () => {
   const [viewSettingMode, setViewSettingMode] = useState(false);
-  const {
-    dynamictableHeader,
-    // , dynamicTableData
-  } = useSelector((state: any) => state.dynamictableHeader);
+  const { dynamictableHeader } = useSelector(
+    (state: any) => state.dynamictableHeader
+  );
   const dispatch = useDispatch();
 
   // Dynamic Table Header API Fetcher Function
@@ -37,7 +36,6 @@ const PurchaseOrders = () => {
   // const { execute: dynamicDataTableFetcher } = useApi(dynamicTableDataFunction);
   useEffect(() => {
     dynamicDataHeaderFetcher();
-    // dynamicDataTableFetcher();
   }, []);
   return (
     <div className=" w-full h-full flex overflow-hidden">

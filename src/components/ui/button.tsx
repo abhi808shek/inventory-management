@@ -10,7 +10,9 @@ const buttonVariants = cva(
       variant: {
         default: "bg-[#5D54C9] text-primary-foreground hover:bg-primary/90",
         destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+          "bg-red-600 h-[31.83px!important] font-normal text-base text-white rounded-[6.92px]",
+        success:
+          "bg-green-600  h-[31.83px!important] font-normal text-base text-white rounded-[6.92px]",
         filterButton:
           "h-[31.83px!important] font-normal text-base text-white bg-[#5159B8] rounded-[6.92px]",
         secondary:

@@ -4,12 +4,7 @@
 //   styles?: any;
 // }
 
-const SearchTable = ({
-  styles,
-  setViewSettingMode,
-  viewSettingMode,
-}: // buttonTypeList,
-any) => {
+const SearchTable = ({ styles, setViewSettingMode, viewSettingMode }: any) => {
   return (
     <div className="h-[56px] flex">
       {/* Search Section */}

@@ -1,38 +1,18 @@
-import {
-  DynamicTableArchitectureApi,
-  DynamicTableHeaderApi,
-} from "@/api/table.api";
+import { DynamicTableHeaderApi } from "@/api/table.api";
 import DynamicTable from "@/components/dynamicTable";
 import SearchTable from "@/components/search-table";
 import useApi from "@/hooks/useApi";
-import {
-  dynamicTableHeaderList,
-  dynamicTableArchitectureList,
-} from "@/store/dynamicTable/dynamic-table-reducer";
+import { dynamicTableHeaderList } from "@/store/dynamicTable/dynamic-table-reducer";
 import handleAsync from "@/utils/handleAsync";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "../style.module.css";
 const Roles = () => {
   const [viewSettingMode, setViewSettingMode] = useState(false);
-  const {
-    dynamicTableArchitecture,
-    dynamictableHeader,
-    // , dynamicTableData
-  } = useSelector((state: any) => state.dynamictableHeader);
-  const dispatch = useDispatch();
-
-  // Dynamic Table Architechture API Fetcher Function
-  const dynamicTableArchitectureFunction = handleAsync(async () => {
-    const res = await DynamicTableArchitectureApi("ROLE-LIST");
-    dispatch(dynamicTableArchitectureList(res.data?.data ?? null));
-    return res;
-  });
-  const buttonTypeList = dynamicTableArchitecture?.page_header?.buttons;
-  console.log("buttonTypeList", buttonTypeList);
-  const { execute: dynamicDataArchitectureFetcher } = useApi(
-    dynamicTableArchitectureFunction
+  const { dynamictableHeader } = useSelector(
+    (state: any) => state.dynamictableHeader
   );
+  const dispatch = useDispatch();
 
   // Dynamic Table Header API Fetcher Function
   const dynamicTableHeaderFunction = handleAsync(async () => {
@@ -55,9 +35,7 @@ const Roles = () => {
 
   // const { execute: dynamicDataTableFetcher } = useApi(dynamicTableDataFunction);
   useEffect(() => {
-    dynamicDataArchitectureFetcher();
     dynamicDataHeaderFetcher();
-    // dynamicDataTableFetcher();
   }, []);
   return (
     <div className=" w-full h-full flex overflow-hidden">
@@ -68,7 +46,6 @@ const Roles = () => {
             setViewSettingMode={setViewSettingMode}
             viewSettingMode={viewSettingMode}
             styles={styles}
-            buttonTypeList={buttonTypeList}
           />
           <div className="w-full overflow-x-auto">
             <DynamicTable colsData={colsFormat} data={[]} />

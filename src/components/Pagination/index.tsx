@@ -53,8 +53,8 @@ const Pagination: FC<PROP_TYPE> = ({
   };
 
   return (
-    <div className="flex justify-between items-center px-4 py-3 border-t">
-      <span className="text-[#666666] text-[10px] font-normal">
+    <div className="flex flex-col md:flex-row justify-between items-center px-4 py-3 border-t">
+      <span className="text-[#666666] text-[10px] font-normal py-2">
         Showing {rowsPerPage * (currentPage - 1) + 1} to{" "}
         {Math.min(rowsPerPage * currentPage, totalPages * rowsPerPage)} of{" "}
         {totalPages * rowsPerPage} entries
