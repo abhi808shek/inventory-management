@@ -32,6 +32,7 @@ const BaseLayout = () => {
   const dispatch = useDispatch();
   const titleObj: any = {
     "/roles": "ROLE-LIST",
+    "/permissions": "ROLE-ADD",
     "/users": "USER-LIST",
     "/users/add": "USER-ADD",
     "/purchase-orders": "PO-LIST",

@@ -78,8 +78,8 @@ const Routers = () => {
             </Route>
             <Route path="/purchase-orders">
               <Route index element={<PurchaseOrders />} />
-              <Route path="add" element={<UpdatePurchaseOrder />} />
-              <Route path="update" element={<AddPurchaseOrder />} />
+              <Route path="update" element={<UpdatePurchaseOrder />} />
+              <Route path="add" element={<AddPurchaseOrder />} />
             </Route>
             <Route path="/invoicing">
               <Route index element={<Invoicing />} />

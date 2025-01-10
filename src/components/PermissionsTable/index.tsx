@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ChevronDown, Check } from "lucide-react";
+import { useSelector } from "react-redux";
 
 interface Permission {
   id: number;
@@ -83,6 +84,11 @@ const PermissionsTable: React.FC = () => {
   const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>(
     {}
   );
+  const { dynamicTableArchitecture } = useSelector(
+    (state: any) => state.dynamictableHeader
+  );
+
+  console.log("dynamicTableArchitecture", dynamicTableArchitecture);
 
   const toggleGroup = (label: string) => {
     setExpandedGroups((prev) => ({
