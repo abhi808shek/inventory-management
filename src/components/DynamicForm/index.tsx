@@ -1,12 +1,11 @@
-import { FC, FormEvent } from "react";
+import { FC } from "react";
 import SelectUi from "@/components/select-ui";
 
 type DynamicFormProps = {
   formData: any[];
-  onSubmit: (data: any) => void;
 };
 
-const DynamicForm: FC<DynamicFormProps> = ({ formData, onSubmit }) => {
+const DynamicForm: FC<DynamicFormProps> = ({ formData }) => {
   // const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
   //   e.preventDefault();
   //   const formData = new FormData(e.currentTarget);
@@ -140,7 +139,7 @@ const DynamicForm: FC<DynamicFormProps> = ({ formData, onSubmit }) => {
         // Render the remaining rows
         return (
           <div key={rowIndex} className="mb-4">
-            {Object.entries(row as any).map(([rowKey, rowFields]) => {
+            {Object.entries(row as any).map(([_, rowFields]) => {
               return renderRow(rowFields);
             })}
           </div>
@@ -152,7 +151,7 @@ const DynamicForm: FC<DynamicFormProps> = ({ formData, onSubmit }) => {
   return (
     <div className="p-4">
       {formData.map((section: any, idx: number) =>
-        Object.values(section).map((sec) => renderSection(sec, idx))
+        Object.values(section).map((sec: any) => renderSection(sec, idx))
       )}
     </div>
   );

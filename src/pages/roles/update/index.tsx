@@ -199,12 +199,12 @@ const formBody = [
 ];
 
 const UpdateRole = () => {
-  const handleFormSubmit = (data: Record<string, any>) => {
-    console.log("Form Data Submitted: ", data);
-  };
+  // const handleFormSubmit = (data: Record<string, any>) => {
+  //   console.log("Form Data Submitted: ", data);
+  // };
   return (
     <div className="h-[calc(100svh-var(--navbar-height)-100px)] overflow-y-auto custom-scrollbar">
-      <DynamicForm onSubmit={handleFormSubmit} formData={formBody} />
+      <DynamicForm formData={formBody} />
     </div>
   );
 };

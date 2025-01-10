@@ -19,7 +19,6 @@ interface SelectUiProps {
 
 const SelectUi: React.FC<SelectUiProps> = ({ placeholder, options }) => {
   const [value, setValue] = useState("");
-  const [focused, setFocused] = useState(false);
   const selectRef = useRef<HTMLSelectElement>(null);
 
   const handleLabelClick = () => {
@@ -32,7 +31,7 @@ const SelectUi: React.FC<SelectUiProps> = ({ placeholder, options }) => {
     <div className="relative w-full">
       <label
         className={`text-sm absolute left-2 px-1 bg-white transition-all z-10 ${
-          focused || value
+          value
             ? "text-xs -top-[9px] text-[#999999]"
             : "text-gray-400 top-1/2 -translate-y-1/2"
         }`}
@@ -40,17 +39,13 @@ const SelectUi: React.FC<SelectUiProps> = ({ placeholder, options }) => {
       >
         {placeholder}
       </label>
-      <Select
-        onValueChange={(value) => setValue(value)}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-      >
+      <Select onValueChange={(value) => setValue(value)}>
         <SelectTrigger className="w-full h-8 pt-2 pb-2 outline-none">
           <SelectValue placeholder="" />
         </SelectTrigger>
         <SelectContent>
           {options.map((option) => (
-            <SelectItem key={option.id} value={option.value}>
+            <SelectItem key={option.id} value={String(option.value)}>
               {option.value}
             </SelectItem>
           ))}
