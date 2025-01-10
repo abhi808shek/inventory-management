@@ -33,6 +33,7 @@ const BaseLayout = () => {
   const titleObj: any = {
     "/roles": "ROLE-LIST",
     "/users": "USER-LIST",
+    "/users/add": "USER-ADD",
     "/purchase-orders": "PO-LIST",
     "/invoicing": "INVOICE-LIST",
     "/challan": "CHALLAN-LIST",
@@ -41,9 +42,7 @@ const BaseLayout = () => {
   // Dynamic Table Architechture API Fetcher Function
   const dynamicTableArchitectureFunction = handleAsync(async () => {
     const res = await DynamicTableArchitectureApi(titleObj[location.pathname]);
-    dispatch(
-      dynamicTableArchitectureList(res?.data?.data?.page_header ?? null)
-    );
+    dispatch(dynamicTableArchitectureList(res?.data?.data ?? null));
     return res;
   });
   const { execute: dynamicDataArchitectureFetcher } = useApi(
@@ -70,7 +69,7 @@ const BaseLayout = () => {
                 {/* <SidebarTrigger /> */}
                 {/* <Separator orientation="vertical" className="mr-2 h-4" /> */}
                 <BreadcrumbList>
-                  {dynamicTableArchitecture?.breadcrumb?.map(
+                  {dynamicTableArchitecture?.page_header?.breadcrumb?.map(
                     (item: any, index: number) => (
                       <BreadcrumbItem key={item.link}>
                         <BreadcrumbLink
@@ -80,7 +79,9 @@ const BaseLayout = () => {
                           {item.label}
                         </BreadcrumbLink>
                         {index <
-                          dynamicTableArchitecture?.breadcrumb.length - 1 && (
+                          dynamicTableArchitecture?.page_header?.breadcrumb
+                            ?.length -
+                            1 && (
                           <BreadcrumbSeparator className="">
                             <ChevronRight
                               style={{ color: "#000", fontSize: "6px" }}
@@ -94,10 +95,10 @@ const BaseLayout = () => {
               </div>
               <div className="flex justify-between">
                 <span className="text-[28px] font-bold text-[var(--deafult-Btn-color)]">
-                  {dynamicTableArchitecture?.title}
+                  {dynamicTableArchitecture?.page_header?.title}
                 </span>
                 <div className="gap-[12px] flex justify-between items-center">
-                  {dynamicTableArchitecture?.buttons?.map(
+                  {dynamicTableArchitecture?.page_header?.buttons?.map(
                     (item: any, index: number) => (
                       <Fragment key={index}>
                         <Popover>
