@@ -45,6 +45,25 @@ const UpdateInvoicing = lazy(() => import("@/pages/invoicing/update"));
 const Challan = lazy(() => import("@/pages/challan"));
 const AddChallan = lazy(() => import("@/pages/challan/add"));
 const UpdateChallan = lazy(() => import("@/pages/challan/update"));
+
+/*
+const routes = [
+  {
+    path: "/role",
+    mainComponent: <Roles />,
+  }
+]
+
+routes.map(route => {
+  <Route path={route.path}>
+              <Route index element={route.mainComponent} />
+              <Route path="add" element={<AddRole />} />
+              <Route path="update" element={<UpdateRole />} />
+            </Route>
+})
+
+*/
+
 const Routers = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
