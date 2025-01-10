@@ -4,11 +4,6 @@ const AddUser = () => {
   const { dynamicTableArchitecture } = useSelector(
     (state: any) => state.dynamictableHeader
   );
-  console.log(
-    "dynamicTableArchitecture?.formBody",
-    dynamicTableArchitecture?.formBody
-  );
-
   return (
     <form className="dynamic-form">
       {dynamicTableArchitecture?.formBody?.map((row: any, rowIndex: number) => (

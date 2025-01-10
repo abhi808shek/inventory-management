@@ -7,6 +7,7 @@ import handleAsync from "@/utils/handleAsync";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "../style.module.css";
+import ViewSettings from "@/components/ViewSettings";
 const Users = () => {
   const [viewSettingMode, setViewSettingMode] = useState(false);
   const {
@@ -54,15 +55,12 @@ const Users = () => {
         </div>
       </div>
       {/* View Setting Pannel or Sections */}
-      {/* <div
-      className={`viewSettings hidden h-[90%] sm:flex items-center justify-center  bg-blue-300 ${
-        viewSettingMode ? "w-[30%]" : "hidden"
-      }`}
-    >
-      <div className="w-[90%] h-[90%] bg-white rounded-lg border-[1px]">
-        View Settings
-      </div>
-    </div> */}
+      {viewSettingMode && (
+        <ViewSettings
+          dynamictableHeader={dynamictableHeader}
+          setViewSettingMode={setViewSettingMode}
+        />
+      )}
     </div>
   );
 };

@@ -7,6 +7,8 @@ import handleAsync from "@/utils/handleAsync";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "../style.module.css";
+import ViewSettings from "@/components/ViewSettings";
+
 const Roles = () => {
   const [viewSettingMode, setViewSettingMode] = useState(false);
   const { dynamictableHeader } = useSelector(
@@ -22,6 +24,7 @@ const Roles = () => {
   });
   const colsFormat =
     dynamictableHeader?.table_top?.buttons?.menu?.columns?.all_cols;
+
   const { execute: dynamicDataHeaderFetcher } = useApi(
     dynamicTableHeaderFunction
   );
@@ -37,8 +40,11 @@ const Roles = () => {
   useEffect(() => {
     dynamicDataHeaderFetcher();
   }, []);
+
+  console.log("viewSettingMode", viewSettingMode);
+
   return (
-    <div className=" w-full h-full flex overflow-hidden">
+    <div className=" w-full h-full flex overflow-hidden gap-2">
       {/* Left Table Sections */}
       <div className={`leftTable h-max max-h-[92%] w-full overflow-x-auto`}>
         <div className="bg-white h-full w-full rounded-lg ">
@@ -46,22 +52,21 @@ const Roles = () => {
             setViewSettingMode={setViewSettingMode}
             viewSettingMode={viewSettingMode}
             styles={styles}
+            dynamictableHeader={dynamictableHeader}
           />
+
           <div className="w-full overflow-x-auto">
             <DynamicTable colsData={colsFormat} data={[]} />
           </div>
         </div>
       </div>
       {/* View Setting Pannel or Sections */}
-      {/* <div
-      className={`viewSettings hidden h-[90%] sm:flex items-center justify-center  bg-blue-300 ${
-        viewSettingMode ? "w-[30%]" : "hidden"
-      }`}
-    >
-      <div className="w-[90%] h-[90%] bg-white rounded-lg border-[1px]">
-        View Settings
-      </div>
-    </div> */}
+      {viewSettingMode && (
+        <ViewSettings
+          dynamictableHeader={dynamictableHeader}
+          setViewSettingMode={setViewSettingMode}
+        />
+      )}
     </div>
   );
 };
