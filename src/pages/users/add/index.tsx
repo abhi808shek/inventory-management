@@ -8,7 +8,7 @@ const AddUser = () => {
     <form className="dynamic-form">
       {dynamicTableArchitecture?.formBody?.map((row: any, rowIndex: number) => (
         <div className="form-row" key={`row-${rowIndex}`}>
-          {Object.entries(row).map(([key, columns]: any) =>
+          {Object.entries(row).map(([_, columns]: any) =>
             columns.map((col: any, colIndex: number) => (
               <div className="form-col" key={`col-${rowIndex}-${colIndex}`}>
                 {col?.map((field: any, fieldIndex: number) => (
