@@ -10,7 +10,7 @@ const ViewSettings = ({ dynamictableHeader, setViewSettingMode }: any) => {
   ];
 
   return (
-    <div className="viewSettings hidden sm:w-[30%] px-5 gap-2 max-h-[calc(100dvh - 70px)] sm:flex items-center justify-center flex-col bg-white rounded-t-lg">
+    <div className="viewSettings hidden sm:w-[30%] px-5 gap-2 sm:flex items-center justify-center flex-col bg-white rounded-t-lg">
       <div className="h-[52px] flex justify-between  items-center w-full border-b-[1px] border-[#E5E7E8] ">
         <span> {dynamictableHeader?.table_top?.buttons?.menu?.title}</span>
         <span
@@ -23,8 +23,8 @@ const ViewSettings = ({ dynamictableHeader, setViewSettingMode }: any) => {
 
       {/* View Settings Filter Box */}
       <div
-        className="w-[90%] h-[90%] px-5 bg-white rounded-lg border-[1px] py-3 overflow-auto"
-        style={{ height: "calc(100% - 52px)" }}
+        className="w-[90%] px-5 bg-white rounded-lg border-[1px] py-3 overflow-auto"
+        // style={{ height: "calc(100dvh - var(--navbar-height) - 100px)" }}
       >
         <div className="flex items-center justify-between h-5 py-4">
           <span className="font-medium text-sm">Filters</span>
