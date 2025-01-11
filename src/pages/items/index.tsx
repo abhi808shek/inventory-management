@@ -5,10 +5,11 @@ import BAR_CODE_IMAGE from "@/assets/images/bar_code_image.png";
 import SCANNER_IMAGE from "@/assets/images/scan_image.png";
 import { Separator } from "@/components/ui/separator";
 import MultiInput from "@/components/MultiInput";
-import { ChevronDownIcon } from "lucide-react";
+// import { ChevronDownIcon } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import SHIELD_ICON from "@/assets/images/shield_icon.svg";
+import SelectUi from "@/components/select-ui";
 
 const options = [
   { label: "Option 1", value: "option1" },
@@ -206,7 +207,7 @@ export const InputField = ({
         className={`text-sm absolute left-2 px-1 bg-white transition-all ${
           focused || value
             ? "text-[12px] -top-2 text-[#999999]"
-            : "text-gray-400 top-1/2 -translate-y-1/2"
+            : "text-gray-400 top-[1/2] -translate-y-1/2"
         }`}
         onClick={handleLabelClick}
       >
@@ -268,50 +269,50 @@ const FloatingTextArea = ({ label = "Label", placeholder = "Placeholder" }) => {
   );
 };
 
-const FloatingSelect = ({ label = "Label", options = [] }: any) => {
-  const [value, setValue] = useState("");
-  const [focused, setFocused] = useState(false);
-  const selectRef = useRef<HTMLSelectElement>(null);
+// const FloatingSelect = ({ label = "Label", options = [] }: any) => {
+//   const [value, setValue] = useState("");
+//   const [focused, setFocused] = useState(false);
+//   const selectRef = useRef<HTMLSelectElement>(null);
 
-  const handleLabelClick = () => {
-    if (selectRef.current) {
-      selectRef.current.focus();
-    }
-  };
+//   const handleLabelClick = () => {
+//     if (selectRef.current) {
+//       selectRef.current.focus();
+//     }
+//   };
 
-  return (
-    <div className="relative w-full">
-      <label
-        className={`text-sm absolute left-2 px-1 bg-white transition-all z-10 ${
-          focused || value
-            ? "text-sm -top-2 text-[#999999]"
-            : "text-gray-400 top-1/2 -translate-y-1/2"
-        }`}
-        onClick={handleLabelClick}
-      >
-        {label}
-      </label>
-      <div className="relative">
-        <select
-          ref={selectRef}
-          className="appearance-none border border-gray-300 rounded-md px-2 pt-2 pb-1 w-full focus:outline-none placeholder:text-xs z-30"
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          onFocus={() => setFocused(true)}
-          onBlur={() => setFocused(false)}
-        >
-          <option value="" disabled hidden></option>
-          {options.map((option: any) => (
-            <option key={option.id} value={option.value}>
-              {option.value}
-            </option>
-          ))}
-        </select>
-        <ChevronDownIcon className="absolute top-1/2 right-2 w-5 h-5 text-gray-400 pointer-events-none transform -translate-y-1/2" />
-      </div>
-    </div>
-  );
-};
+//   return (
+//     <div className="relative w-full">
+//       <label
+//         className={`text-sm absolute left-2 px-1 bg-white transition-all z-10 ${
+//           focused || value
+//             ? "text-sm -top-2 text-[#999999]"
+//             : "text-gray-400 top-1/2 -translate-y-1/2"
+//         }`}
+//         onClick={handleLabelClick}
+//       >
+//         {label}
+//       </label>
+//       <div className="relative">
+//         <select
+//           ref={selectRef}
+//           className="appearance-none border border-gray-300 rounded-md px-2 pt-2 pb-1 w-full focus:outline-none placeholder:text-xs z-30"
+//           value={value}
+//           onChange={(e) => setValue(e.target.value)}
+//           onFocus={() => setFocused(true)}
+//           onBlur={() => setFocused(false)}
+//         >
+//           <option value="" disabled hidden></option>
+//           {options.map((option: any) => (
+//             <option key={option.id} value={option.value}>
+//               {option.value}
+//             </option>
+//           ))}
+//         </select>
+//         <ChevronDownIcon className="absolute top-1/2 right-2 w-5 h-5 text-gray-400 pointer-events-none transform -translate-y-1/2" />
+//       </div>
+//     </div>
+//   );
+// };
 
 const FormRenderer: React.FC = () => {
   return (
@@ -426,15 +427,8 @@ const FormField: React.FC<{ element: any }> = ({ element }) => {
       );
     case "select":
       return (
-        // <select className="border rounded p-2 w-[200px]">
-        //   {element.menu?.map((option) => (
-        //     <option key={option.id} value={option.value}>
-        //       {option.value}
-        //     </option>
-        //   ))}
-        // </select>
-        <FloatingSelect
-          label={String(element.placeholder)}
+        <SelectUi
+          placeholder={String(element.placeholder)}
           options={element.menu ?? []}
         />
       );

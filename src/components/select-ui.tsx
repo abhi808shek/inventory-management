@@ -32,7 +32,7 @@ const SelectUi: React.FC<SelectUiProps> = ({ placeholder, options }) => {
       <label
         className={`text-sm absolute left-2 px-1 bg-white transition-all z-10 ${
           value
-            ? "text-xs -top-[9px] text-[#999999]"
+            ? "text-xs -top-[8px] text-[#999999]"
             : "text-gray-400 top-1/2 -translate-y-1/2"
         }`}
         onClick={handleLabelClick}
@@ -40,11 +40,11 @@ const SelectUi: React.FC<SelectUiProps> = ({ placeholder, options }) => {
         {placeholder}
       </label>
       <Select onValueChange={(value) => setValue(value)}>
-        <SelectTrigger className="w-full h-8 pt-2 pb-2 outline-none">
+        <SelectTrigger className="w-full h-10 pt-2 pb-2 outline-none">
           <SelectValue placeholder="" />
         </SelectTrigger>
         <SelectContent>
-          {options.map((option) => (
+          {options?.map((option) => (
             <SelectItem key={option.id} value={String(option.value)}>
               {option.value}
             </SelectItem>
