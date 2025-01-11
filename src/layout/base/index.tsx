@@ -22,6 +22,7 @@ import handleAsync from "@/utils/handleAsync";
 import { DynamicTableArchitectureApi } from "@/api/table.api";
 import useApi from "@/hooks/useApi";
 import { dynamicTableArchitectureList } from "@/store/dynamicTable/dynamic-table-reducer";
+import { titleObj } from "@/assets/data/routeOptions";
 
 const BaseLayout = () => {
   const [open, setOpen] = useState(false);
@@ -30,15 +31,6 @@ const BaseLayout = () => {
     (state: any) => state.dynamictableHeader
   );
   const dispatch = useDispatch();
-  const titleObj: any = {
-    "/roles": "ROLE-LIST",
-    "/permissions": "ROLE-ADD",
-    "/users": "USER-LIST",
-    "/users/add": "USER-ADD",
-    "/purchase-orders": "PO-LIST",
-    "/invoicing": "INVOICE-LIST",
-    "/challan": "CHALLAN-LIST",
-  };
 
   // Dynamic Table Architechture API Fetcher Function
   const dynamicTableArchitectureFunction = handleAsync(async () => {

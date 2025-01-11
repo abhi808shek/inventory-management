@@ -15,7 +15,6 @@ const LoginPage = lazy(() => import("@/pages/login"));
 const SignupPage = lazy(() => import("@/pages/signup"));
 const NotFound = lazy(() => import("@/pages/notfound"));
 const Notifications = lazy(() => import("@/pages/notifications"));
-const Permissions = lazy(() => import("@/pages/permissions"));
 
 // Users routes Page
 const AddForm = lazy(() => import("@/pages/addForm"));
@@ -34,17 +33,25 @@ const Routers = () => {
         <Route element={<PrivateRoute />}>
           <Route element={<BaseLayout />}>
             {ROUTE_OPTIONS?.map(
-              ({ component: Component, mainRoute }: any, index: number) => (
+              (
+                {
+                  component: Component,
+                  mainRoute,
+                  addComponent: AddComponent,
+                }: any,
+                index: number
+              ) => (
                 <Route path={mainRoute} key={index}>
                   <Route index element={<Component />} />
-                  <Route path="add" element={<AddForm />} />
+
+                  <Route
+                    path="add"
+                    element={AddComponent ? <AddComponent /> : <AddForm />}
+                  />
                   <Route path="update/:id" element={<UpdateForm />} />
                 </Route>
               )
             )}
-            <Route path="/permissions">
-              <Route index element={<Permissions />} />
-            </Route>
             <Route path="/notifications">
               <Route index element={<Notifications />} />
             </Route>
