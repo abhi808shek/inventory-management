@@ -36,6 +36,7 @@ const DynamicForm: FC<DynamicFormProps> = ({ formData }) => {
                 <div key={index} className="mb-4">
                   <label className="block text-sm font-medium mb-1">
                     {field.label}
+                    {field.required ? "*" : ""}
                   </label>
                   <input
                     type="text"
@@ -157,7 +158,7 @@ const DynamicForm: FC<DynamicFormProps> = ({ formData }) => {
   );
 
   return (
-    <div className="p-1">
+    <div className="p-3">
       {formData.map((section: any, idx: number) =>
         Object.values(section).map((sec: any) => renderSection(sec, idx))
       )}
