@@ -17,16 +17,29 @@ import { AllColsType, DataItem, DataType } from "@/types/tableDataType";
 import { ChevronDown, EllipsisVertical, MoveDown, MoveUp } from "lucide-react";
 import Pagination from "@/components/Pagination";
 import { Pencil, Trash2, Eye } from "lucide-react";
+import moment from "moment";
 import "./style.css";
 
 // Static column definitions (all_cols)
 type PROP_TYPE = {
   colsData: AllColsType;
   data: DataType;
-  rowsPerPage?: number; // Optional prop for rows per page
+  rowsPerPage?: number;
+  count?: number;
+  onClick?: (data: void) => void;
+  prevUrl?: string | null;
+  nextUrl?: string | null;
 };
 
-const DynamicTable: FC<PROP_TYPE> = ({ colsData, data, rowsPerPage = 4 }) => {
+const DynamicTable: FC<PROP_TYPE> = ({
+  colsData,
+  data,
+  rowsPerPage = 10,
+  count = 0,
+  onClick,
+  prevUrl = null,
+  nextUrl = null,
+}) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const resolveNestedKey = (obj: any, key: string): any => {
@@ -65,6 +78,10 @@ const DynamicTable: FC<PROP_TYPE> = ({ colsData, data, rowsPerPage = 4 }) => {
         <ChevronDown className="ml-1 w-[16px] h[16px]" />
       </div>
     );
+  };
+
+  const isDate = (text: string) => {
+    return moment(text, moment.ISO_8601, true).isValid();
   };
 
   return (
@@ -177,7 +194,9 @@ const DynamicTable: FC<PROP_TYPE> = ({ colsData, data, rowsPerPage = 4 }) => {
                       className="text-start text-[var(--table-data-light-variant-text-color)]"
                       key={colIndex}
                     >
-                      {cellValue || "-"}
+                      {isDate(cellValue)
+                        ? moment(cellValue).format("MMM DD, YYYY HH:mm:ss")
+                        : cellValue || "-"}
                     </TableCell>
                   );
                 }
@@ -258,8 +277,17 @@ const DynamicTable: FC<PROP_TYPE> = ({ colsData, data, rowsPerPage = 4 }) => {
       </Table>
       <Pagination
         currentPage={currentPage}
-        totalPages={30}
-        onClick={(page: number) => setCurrentPage(page)}
+        totalPages={
+          Math.ceil(count / rowsPerPage) === 0
+            ? 1
+            : Math.ceil(count / rowsPerPage)
+        }
+        onClick={(page: number, data: any) => {
+          setCurrentPage(page);
+          if (onClick) onClick(data);
+        }}
+        prevUrl={prevUrl}
+        nextUrl={nextUrl}
         rowsPerPage={rowsPerPage}
       />
     </div>

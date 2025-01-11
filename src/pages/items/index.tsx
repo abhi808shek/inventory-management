@@ -148,7 +148,6 @@ const formData: any = {
 
 export const InputField = ({
   label = "Label",
-  placeholder = "Placeholder",
   type = "text",
   defaultValue,
   name,
@@ -188,7 +187,7 @@ export const InputField = ({
         required={required}
         maxLength={maxLength}
         className="border border-gray-300 rounded-md px-2 pt-2 pb-1 w-full focus:outline-none  placeholder:text-xs"
-        placeholder={focused ? placeholder : ""}
+        // placeholder={focused ? placeholder : ""}
         value={value}
         onChange={(e) => setValue(e.target.value)}
         onFocus={() => setFocused(true)}
