@@ -1,4 +1,5 @@
 import Routers from "./routers/routers";
+import RemoveTrailingSlash from "@/components/RemoveSlashFromURl";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { BrowserRouter } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
@@ -31,12 +32,7 @@ const App = () => {
     <ErrorBoundary>
       <Toaster />
       <BrowserRouter>
-        {/* {pending ? ( */}
-        {/* <div className="w-full h-[100svh] flex items-center justify-center">
-            <LoadingComponent />
-          </div> */}
-        {/* ) : (
-        )} */}
+        <RemoveTrailingSlash />
         <Routers />
       </BrowserRouter>
     </ErrorBoundary>

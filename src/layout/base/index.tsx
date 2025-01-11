@@ -69,7 +69,7 @@ const BaseLayout = () => {
                     (item: any, index: number) => (
                       <BreadcrumbItem key={item.link}>
                         {architectureLoader ? (
-                          <Skeleton className="w-[100px] h-[20px] bg-red-300" />
+                          <Skeleton className="w-[100px] h-[20px] bg-[#f5f5f5]" />
                         ) : (
                           <BreadcrumbLink
                             href={item.link}
