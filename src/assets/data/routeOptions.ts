@@ -1,5 +1,4 @@
-import { lazy, Suspense } from "react";
-import { Routes, Route } from "react-router-dom";
+import { lazy } from "react";
 
 // Users routes Page
 const Users = lazy(() => import("@/pages/users/index.tsx"));
