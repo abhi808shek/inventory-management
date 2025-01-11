@@ -45,7 +45,7 @@ const BaseLayout = () => {
     execute: dynamicDataArchitectureFetcher,
   } = useApi(dynamicTableArchitectureFunction);
   useEffect(() => {
-    titleObj[location.pathname] && dynamicDataArchitectureFetcher();
+    if (titleObj[location.pathname]) dynamicDataArchitectureFetcher();
   }, [location.pathname]);
 
   return (
