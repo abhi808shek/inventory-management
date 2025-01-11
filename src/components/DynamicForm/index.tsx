@@ -1,5 +1,6 @@
 import { FC } from "react";
 import SelectUi from "@/components/select-ui";
+import { FloatingTextArea, InputField } from "@/pages/items";
 type DynamicFormProps = {
   formData: any[];
 };
@@ -16,7 +17,7 @@ const DynamicForm: FC<DynamicFormProps> = ({ formData }) => {
             {titles?.map((field: any, index: number) => (
               <h2
                 key={index}
-                className="text-lg font-semibold flex-1 text-start"
+                className="text-base text-[#6A7682] pb-3 font-semibold flex-1 text-start"
               >
                 {field.title}
               </h2>
@@ -33,7 +34,7 @@ const DynamicForm: FC<DynamicFormProps> = ({ formData }) => {
             case "input":
               return (
                 <div key={index} className="relative mb-6">
-                  <input
+                  {/* <input
                     type="text"
                     name={field?.key}
                     placeholder={placeholder}
@@ -41,6 +42,16 @@ const DynamicForm: FC<DynamicFormProps> = ({ formData }) => {
                     disabled={field?.read_only}
                     required={field?.required}
                     className="peer w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  /> */}
+
+                  <InputField
+                    type="text"
+                    name={field?.key}
+                    label={placeholder}
+                    placeholder={placeholder}
+                    defaultValue={field.field_value}
+                    disabled={field?.read_only}
+                    required={field?.required}
                   />
                 </div>
               );
@@ -50,13 +61,22 @@ const DynamicForm: FC<DynamicFormProps> = ({ formData }) => {
                   {/* <label className="block text-sm font-medium mb-1">
                     {field.label}
                   </label> */}
-                  <input
+                  {/* <input
                     type="number"
                     name={field?.key}
                     placeholder={placeholder}
                     defaultValue={field.field_value ?? ""}
                     required={field?.required}
                     className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  /> */}
+                  <InputField
+                    type="tel"
+                    name={field?.key}
+                    label={placeholder}
+                    placeholder={placeholder}
+                    defaultValue={field.field_value}
+                    required={field?.required}
+                    maxLength={10}
                   />
                 </div>
               );
@@ -78,12 +98,18 @@ const DynamicForm: FC<DynamicFormProps> = ({ formData }) => {
                   {/* <label className="block text-sm font-medium mb-1">
                     {field.label}
                   </label> */}
-                  <textarea
+                  {/* <textarea
                     name={field?.key}
                     placeholder={placeholder}
                     defaultValue={field.field_value ?? ""}
                     required={field?.required}
-                    className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  /> */}
+                  <FloatingTextArea
+                    name={field?.key}
+                    label={placeholder}
+                    placeholder={placeholder}
+                    defaultValue={field.field_value}
+                    required={field?.required}
                   />
                 </div>
               );

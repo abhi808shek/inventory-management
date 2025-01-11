@@ -16,43 +16,6 @@ const options = [
   { label: "Option 2", value: "option2" },
   { label: "Option 3", value: "option3" },
 ];
-// type MenuOption = {
-//   id: number;
-//   value: string;
-// };
-
-// type FormField = {
-//   label?: string;
-//   type:
-//     | "input"
-//     | "select"
-//     | "number"
-//     | "decimal"
-//     | "text"
-//     | "multi-input"
-//     | "multi-upload"
-//     | "qr"
-//     | "barcode"
-//     | "scan";
-//   placeholder?: string | number;
-//   menu?: MenuOption[];
-//   max?: number; // For multi-upload max files
-// };
-
-// type SectionTitle = {
-//   title: string;
-// };
-
-// type FormElement = FormField | SectionTitle;
-
-// type FormRow = FormElement[];
-
-// type FormBody = FormRow[][];
-
-// type FormData = {
-//   "form-top": FormField[];
-//   "form-body": FormBody;
-// };
 
 const formData: any = {
   "form-top": [
@@ -187,8 +150,12 @@ export const InputField = ({
   label = "Label",
   placeholder = "Placeholder",
   type = "text",
-}) => {
-  const [value, setValue] = useState("");
+  defaultValue,
+  name,
+  required,
+  maxLength,
+}: any) => {
+  const [value, setValue] = useState(defaultValue ?? "");
   const [focused, setFocused] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -204,7 +171,7 @@ export const InputField = ({
     <div className="relative w-full">
       {/* Label inside the border */}
       <label
-        className={`text-sm absolute left-2 px-1 bg-white transition-all ${
+        className={`text-xs sm:text-sm absolute left-2 px-1 bg-white transition-all ${
           focused || value
             ? "text-[12px] -top-2 text-[#999999]"
             : "text-gray-400 top-[1/2] -translate-y-1/2"
@@ -215,8 +182,11 @@ export const InputField = ({
       </label>
       {/* Input field */}
       <input
+        name={name}
         ref={inputRef}
         type={type}
+        required={required}
+        maxLength={maxLength}
         className="border border-gray-300 rounded-md px-2 pt-2 pb-1 w-full focus:outline-none  placeholder:text-xs"
         placeholder={focused ? placeholder : ""}
         value={value}
@@ -228,8 +198,14 @@ export const InputField = ({
   );
 };
 
-const FloatingTextArea = ({ label = "Label", placeholder = "Placeholder" }) => {
-  const [value, setValue] = useState("");
+export const FloatingTextArea = ({
+  name,
+  label = "Label",
+  placeholder = "Placeholder",
+  defaultValue,
+  required,
+}: any) => {
+  const [value, setValue] = useState(defaultValue ?? "");
   const [focused, setFocused] = useState(false);
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -245,7 +221,7 @@ const FloatingTextArea = ({ label = "Label", placeholder = "Placeholder" }) => {
     <div className="relative w-full">
       {/* Floating Label */}
       <label
-        className={`text-sm absolute left-2 px-1 bg-white transition-all ${
+        className={`text-xs sm:text-sm absolute left-2 px-1 bg-white transition-all ${
           focused || value
             ? "text-sm -top-2 text-[#999999]"
             : "text-gray-400 top-3"
@@ -256,7 +232,9 @@ const FloatingTextArea = ({ label = "Label", placeholder = "Placeholder" }) => {
       </label>
       {/* Text Area */}
       <textarea
+        name={name}
         ref={textAreaRef}
+        required={required}
         className="border border-gray-300 rounded-md p-2 pt-6 w-full focus:outline-none placeholder:text-xs"
         placeholder={focused ? placeholder : ""}
         value={value}

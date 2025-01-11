@@ -15,8 +15,9 @@ const SearchTable = ({
   return (
     <div className="h-[56px] flex">
       {/* Search Section */}
-      {searchField === "SEARCH" && (
-        <div className="w-[70%] sm:w-1/2 flex items-center pl-4">
+
+      <div className="w-[70%] sm:w-1/2 flex items-center pl-4">
+        {searchField === "SEARCH" && (
           <div className="flex items-center justify-evenly w-[170px] h-[32px] border-2 rounded-lg">
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
               <path
@@ -32,14 +33,14 @@ const SearchTable = ({
               className={`w-[80%] pl-1 outline-none text-xs ${styles.searchPlaceholder}`}
             />
           </div>
-          {/* <Link
+        )}
+        {/* <Link
           to={"/"}
           className="text-[#666666] font-normal text-xl border-b-[1px] border-[#666666]"
         >
           New Role
         </Link> */}
-        </div>
-      )}
+      </div>
       {viewSettingsButton === "TABLE SETTINGS" && (
         <div className="w-[30%] sm:w-1/2 flex items-center justify-end pr-4 cursor-pointer ">
           {/* View Setting Button */}
