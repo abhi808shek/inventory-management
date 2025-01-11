@@ -54,6 +54,8 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
     };
   }, []);
 
+  console.log("activeOption", activeOption);
+
   return (
     <Sidebar
       {...props}
@@ -83,7 +85,7 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
                         activeOption === path
                           ? "bg-[var(--sidebar-selected-option-bg)] text-white hover:bg-[var(--sidebar-selected-option-bg)]"
                           : !children
-                          ? "hover:bg-[var(--hover-bg-option)] hover:text-white !important"
+                          ? "hover:bg-[var(--hover-bg-option)]"
                           : ""
                       }`}
                       onClick={() => {
@@ -111,7 +113,13 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
                       ) : (
                         <Link
                           to={path}
-                          className="font-normal text-base flex items-center hover:text-black"
+                          className={`font-normal text-base flex items-center ${
+                            isHovered === label
+                              ? activeOption === path
+                                ? "text-white"
+                                : "text-black"
+                              : ""
+                          }`}
                           onMouseEnter={() =>
                             activeOption !== path && setIsHovered(label)
                           }
