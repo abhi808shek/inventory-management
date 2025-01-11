@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import { Fragment } from "react";
 import { Filter, X } from "lucide-react";
 import SwitchUi from "@/components/switch-ui";
 import { Separator } from "@/components/ui/separator";
