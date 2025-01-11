@@ -57,8 +57,8 @@ const Routers = () => {
             <Route path="/notifications">
               <Route index element={<Notifications />} />
             </Route>
-            <Route path="*" element={<NotFound />} />
           </Route>
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
     </Suspense>
