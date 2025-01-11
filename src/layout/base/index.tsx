@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/popover";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { Fragment, useEffect, useState } from "react";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ChevronRight } from "lucide-react";
 import SearchCommand from "@/components/ui/search-command";
@@ -32,7 +32,7 @@ const BaseLayout = () => {
     (state: any) => state.dynamictableHeader
   );
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   // Dynamic Table Architechture API Fetcher Function
   const dynamicTableArchitectureFunction = handleAsync(async () => {
     const res = await DynamicTableArchitectureApi(titleObj[location.pathname]);
@@ -149,6 +149,7 @@ const BaseLayout = () => {
                           <Button
                             variant="filterButton"
                             className="h-[31.83px!important]"
+                            onClick={() => navigate(item?.link)}
                           >
                             {item?.label}
                           </Button>

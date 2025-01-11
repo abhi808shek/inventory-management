@@ -1,8 +1,14 @@
-import { DynamicTableHeaderApi } from "@/api/table.api";
+import {
+  DynamicTableHeaderApi,
+  DynamicUserTableDataApi,
+} from "@/api/table.api";
 import DynamicTable from "@/components/dynamicTable";
 import SearchTable from "@/components/search-table";
 import useApi from "@/hooks/useApi";
-import { dynamicTableHeaderList } from "@/store/dynamicTable/dynamic-table-reducer";
+import {
+  dynamicTableDataList,
+  dynamicTableHeaderList,
+} from "@/store/dynamicTable/dynamic-table-reducer";
 import handleAsync from "@/utils/handleAsync";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,15 +16,14 @@ import styles from "../style.module.css";
 import ViewSettings from "@/components/ViewSettings";
 const Users = () => {
   const [viewSettingMode, setViewSettingMode] = useState(false);
-  const {
-    dynamictableHeader,
-    // , dynamicTableData
-  } = useSelector((state: any) => state.dynamictableHeader);
+  const { dynamictableHeader, dynamicTableData } = useSelector(
+    (state: any) => state.dynamictableHeader
+  );
   const dispatch = useDispatch();
 
   // Dynamic Table Header API Fetcher Function
   const dynamicTableHeaderFunction = handleAsync(async () => {
-    const res = await DynamicTableHeaderApi("INVOICE-LIST");
+    const res = await DynamicTableHeaderApi("USER-LIST");
     dispatch(dynamicTableHeaderList(res.data?.data ?? null));
     return res;
   });
@@ -28,16 +33,18 @@ const Users = () => {
     dynamicTableHeaderFunction
   );
   // Dynamic Table Data API Fetcher Function
-  // const dynamicTableDataFunction = handleAsync(async () => {
-  //   // const res = await DynamicTableDataApi();
-  //   console.log("res", res);
-  //   dispatch(dynamicTableDataList(res.data?.data ?? null));
-  //   return res;
-  // });
+  const dynamicUserTableDataFunction = handleAsync(async () => {
+    const res = await DynamicUserTableDataApi("user");
+    dispatch(dynamicTableDataList(res.data?.data ?? null));
+    return res;
+  });
 
-  // const { execute: dynamicDataTableFetcher } = useApi(dynamicTableDataFunction);
+  const { execute: dynamicUserDataTableFetcher } = useApi(
+    dynamicUserTableDataFunction
+  );
   useEffect(() => {
     dynamicDataHeaderFetcher();
+    dynamicUserDataTableFetcher();
   }, []);
   return (
     <div className=" w-full h-full flex overflow-hidden">
@@ -50,7 +57,10 @@ const Users = () => {
             styles={styles}
           />
           <div className="w-full overflow-x-auto">
-            <DynamicTable colsData={colsFormat} data={[]} />
+            <DynamicTable
+              colsData={colsFormat}
+              data={dynamicTableData?.results}
+            />
           </div>
         </div>
       </div>

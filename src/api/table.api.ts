@@ -10,8 +10,13 @@ export const DynamicTableHeaderApi = async (tableName: string) => {
   const response = await AXIOS.get(endpoint);
   return response;
 };
-export const DynamicTableDataApi = async () => {
-  const endpoint = `/auth/v1/user`;
+export const DynamicUserTableDataApi = async (type: string) => {
+  const endpoint = `/auth/v1/${type}`;
+  const response = await AXIOS.get(endpoint);
+  return response;
+};
+export const DynamicWorkflowTableDataApi = async (type: string) => {
+  const endpoint = `/workflow/v1/${type}`;
   const response = await AXIOS.get(endpoint);
   return response;
 };
