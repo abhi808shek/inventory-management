@@ -13,7 +13,11 @@ const AddForm = () => {
         {
           row1: [
             {
-              title: "USER INFO",
+              col1: [
+                {
+                  title: "USER INFO",
+                },
+              ],
             },
           ],
         },
@@ -111,7 +115,11 @@ const AddForm = () => {
         {
           row1: [
             {
-              title: "Dates",
+              col1: [
+                {
+                  title: "DATES",
+                },
+              ],
             },
           ],
         },
@@ -205,6 +213,7 @@ const AddForm = () => {
       ],
     },
   ];
+
   return (
     <div className="h-[calc(100svh-var(--navbar-height)-100px)] overflow-y-auto custom-scrollbar">
       <DynamicForm formData={formBody} />

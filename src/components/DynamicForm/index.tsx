@@ -4,211 +4,28 @@ import SelectUi from "@/components/select-ui";
 type DynamicFormProps = {
   formData: any[];
 };
-// const formBody = [
-//   {
-//     section1: [
-//       {
-//         row1: [
-//           {
-//             title: "USER INFO",
-//           },
-//         ],
-//       },
-//       {
-//         row2: [
-//           {
-//             col1: [
-//               {
-//                 key: "name",
-//                 type: "input",
-//                 label: "Name",
-//                 placeholder: "Full Name",
-//                 field_value: "John Doe",
-//                 required: true,
-//               },
-//             ],
-//           },
-//           {
-//             col2: [
-//               {
-//                 key: "email",
-//                 type: "input",
-//                 label: "Email",
-//                 placeholder: "Email Id",
-//                 field_value: "john.doe@jd.com",
-//                 read_only: true,
-//                 required: true,
-//               },
-//             ],
-//           },
-//         ],
-//       },
-//       {
-//         row3: [
-//           {
-//             col1: [
-//               {
-//                 key: "mobile_number",
-//                 type: "number",
-//                 label: "Phone (Optional)",
-//                 placeholder: "Mobile Number",
-//                 field_value: 9988776655,
-//                 required: false,
-//               },
-//             ],
-//           },
-//           {
-//             col2: [
-//               {
-//                 key: "role",
-//                 menu: [
-//                   {
-//                     id: 1,
-//                     value: "ADMIN",
-//                   },
-//                   {
-//                     id: 2,
-//                     value: "MANAGER",
-//                   },
-//                   {
-//                     id: 3,
-//                     value: "USER",
-//                   },
-//                 ],
-//                 type: "select",
-//                 label: "Role",
-//                 placeholder: "role",
-//                 field_value: 2,
-//                 required: true,
-//               },
-//             ],
-//           },
-//         ],
-//       },
-//       {
-//         row4: [
-//           {
-//             col1: [
-//               {
-//                 key: "address",
-//                 type: "text",
-//                 label: "Address",
-//                 placeholder: "Address",
-//                 field_value: "Kabi",
-//                 required: false,
-//               },
-//             ],
-//           },
-//         ],
-//       },
-//     ],
-//   },
-//   {
-//     section2: [
-//       {
-//         row1: [
-//           {
-//             title: "Dates",
-//           },
-//         ],
-//       },
-//       {
-//         row2: [
-//           {
-//             col1: [
-//               {
-//                 key: "name",
-//                 type: "input",
-//                 label: "Name",
-//                 placeholder: "Full Name",
-//                 field_value: "John Doe",
-//                 required: true,
-//               },
-//             ],
-//           },
-//           {
-//             col2: [
-//               {
-//                 key: "email",
-//                 type: "input",
-//                 label: "Email",
-//                 placeholder: "Email Id",
-//                 field_value: "john.doe@jd.com",
-//                 read_only: true,
-//                 required: true,
-//               },
-//             ],
-//           },
-//         ],
-//       },
-//       {
-//         row3: [
-//           {
-//             col1: [
-//               {
-//                 key: "mobile_number",
-//                 type: "number",
-//                 label: "Phone (Optional)",
-//                 placeholder: "Mobile Number",
-//                 field_value: 9988776655,
-//                 required: false,
-//               },
-//             ],
-//           },
-//           {
-//             col2: [
-//               {
-//                 key: "role",
-//                 menu: [
-//                   {
-//                     id: 1,
-//                     value: "ADMIN",
-//                   },
-//                   {
-//                     id: 2,
-//                     value: "MANAGER",
-//                   },
-//                   {
-//                     id: 3,
-//                     value: "USER",
-//                   },
-//                 ],
-//                 type: "select",
-//                 label: "Role",
-//                 placeholder: "role",
-//                 field_value: 2,
-//                 required: true,
-//               },
-//             ],
-//           },
-//         ],
-//       },
-//       {
-//         row4: [
-//           {
-//             col1: [
-//               {
-//                 key: "address",
-//                 type: "text",
-//                 label: "Address",
-//                 placeholder: "Address",
-//                 field_value: null,
-//                 required: false,
-//               },
-//             ],
-//           },
-//         ],
-//       },
-//     ],
-//   },
-// ];
 
 const DynamicForm: FC<DynamicFormProps> = ({ formData }) => {
   const renderField = (fields: any[]) => {
+    const titles = fields.filter((field) => field.title);
+    const otherFields = fields.filter((field) => !field.title);
+
     return (
       <div>
-        {fields.map((field: any, index: number) => {
-          // Dynamically modify placeholder to include an asterisk if required
+        {titles.length > 0 && (
+          <div className="flex flex-wrap gap-4 mb-2">
+            {titles.map((field: any, index: number) => (
+              <h2
+                key={index}
+                className="text-lg font-semibold flex-1 text-start"
+              >
+                {field.title}
+              </h2>
+            ))}
+          </div>
+        )}
+
+        {otherFields.map((field: any, index: number) => {
           const placeholder = field.required
             ? `${field.placeholder ?? ""} *`
             : field.placeholder ?? "";
@@ -286,47 +103,50 @@ const DynamicForm: FC<DynamicFormProps> = ({ formData }) => {
     );
   };
 
-  const renderRow = (row: any) => (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      {Object.entries(row as any).map(([colKey, colFields]) => {
-        return (
-          <div key={colKey} className="col-span-1">
-            {Object.entries(colFields as any).map((field: any, idx: number) => {
-              const label = field[1].required
-                ? `${field[1].label ?? ""} *`
-                : field[1].label ?? "";
-              return (
-                <div key={idx} className="mb-4">
-                  <label className="block text-sm font-medium mb-1">
-                    {label}
-                  </label>
-                  {renderField(field[1])}
-                </div>
-              );
-            })}
-          </div>
-        );
-      })}
-    </div>
-  );
+  const renderRow = (row: any) => {
+    const columnCount = Object.keys(row).length;
+
+    return (
+      <div
+        className={`grid gap-4 ${
+          columnCount === 1 ? "grid-cols-1" : `grid-cols-${columnCount}`
+        }`}
+      >
+        {Object.entries(row).map(([_, colFields], colIndex) => {
+          return (
+            <div
+              key={colIndex}
+              className={`${
+                columnCount === 1 ? "col-span-full" : `col-span-1`
+              }`}
+            >
+              {Object.entries(colFields as any).map(
+                ([fieldKey, field], idx) => {
+                  const label = (field as any).required
+                    ? `${(field as any).label ?? ""} *`
+                    : (field as any).label ?? "";
+                  return (
+                    <div key={fieldKey + idx}>
+                      <label className="block text-sm font-medium mb-1">
+                        {label}
+                      </label>
+                      {renderField(field as any)}
+                    </div>
+                  );
+                }
+              )}
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
 
   const renderSection = (section: any[], idx: number) => (
-    <div key={idx} className="mb-6">
-      {/* Check for row1 and title in the first item */}
-      {section[0]?.row1 && section[0]?.row1[0]?.title && (
-        <h2 className="text-lg font-semibold mb-4">
-          {section[0]?.row1[0]?.title}
-        </h2>
-      )}
-
-      {/* Iterate through the section array */}
+    <div key={idx} className="mb-6 shadow p-4 bg-white rounded">
       {section.map((row: any, rowIndex: number) => {
-        // Skip "row1" if it's used for the title
-        if (row.row1) return null;
-
-        // Render the remaining rows
         return (
-          <div key={rowIndex} className="mb-4">
+          <div key={rowIndex}>
             {Object.entries(row as any).map(([_, rowFields]) => {
               return renderRow(rowFields);
             })}
@@ -337,7 +157,7 @@ const DynamicForm: FC<DynamicFormProps> = ({ formData }) => {
   );
 
   return (
-    <div className="p-4">
+    <div className="p-1">
       {formData.map((section: any, idx: number) =>
         Object.values(section).map((sec: any) => renderSection(sec, idx))
       )}
