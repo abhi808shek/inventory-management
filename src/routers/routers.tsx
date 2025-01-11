@@ -6,6 +6,7 @@ import { ROUTE_OPTIONS } from "@/assets/data/routeOptions";
 //Routes
 import PrivateRoute from "@/routers/PrivateRoute";
 import PublicRoute from "@/routers/PublicRoute";
+import Dashboard from "@/pages/dashboard";
 
 // Layouts
 const AuthLayout = lazy(() => import("@/layout/auth"));
@@ -32,6 +33,7 @@ const Routers = () => {
         </Route>
         <Route element={<PrivateRoute />}>
           <Route element={<BaseLayout />}>
+            <Route index element={<Dashboard />} />
             {ROUTE_OPTIONS?.map(
               (
                 {

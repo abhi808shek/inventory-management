@@ -45,10 +45,8 @@ const BaseLayout = () => {
     execute: dynamicDataArchitectureFetcher,
   } = useApi(dynamicTableArchitectureFunction);
   useEffect(() => {
-    dynamicDataArchitectureFetcher();
+    titleObj[location.pathname] && dynamicDataArchitectureFetcher();
   }, [location.pathname]);
-
-  console.log("architectureLoader", architectureLoader);
 
   return (
     <div className="w-full h-[100svh] overflow-hidden">

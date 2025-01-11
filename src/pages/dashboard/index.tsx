@@ -1,7 +1,11 @@
-import React from "react";
+import NotFound from "../notfound";
 
 const Dashboard = () => {
-  return <div>index</div>;
+  return (
+    <div>
+      <NotFound />
+    </div>
+  );
 };
 
 export default Dashboard;
