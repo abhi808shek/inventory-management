@@ -85,10 +85,6 @@ const DynamicTable: FC<PROP_TYPE> = ({ colsData, data, rowsPerPage = 4 }) => {
                 <div className="flex items-center gap-1">
                   <span> {col.headerName}</span>
                   <span className="cursor-pointer">
-                    {/* <ArrowUpDown
-                      size={14}
-                      className="text-[var(--light-text)]"
-                    /> */}
                     <ArrowUpDown size={14} className="text-[#c0c0c0]" />
                   </span>
                 </div>
@@ -99,13 +95,7 @@ const DynamicTable: FC<PROP_TYPE> = ({ colsData, data, rowsPerPage = 4 }) => {
             </TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody
-          // style={{
-          //   maxHeight: `calc(100vh - var(--navbar-height) - 280px) !important`,
-          //   overflowY: "auto",
-          // }}
-          className="max-h-[calc(100svh-var(--navbar-height)-280px)) overflow-y-auto custom-scrollbar"
-        >
+        <TableBody className="max-h-[calc(100svh-var(--navbar-height)-280px)) overflow-y-auto custom-scrollbar">
           {data?.map((item, index: number) => (
             <TableRow key={index}>
               <TableCell className="text-[var(--light-text)] text-center">

@@ -9,6 +9,7 @@ import { ChevronDownIcon } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import SHIELD_ICON from "@/assets/images/shield_icon.svg";
+import SelectUi from "@/components/select-ui";
 
 const options = [
   { label: "Option 1", value: "option1" },
@@ -206,7 +207,7 @@ export const InputField = ({
         className={`text-sm absolute left-2 px-1 bg-white transition-all ${
           focused || value
             ? "text-[12px] -top-2 text-[#999999]"
-            : "text-gray-400 top-1/2 -translate-y-1/2"
+            : "text-gray-400 top-[1/2] -translate-y-1/2"
         }`}
         onClick={handleLabelClick}
       >
@@ -426,15 +427,8 @@ const FormField: React.FC<{ element: any }> = ({ element }) => {
       );
     case "select":
       return (
-        // <select className="border rounded p-2 w-[200px]">
-        //   {element.menu?.map((option) => (
-        //     <option key={option.id} value={option.value}>
-        //       {option.value}
-        //     </option>
-        //   ))}
-        // </select>
-        <FloatingSelect
-          label={String(element.placeholder)}
+        <SelectUi
+          placeholder={String(element.placeholder)}
           options={element.menu ?? []}
         />
       );

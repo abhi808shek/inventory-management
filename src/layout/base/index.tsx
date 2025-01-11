@@ -23,6 +23,7 @@ import { DynamicTableArchitectureApi } from "@/api/table.api";
 import useApi from "@/hooks/useApi";
 import { dynamicTableArchitectureList } from "@/store/dynamicTable/dynamic-table-reducer";
 import { titleObj } from "@/assets/data/routeOptions";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const BaseLayout = () => {
   const [open, setOpen] = useState(false);
@@ -38,12 +39,16 @@ const BaseLayout = () => {
     dispatch(dynamicTableArchitectureList(res?.data?.data ?? null));
     return res;
   });
-  const { execute: dynamicDataArchitectureFetcher } = useApi(
-    dynamicTableArchitectureFunction
-  );
+
+  const {
+    pending: architectureLoader,
+    execute: dynamicDataArchitectureFetcher,
+  } = useApi(dynamicTableArchitectureFunction);
   useEffect(() => {
     dynamicDataArchitectureFetcher();
   }, [location.pathname]);
+
+  console.log("architectureLoader", architectureLoader);
 
   return (
     <div className="w-full h-[100svh] overflow-hidden">
@@ -65,12 +70,17 @@ const BaseLayout = () => {
                   {dynamicTableArchitecture?.page_header?.breadcrumb?.map(
                     (item: any, index: number) => (
                       <BreadcrumbItem key={item.link}>
-                        <BreadcrumbLink
-                          href={item.link}
-                          className={`capitalize ${item.variant}`}
-                        >
-                          {item.label}
-                        </BreadcrumbLink>
+                        {architectureLoader ? (
+                          <Skeleton className="w-[100px] h-[20px] bg-red-300" />
+                        ) : (
+                          <BreadcrumbLink
+                            href={item.link}
+                            className={`capitalize ${item.variant}`}
+                          >
+                            {item.label}
+                          </BreadcrumbLink>
+                        )}
+
                         {index <
                           dynamicTableArchitecture?.page_header?.breadcrumb
                             ?.length -
