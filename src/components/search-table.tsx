@@ -10,7 +10,7 @@ const SearchTable = ({
   viewSettingMode,
   dynamictableHeader,
 }: any) => {
-  const searchField = "SEARCH" || dynamictableHeader?.table_top?.search_field;
+  const searchField = dynamictableHeader?.table_top?.search_field;
   const viewSettingsButton = dynamictableHeader?.table_top?.buttons?.type;
   return (
     <div className="h-[56px] flex">

@@ -182,7 +182,7 @@ const formData: any = {
   ],
 };
 
-const InputField = ({
+export const InputField = ({
   label = "Label",
   placeholder = "Placeholder",
   type = "text",
