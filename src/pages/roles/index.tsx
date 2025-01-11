@@ -1,8 +1,14 @@
-import { DynamicTableHeaderApi } from "@/api/table.api";
+import {
+  DynamicTableHeaderApi,
+  DynamicUserTableDataApi,
+} from "@/api/table.api";
 import DynamicTable from "@/components/dynamicTable";
 import SearchTable from "@/components/search-table";
 import useApi from "@/hooks/useApi";
-import { dynamicTableHeaderList } from "@/store/dynamicTable/dynamic-table-reducer";
+import {
+  dynamicTableDataList,
+  dynamicTableHeaderList,
+} from "@/store/dynamicTable/dynamic-table-reducer";
 import handleAsync from "@/utils/handleAsync";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -29,19 +35,19 @@ const Roles = () => {
     dynamicTableHeaderFunction
   );
   // Dynamic Table Data API Fetcher Function
-  // const dynamicTableDataFunction = handleAsync(async () => {
-  //   // const res = await DynamicTableDataApi();
-  //   console.log("res", res);
-  //   dispatch(dynamicTableDataList(res.data?.data ?? null));
-  //   return res;
-  // });
+  const dynamicUserTableDataFunction = handleAsync(async () => {
+    const res = await DynamicUserTableDataApi("user-role");
+    dispatch(dynamicTableDataList(res.data?.data ?? null));
+    return res;
+  });
 
-  // const { execute: dynamicDataTableFetcher } = useApi(dynamicTableDataFunction);
+  const { execute: dynamicUserDataTableFetcher } = useApi(
+    dynamicUserTableDataFunction
+  );
   useEffect(() => {
     dynamicDataHeaderFetcher();
+    dynamicUserDataTableFetcher();
   }, []);
-
-  console.log("viewSettingMode", viewSettingMode);
 
   return (
     <div className=" w-full h-full flex overflow-hidden gap-2">

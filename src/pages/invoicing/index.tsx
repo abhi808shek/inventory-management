@@ -1,8 +1,14 @@
-import { DynamicTableHeaderApi } from "@/api/table.api";
+import {
+  DynamicTableHeaderApi,
+  DynamicWorkflowTableDataApi,
+} from "@/api/table.api";
 import DynamicTable from "@/components/dynamicTable";
 import SearchTable from "@/components/search-table";
 import useApi from "@/hooks/useApi";
-import { dynamicTableHeaderList } from "@/store/dynamicTable/dynamic-table-reducer";
+import {
+  dynamicTableDataList,
+  dynamicTableHeaderList,
+} from "@/store/dynamicTable/dynamic-table-reducer";
 import handleAsync from "@/utils/handleAsync";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,10 +17,9 @@ import ViewSettings from "@/components/ViewSettings";
 
 const Invoices = () => {
   const [viewSettingMode, setViewSettingMode] = useState(false);
-  const {
-    dynamictableHeader,
-    // , dynamicTableData
-  } = useSelector((state: any) => state.dynamictableHeader);
+  const { dynamictableHeader, dynamicTableData } = useSelector(
+    (state: any) => state.dynamictableHeader
+  );
   const dispatch = useDispatch();
 
   // Dynamic Table Header API Fetcher Function
@@ -29,17 +34,18 @@ const Invoices = () => {
     dynamicTableHeaderFunction
   );
   // Dynamic Table Data API Fetcher Function
-  // const dynamicTableDataFunction = handleAsync(async () => {
-  //   // const res = await DynamicTableDataApi();
-  //   console.log("res", res);
-  //   dispatch(dynamicTableDataList(res.data?.data ?? null));
-  //   return res;
-  // });
+  const dynamicWorkflowTableDataFunction = handleAsync(async () => {
+    const res = await DynamicWorkflowTableDataApi("invoice-order");
+    dispatch(dynamicTableDataList(res.data?.data ?? null));
+    return res;
+  });
 
-  // const { execute: dynamicDataTableFetcher } = useApi(dynamicTableDataFunction);
+  const { execute: dynamicWorkflowDataTableFetcher } = useApi(
+    dynamicWorkflowTableDataFunction
+  );
   useEffect(() => {
     dynamicDataHeaderFetcher();
-    // dynamicDataTableFetcher();
+    dynamicWorkflowDataTableFetcher();
   }, []);
   return (
     <div className=" w-full h-full flex overflow-hidden">
@@ -52,7 +58,10 @@ const Invoices = () => {
             styles={styles}
           />
           <div className="w-full overflow-x-auto">
-            <DynamicTable colsData={colsFormat} data={[]} />
+            <DynamicTable
+              colsData={colsFormat}
+              data={dynamicTableData?.results}
+            />
           </div>
         </div>
       </div>
