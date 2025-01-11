@@ -41,20 +41,25 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
   } = useSidebar();
   const { pathname } = useLocation();
 
+  const getLabel = () => {
+    const option = sidebarOptions.find(
+      (sOption) =>
+        sOption.children &&
+        sOption.children.findIndex((child) => pathname === child.path) >= 0
+    );
+    return option?.label ?? null;
+  };
+
   useEffect(() => {
     setActiveOption(pathname);
-    const mainOption = sidebarOptions.find((option) =>
-      pathname.includes(option.path)
-    );
-    if (mainOption) {
-      setOpenDropdown(mainOption.label);
+    const label = getLabel();
+    if (label) {
+      setOpenDropdown(label);
     }
     return () => {
       setActiveOption("/");
     };
   }, []);
-
-  console.log("activeOption", activeOption);
 
   return (
     <Sidebar
@@ -149,13 +154,11 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
                             <SidebarMenuSubButton
                               asChild
                               className={`pl-5 cursor-pointer py-5 transition-all duration-300  ${
-                                activeOption === path + child.path
+                                activeOption === child.path
                                   ? "bg-[var(--sidebar-selected-option-bg)] text-white hover:bg-[var(--sidebar-selected-option-bg)] hover:text-white"
                                   : "text-[var(--light-text)] hover:text-[var(--light-text)] hover:bg-[var(--hover-bg-option)]"
                               } font-normal text-sm`}
-                              onClick={() =>
-                                setActiveOption(`${path}${child.path}`)
-                              }
+                              onClick={() => setActiveOption(child.path)}
                             >
                               <Link to={`${child.path}`}>{child.label}</Link>
                             </SidebarMenuSubButton>
