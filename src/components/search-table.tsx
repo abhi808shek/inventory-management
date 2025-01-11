@@ -12,6 +12,10 @@ const SearchTable = ({
 }: any) => {
   const searchField = dynamictableHeader?.table_top?.search_field;
   const viewSettingsButton = dynamictableHeader?.table_top?.buttons?.type;
+
+  console.log("dynamictableHeader?.table_top?.buttons", dynamictableHeader);
+  console.log("viewSettingsButton", viewSettingsButton);
+
   return (
     <div className="h-[56px] flex">
       {/* Search Section */}

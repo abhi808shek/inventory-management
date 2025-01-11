@@ -55,6 +55,7 @@ const PurchaseOrders = () => {
             setViewSettingMode={setViewSettingMode}
             viewSettingMode={viewSettingMode}
             styles={styles}
+            dynamictableHeader={dynamictableHeader}
           />
           <div className="w-full overflow-x-auto">
             <DynamicTable
