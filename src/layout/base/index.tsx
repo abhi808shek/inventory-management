@@ -35,6 +35,7 @@ const BaseLayout = () => {
   const navigate = useNavigate();
   // Dynamic Table Architechture API Fetcher Function
   const dynamicTableArchitectureFunction = handleAsync(async () => {
+    // const API = Object.keys(titleObj).find(obj => obj.includes())
     const res = await DynamicTableArchitectureApi(titleObj[location.pathname]);
     dispatch(dynamicTableArchitectureList(res?.data?.data ?? null));
     return res;

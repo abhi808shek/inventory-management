@@ -17,7 +17,7 @@ import ViewSettings from "@/components/ViewSettings";
 
 const Roles = () => {
   const [viewSettingMode, setViewSettingMode] = useState(false);
-  const { dynamictableHeader } = useSelector(
+  const { dynamictableHeader, dynamicTableData } = useSelector(
     (state: any) => state.dynamictableHeader
   );
   const dispatch = useDispatch();
@@ -35,18 +35,18 @@ const Roles = () => {
     dynamicTableHeaderFunction
   );
   // Dynamic Table Data API Fetcher Function
-  const dynamicUserTableDataFunction = handleAsync(async () => {
+  const dynamicRoleTableDataFunction = handleAsync(async () => {
     const res = await DynamicUserTableDataApi("user-role");
     dispatch(dynamicTableDataList(res.data?.data ?? null));
     return res;
   });
 
-  const { execute: dynamicUserDataTableFetcher } = useApi(
-    dynamicUserTableDataFunction
+  const { execute: dynamicRoleDataTableFetcher } = useApi(
+    dynamicRoleTableDataFunction
   );
   useEffect(() => {
     dynamicDataHeaderFetcher();
-    dynamicUserDataTableFetcher();
+    dynamicRoleDataTableFetcher();
   }, []);
 
   return (
@@ -62,7 +62,10 @@ const Roles = () => {
           />
 
           <div className="w-full overflow-x-auto">
-            <DynamicTable colsData={colsFormat} data={[]} />
+            <DynamicTable
+              colsData={colsFormat}
+              data={dynamicTableData?.results}
+            />
           </div>
         </div>
       </div>

@@ -114,165 +114,178 @@ const DynamicTable: FC<PROP_TYPE> = ({
           </TableRow>
         </TableHeader>
         <TableBody className="max-h-[calc(100svh-var(--navbar-height)-280px)) overflow-y-auto custom-scrollbar">
-          {data?.map((item, index: number) => (
-            <TableRow key={index}>
-              <TableCell className="text-[var(--light-text)] text-center">
-                {rowsPerPage * (currentPage - 1) + index + 1}
-              </TableCell>
-              {colsData?.map((col, colIndex: number) => {
-                const config = col.config;
+          {data?.length ? (
+            data?.map((item, index: number) => (
+              <TableRow key={index}>
+                <TableCell className="text-[var(--light-text)] text-center">
+                  {rowsPerPage * (currentPage - 1) + index + 1}
+                </TableCell>
+                {colsData?.map((col, colIndex: number) => {
+                  const config = col.config;
 
-                // Multi-row data handling (e.g., User column)
-                if (config.type === "multi_row") {
-                  return (
-                    <TableCell key={colIndex}>
-                      {config?.values?.map((value, valueIndex) => {
-                        const key: string = value.value.key;
-                        const data = item[key as keyof DataItem];
+                  // Multi-row data handling (e.g., User column)
+                  if (config.type === "multi_row") {
+                    return (
+                      <TableCell key={colIndex}>
+                        {config?.values?.map((value, valueIndex) => {
+                          const key: string = value.value.key;
+                          const data = item[key as keyof DataItem];
 
-                        if (value.value.type === "link" && value?.value?.link) {
-                          const link = value.value.link.replace(
-                            "[1]",
-                            item.id.toString()
-                          );
-                          return (
-                            <div key={valueIndex}>
-                              <Link
-                                to={link}
-                                className="font-normal text-[var(--table-data-link-variant-text-color)] hover:underline"
+                          if (
+                            value.value.type === "link" &&
+                            value?.value?.link
+                          ) {
+                            const link = value.value.link.replace(
+                              "[1]",
+                              item.id.toString()
+                            );
+                            return (
+                              <div key={valueIndex}>
+                                <Link
+                                  to={link}
+                                  className="font-normal text-[var(--table-data-link-variant-text-color)] hover:underline"
+                                >
+                                  {data?.toString()}
+                                </Link>
+                              </div>
+                            );
+                          } else {
+                            return (
+                              <div
+                                key={valueIndex}
+                                className="font-normal text-[var(--table-data-light-variant-text-color)]"
                               >
                                 {data?.toString()}
-                              </Link>
-                            </div>
-                          );
-                        } else {
-                          return (
-                            <div
-                              key={valueIndex}
-                              className="font-normal text-[var(--table-data-light-variant-text-color)]"
-                            >
-                              {data?.toString()}
-                            </div>
-                          );
-                        }
-                      })}
-                    </TableCell>
-                  );
-                }
-
-                if (
-                  config.type === "data" &&
-                  config.key &&
-                  !Array.isArray(config.key)
-                ) {
-                  const cellValue = resolveNestedKey(item, config.key);
-
-                  // If the column has a link configuration
-                  if (config.link) {
-                    const link = config.link.replace(
-                      "[1]",
-                      resolveNestedKey(
-                        item,
-                        config.linkParams?.[0] as string
-                      ) || ""
+                              </div>
+                            );
+                          }
+                        })}
+                      </TableCell>
                     );
+                  }
+
+                  if (
+                    config.type === "data" &&
+                    config.key &&
+                    !Array.isArray(config.key)
+                  ) {
+                    const cellValue = resolveNestedKey(item, config.key);
+
+                    // If the column has a link configuration
+                    if (config.link) {
+                      const link = config.link.replace(
+                        "[1]",
+                        resolveNestedKey(
+                          item,
+                          config.linkParams?.[0] as string
+                        ) || ""
+                      );
+                      return (
+                        <TableCell key={colIndex} className="text-start">
+                          <Link
+                            to={link}
+                            className="text-[var(--table-data-link-variant-text-color)] underline"
+                          >
+                            {cellValue || "-"}
+                          </Link>
+                        </TableCell>
+                      );
+                    }
+
+                    // Render plain data
+                    return (
+                      <TableCell
+                        className="text-start text-[var(--table-data-light-variant-text-color)]"
+                        key={colIndex}
+                      >
+                        {isDate(cellValue)
+                          ? moment
+                              .utc(cellValue)
+                              .format("MMM DD, YYYY HH:mm:ss")
+                          : cellValue || "-"}
+                      </TableCell>
+                    );
+                  }
+
+                  // Link data rendering (e.g., Role, Project)
+                  if (
+                    (config.type === "link" || config.type === "dataArray") &&
+                    config.link
+                  ) {
+                    const link = config.link?.replace(
+                      "[1]",
+                      (item[config.linkParams?.[0] as keyof DataItem] ||
+                        item.id) as string
+                    );
+                    const data = config.key.includes(".")
+                      ? resolveNestedKey(item, config.key as string)
+                      : item[config.key as keyof DataItem];
                     return (
                       <TableCell key={colIndex} className="text-start">
                         <Link
                           to={link}
-                          className="text-[var(--table-data-link-variant-text-color)] underline"
+                          className="font-medium text-[var(--table-data-link-variant-text-color)] hover:underline"
                         >
-                          {cellValue || "-"}
+                          {data?.name || data}
                         </Link>
                       </TableCell>
                     );
                   }
 
-                  // Render plain data
-                  return (
-                    <TableCell
-                      className="text-start text-[var(--table-data-light-variant-text-color)]"
-                      key={colIndex}
-                    >
-                      {isDate(cellValue)
-                        ? moment(cellValue).format("MMM DD, YYYY HH:mm:ss")
-                        : cellValue || "-"}
-                    </TableCell>
-                  );
-                }
-
-                // Link data rendering (e.g., Role, Project)
-                if (
-                  (config.type === "link" || config.type === "dataArray") &&
-                  config.link
-                ) {
-                  const link = config.link?.replace(
-                    "[1]",
-                    (item[config.linkParams?.[0] as keyof DataItem] ||
-                      item.id) as string
-                  );
-                  const data = config.key.includes(".")
-                    ? resolveNestedKey(item, config.key as string)
-                    : item[config.key as keyof DataItem];
-                  return (
-                    <TableCell key={colIndex} className="text-start">
-                      <Link
-                        to={link}
-                        className="font-medium text-[var(--table-data-link-variant-text-color)] hover:underline"
+                  // Status handling
+                  if (config.type === "status") {
+                    return (
+                      <TableCell
+                        key={colIndex}
+                        className="w-auto text-center m-auto"
                       >
-                        {data?.name || data}
-                      </Link>
-                    </TableCell>
-                  );
-                }
+                        <StatusCell
+                          status={
+                            (item[config.key as keyof DataItem] ||
+                              "Unknown") as string
+                          }
+                        />
+                      </TableCell>
+                    );
+                  }
 
-                // Status handling
-                if (config.type === "status") {
-                  return (
-                    <TableCell
-                      key={colIndex}
-                      className="w-auto text-center m-auto"
+                  return <TableCell key={colIndex}>-</TableCell>;
+                })}
+                <TableCell className="text-center">
+                  <Popover>
+                    <PopoverTrigger>
+                      <div className="bg-[#F5F6F7] m-auto w-[26px] h-[26px] rounded-full flex items-center justify-center cursor-pointer">
+                        <EllipsisVertical width={16} height={16} />
+                      </div>
+                    </PopoverTrigger>
+                    <PopoverContent
+                      className="w-[150px] bg-white shadow-lg"
+                      align="end"
+                      sideOffset={0}
                     >
-                      <StatusCell
-                        status={
-                          (item[config.key as keyof DataItem] ||
-                            "Unknown") as string
-                        }
-                      />
-                    </TableCell>
-                  );
-                }
-
-                return <TableCell key={colIndex}>-</TableCell>;
-              })}
-              <TableCell className="text-center">
-                <Popover>
-                  <PopoverTrigger>
-                    <div className="bg-[#F5F6F7] m-auto w-[26px] h-[26px] rounded-full flex items-center justify-center cursor-pointer">
-                      <EllipsisVertical width={16} height={16} />
-                    </div>
-                  </PopoverTrigger>
-                  <PopoverContent
-                    className="w-[150px] bg-white shadow-lg"
-                    align="end"
-                    sideOffset={0}
-                  >
-                    <ul>
-                      {actionButtonOptions?.map((item, index) => (
-                        <li
-                          className="flex gap-3 cursor-pointer hover:bg-[var(--hover-bg-option)] p-2 pl-1 rounded text-sm"
-                          key={index}
-                        >
-                          {item?.Icon && <item.Icon size={18} />}
-                          {item?.label}
-                        </li>
-                      ))}
-                    </ul>
-                  </PopoverContent>
-                </Popover>
-              </TableCell>
-            </TableRow>
-          ))}
+                      <ul>
+                        {actionButtonOptions?.map((item, index) => (
+                          <li
+                            className="flex gap-3 cursor-pointer hover:bg-[var(--hover-bg-option)] p-2 pl-1 rounded text-sm"
+                            key={index}
+                          >
+                            {item?.Icon && <item.Icon size={18} />}
+                            {item?.label}
+                          </li>
+                        ))}
+                      </ul>
+                    </PopoverContent>
+                  </Popover>
+                </TableCell>
+              </TableRow>
+            ))
+          ) : (
+            // <TableRow className="w-full">
+            <TableCell className="w-full text-center py-4 font-medium">
+              No Data Found
+            </TableCell>
+            // </TableRow>
+          )}
         </TableBody>
       </Table>
       <Pagination
