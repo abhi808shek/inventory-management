@@ -256,12 +256,12 @@ const Sidebar = React.forwardRef<
           className={cn(
             `duration-200 ${
               isOnlyHoverOpen ? "absolute" : "relative"
-            } h-svh w-[--sidebar-width] bg-transparent transition-[width] ease-linear`,
+            } w-[--sidebar-width] bg-transparent transition-[width] ease-linear`,
             "group-data-[collapsible=offcanvas]:w-5",
             "group-data-[side=right]:rotate-180",
             variant === "floating" || variant === "inset"
-              ? "group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4))]"
-              : "hidden group-data-[collapsible=icon]:w-[--sidebar-width-icon]"
+              ? "h-svh group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4))]"
+              : "h-[calc(100svh - var(--navbar-height))] overflow-hidden group-data-[collapsible=icon]:w-[--sidebar-width-icon]"
           )}
         />
         <div
@@ -353,12 +353,12 @@ const SidebarInset = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"main">
 >(({ className, ...props }, ref) => {
-  const { isHoverOpen } = useSidebar();
+  const { isHoverOpen, open } = useSidebar();
   return (
     <main
       ref={ref}
       className={cn(
-        `overflow-x-auto ${
+        `overflow-x-auto ${open ? "" : "ml-1"} ${
           isHoverOpen ? "absolute top-var(--navbar-height))" : "min-h-svh"
         } flex flex-1 flex-col bg-background`,
         "peer-data-[variant=inset]:min-h-[calc(100svh-theme(spacing.4))] md:peer-data-[variant=inset]:m-2 md:peer-data-[state=collapsed]:peer-data-[variant=inset]:ml-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow",
