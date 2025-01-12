@@ -13,11 +13,11 @@ const buttonVariants = cva(
         outline:
           "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
         destructive:
-          "bg-red-600 h-[31.83px!important] font-normal text-base text-white rounded-[6.92px]",
+          "bg-red-600 h-[31.83px!important] font-medium text-xs text-white rounded-[6.92px]",
         success:
-          "bg-green-600 h-[31.83px!important] font-normal text-base text-white rounded-[6.92px]",
+          "bg-green-600 h-[31.83px!important] font-medium text-xs text-white rounded-[6.92px]",
         filterButton:
-          "h-[31.83px!important] font-normal text-base text-white bg-[#5159B8] rounded-[6.92px]",
+          "h-[31.83px!important] font-medium text-xs text-white bg-[#5159B8] rounded-[6.92px]",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         socialMedia:
