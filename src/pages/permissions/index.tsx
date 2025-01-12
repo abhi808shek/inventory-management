@@ -34,7 +34,7 @@ const Permissions = () => {
                 New Role
               </Link> */}
               <input
-                className="border-b-2 border-[#999999] bg-transparent p-1 pb-0 focus:outline-none placeholder:font-normal w-[200px]"
+                className="border-b-[1px] border-[var(--light-text)] bg-transparent p-1 pb-0 focus:outline-none placeholder:font-normal w-[200px]"
                 placeholder="New Role"
               />
             </div>

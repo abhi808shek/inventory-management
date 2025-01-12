@@ -8,6 +8,7 @@ const Roles = lazy(() => import("@/pages/roles"));
 
 // Items routes Page
 const Items = lazy(() => import("@/pages/items"));
+const AddItems = lazy(() => import("@/pages/addItem"));
 
 // Purchase Orders routes Page
 const PurchaseOrders = lazy(() => import("@/pages/purchaseOrders"));
@@ -34,6 +35,7 @@ export const ROUTE_OPTIONS = [
   {
     mainRoute: "/items",
     component: Items,
+    addComponent: AddItems,
   },
   {
     mainRoute: "/purchase-orders",
@@ -50,13 +52,12 @@ export const ROUTE_OPTIONS = [
 ];
 
 export const titleObj: any = {
-  "/permissions": "ROLE-ADD",
   "/roles": "ROLE-LIST",
   "/roles/add": "ROLE-ADD",
   "/roles/update/:id": "ROLE-UPDATE",
-  "/items": "USER-ADD",
-  "/items/add": "USER-ADD",
-  "/items/update/:id": "USER-UPDATE",
+  "/items": "ITEM-LIST",
+  "/items/add": "ITEM-ADD",
+  "/items/update/:id": "ITEM-UPDATE",
   "/users": "USER-LIST",
   "/users/add": "USER-ADD",
   "/users/update/:id": "USER-UPDATE",

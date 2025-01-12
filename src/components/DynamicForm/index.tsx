@@ -1,6 +1,6 @@
 import { FC } from "react";
 import SelectUi from "@/components/select-ui";
-import { FloatingTextArea, InputField } from "@/pages/items";
+import { FloatingTextArea, InputField } from "@/pages/item";
 import DatePicker from "@/components/DatePicker";
 
 type DynamicFormProps = {
@@ -11,7 +11,11 @@ const DynamicForm: FC<DynamicFormProps> = ({ formData }) => {
   const renderField = (fields: any[]) => {
     const titles = fields.filter((field) => field.title);
     const otherFields = fields.filter((field) => !field.title);
-
+    const onHandleChange = (event: any) => {
+      const { name, value } = event.target;
+      console.log("Name", name);
+      console.log("value", value);
+    };
     return (
       <div>
         {titles.length > 0 && (
@@ -54,6 +58,7 @@ const DynamicForm: FC<DynamicFormProps> = ({ formData }) => {
                     defaultValue={field.field_value}
                     disabled={field?.read_only}
                     required={field?.required}
+                    onHandleChange={onHandleChange}
                   />
                 </div>
               );
@@ -95,6 +100,7 @@ const DynamicForm: FC<DynamicFormProps> = ({ formData }) => {
                     defaultValue={field.field_value}
                     required={field?.required}
                     maxLength={10}
+                    onHandleChange={onHandleChange}
                   />
                 </div>
               );
@@ -107,6 +113,7 @@ const DynamicForm: FC<DynamicFormProps> = ({ formData }) => {
                   <SelectUi
                     options={field?.menu}
                     placeholder={field?.placeholder ?? field?.label}
+                    onHandleChange={onHandleChange}
                   />
                 </div>
               );
@@ -128,6 +135,7 @@ const DynamicForm: FC<DynamicFormProps> = ({ formData }) => {
                     placeholder={placeholder}
                     defaultValue={field.field_value}
                     required={field?.required}
+                    onHandleChange={onHandleChange}
                   />
                 </div>
               );

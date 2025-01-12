@@ -15,9 +15,14 @@ interface SelectOption {
 interface SelectUiProps {
   placeholder: string;
   options: SelectOption[];
+  onHandleChange: any;
 }
 
-const SelectUi: React.FC<SelectUiProps> = ({ placeholder, options }) => {
+const SelectUi: React.FC<SelectUiProps> = ({
+  placeholder,
+  options,
+  onHandleChange,
+}) => {
   const [value, setValue] = useState("");
   const selectRef = useRef<HTMLSelectElement>(null);
 
@@ -39,7 +44,7 @@ const SelectUi: React.FC<SelectUiProps> = ({ placeholder, options }) => {
       >
         {placeholder}
       </label>
-      <Select onValueChange={(value) => setValue(value)}>
+      <Select onValueChange={onHandleChange}>
         <SelectTrigger className="w-full h-10 pt-2 pb-2 outline-none">
           <SelectValue placeholder="" />
         </SelectTrigger>
