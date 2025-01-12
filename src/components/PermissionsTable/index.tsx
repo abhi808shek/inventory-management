@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { ChevronDown, Check } from "lucide-react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { roleIdListSetter } from "@/store/roles/roles-reducer";
 
 interface Permission {
   id: number;
@@ -87,7 +88,7 @@ const PermissionsTable: React.FC = () => {
   const { dynamicTableArchitecture } = useSelector(
     (state: any) => state.dynamictableHeader
   );
-
+  const dispatch = useDispatch();
   console.log("dynamicTableArchitecture", dynamicTableArchitecture);
 
   const toggleGroup = (label: string) => {
@@ -97,14 +98,18 @@ const PermissionsTable: React.FC = () => {
     }));
   };
 
-  const renderPermissionCells = (perms?: PermissionRow["perms"]) => {
+  const renderPermissionCells = (perms?: any) => {
+    const onHandleSelect = (type: any) => {
+      dispatch(roleIdListSetter(perms[type.toLowerCase()].id));
+    };
     return permissionsData.permission_types.map((type) => (
       <td key={type} className="px-4 py-2 text-center">
         <label className="inline-flex items-center cursor-pointer">
           <input
             type="checkbox"
             disabled={!perms?.[type.toLowerCase() as keyof typeof perms]}
-            defaultChecked={!!perms?.[type.toLowerCase() as keyof typeof perms]}
+            // defaultChecked={!!perms?.[type.toLowerCase() as keyof typeof perms]}
+            onChange={() => onHandleSelect(type)}
             className="hidden peer"
           />
           <div className="w-5 h-5 flex items-center border-[1px] border-[#D7D7DD] rounded bg-white peer-checked:bg-[#5159B8] peer-checked:border-[#5159B8] relative">

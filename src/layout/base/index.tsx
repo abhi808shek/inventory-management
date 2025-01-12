@@ -29,7 +29,7 @@ const BaseLayout = () => {
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const { id } = useParams();
-
+  const { roleName, roleIdList } = useSelector((state: any) => state.roles);
   const { dynamicTableArchitecture } = useSelector(
     (state: any) => state.dynamictableHeader
   );
@@ -168,6 +168,15 @@ const BaseLayout = () => {
                                     variant="filterButton"
                                     className="h-[31.83px!important]"
                                     onClick={() => {
+                                      if (
+                                        location.pathname.includes(item.link)
+                                      ) {
+                                        const dataObject = {
+                                          name: roleName,
+                                          permissions: roleIdList,
+                                        };
+                                        console.log("dataObject", dataObject);
+                                      }
                                       navigate(item?.link);
                                       // setExpandedGroups(false); // Uncomment if needed
                                     }}
@@ -193,7 +202,7 @@ const BaseLayout = () => {
                                     variant="success"
                                     className="h-[31.83px!important]"
                                     onClick={() => {
-                                      navigate(item?.link);
+                                      // navigate(item?.link);
                                       // setExpandedGroups(false); // Uncomment if needed
                                     }}
                                   >

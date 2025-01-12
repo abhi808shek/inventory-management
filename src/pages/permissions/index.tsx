@@ -1,7 +1,10 @@
 import PermissionsTable from "@/components/PermissionsTable";
+import { roleNameSetter } from "@/store/roles/roles-reducer";
 import { Check } from "lucide-react";
+import { useDispatch } from "react-redux";
 
 const Permissions = () => {
+  const dispatch = useDispatch();
   return (
     <div className="bg-white w-full rounded-sm max-h-[calc(100svh-var(--navbar-height)-100px)] flex overflow-hidden shadow">
       {/* Left Table Sections */}
@@ -36,6 +39,9 @@ const Permissions = () => {
               <input
                 className="border-b-[1px] border-[var(--light-text)] bg-transparent p-1 pb-0 focus:outline-none placeholder:font-normal w-[200px]"
                 placeholder="New Role"
+                onChange={(event) =>
+                  dispatch(roleNameSetter(event.target.value))
+                }
               />
             </div>
             <div className="w-[30%] sm:w-1/2 flex items-center justify-end pr-4 cursor-pointer ">
