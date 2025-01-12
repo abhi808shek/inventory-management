@@ -49,7 +49,7 @@ const DynamicTable: FC<PROP_TYPE> = ({
     return key.split(".").reduce((acc, part) => acc && acc[part], obj);
   };
 
-  const onClickEdit = (id: string) => {
+  const onClickEdit = (id: string | number) => {
     navigate(`${pathname}/update/${id}`);
   };
 

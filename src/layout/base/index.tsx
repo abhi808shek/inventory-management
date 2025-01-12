@@ -159,15 +159,51 @@ const BaseLayout = () => {
                             ))}
                           </PopoverContent>
                         </Popover>
-                        {item?.type === "ADD BUTTON" && (
-                          <Button
-                            variant="filterButton"
-                            className="h-[31.83px!important] text-xs font-medium"
-                            onClick={() => navigate(item?.link)}
-                          >
-                            {item?.label}
-                          </Button>
-                        )}
+                        {item?.type &&
+                          (() => {
+                            switch (item?.type) {
+                              case "ADD BUTTON":
+                                return (
+                                  <Button
+                                    variant="filterButton"
+                                    className="h-[31.83px!important]"
+                                    onClick={() => {
+                                      navigate(item?.link);
+                                      // setExpandedGroups(false); // Uncomment if needed
+                                    }}
+                                  >
+                                    {item?.label}
+                                  </Button>
+                                );
+                              case "CLOSE BUTTON":
+                                return (
+                                  <Button
+                                    variant="destructive"
+                                    className="h-[31.83px!important]"
+                                    onClick={() => {
+                                      navigate(-1);
+                                    }}
+                                  >
+                                    {item?.label}
+                                  </Button>
+                                );
+                              case "SUBMIT":
+                                return (
+                                  <Button
+                                    variant="success"
+                                    className="h-[31.83px!important]"
+                                    onClick={() => {
+                                      navigate(item?.link);
+                                      // setExpandedGroups(false); // Uncomment if needed
+                                    }}
+                                  >
+                                    {item?.label}
+                                  </Button>
+                                );
+                              default:
+                                return null; // Return null or any default fallback JSX
+                            }
+                          })()}
                       </Fragment>
                     )
                   )}
