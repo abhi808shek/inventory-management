@@ -49,6 +49,9 @@ const PurchaseOrders = () => {
     dynamicDataHeaderFetcher();
     dynamicWorkflowDataTableFetcher();
   }, []);
+
+  console.log("dynamicTableData", dynamicTableData);
+
   return (
     <div className="w-full h-full flex overflow-hidden">
       {/* Left Table Sections */}
@@ -67,6 +70,9 @@ const PurchaseOrders = () => {
               <DynamicTable
                 colsData={colsFormat}
                 data={dynamicTableData?.results}
+                count={dynamicTableData.count}
+                prevUrl={dynamicTableData.previous}
+                nextUrl={dynamicTableData.next}
               />
             )}
           </div>

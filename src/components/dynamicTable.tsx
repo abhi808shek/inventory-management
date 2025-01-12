@@ -315,6 +315,7 @@ const DynamicTable: FC<PROP_TYPE> = ({
         prevUrl={prevUrl}
         nextUrl={nextUrl}
         rowsPerPage={rowsPerPage}
+        totalCount={count}
       />
     </div>
   );
