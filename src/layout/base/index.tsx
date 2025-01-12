@@ -147,7 +147,6 @@ const BaseLayout = () => {
                             ))}
                           </PopoverContent>
                         </Popover>
-<<<<<<< HEAD
                         {item?.type &&
                           (() => {
                             switch (item?.type) {
@@ -193,17 +192,6 @@ const BaseLayout = () => {
                                 return null; // Return null or any default fallback JSX
                             }
                           })()}
-=======
-                        {item?.type === "ADD BUTTON" && (
-                          <Button
-                            variant="filterButton"
-                            className="h-[31.83px!important] text-xs font-medium"
-                            onClick={() => navigate(item?.link)}
-                          >
-                            {item?.label}
-                          </Button>
-                        )}
->>>>>>> cbe74cc7a110ccb69639c04ab43e4b009c210580
                       </Fragment>
                     )
                   )}
