@@ -9,6 +9,9 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: "bg-[#5D54C9] text-primary-foreground hover:bg-primary/90",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
+        outline:
+          "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
         destructive:
           "bg-red-600 h-[31.83px!important] font-normal text-base text-white rounded-[6.92px]",
         success:
@@ -20,6 +23,8 @@ const buttonVariants = cva(
         socialMedia:
           "w-full bg-[var(--input-bg-color)] border-none text-[#313957] font-normal text-sm",
         link: "text-primary underline-offset-4 hover:underline",
+        datePicker:
+          "bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
       },
       size: {
         default: "h-10 px-4 py-2",

@@ -5,7 +5,9 @@ type PROP_TYPE = {
   currentPage: number;
   totalPages: number;
   rowsPerPage: number;
-  onClick: (page: number) => void;
+  onClick?: (page: number, data: any) => void;
+  prevUrl: null | string;
+  nextUrl: null | string;
 };
 
 const Pagination: FC<PROP_TYPE> = ({
@@ -13,6 +15,8 @@ const Pagination: FC<PROP_TYPE> = ({
   totalPages,
   rowsPerPage,
   onClick,
+  prevUrl = null,
+  nextUrl = null,
 }) => {
   const renderPageNumbers = () => {
     const maxVisiblePages = 5; // Maximum number of pages to display
@@ -62,8 +66,8 @@ const Pagination: FC<PROP_TYPE> = ({
       <div className="flex gap-2 items-center justify-center">
         <button
           className="bg-[#F0F6FF] p-2 rounded-full"
-          disabled={currentPage === 1}
-          onClick={() => onClick(currentPage - 1)}
+          disabled={!prevUrl}
+          onClick={() => onClick && onClick(currentPage - 1, {})}
         >
           <MoveLeft
             color="#5D54C9"
@@ -81,7 +85,7 @@ const Pagination: FC<PROP_TYPE> = ({
                   ? "bg-[#5159B8] text-white"
                   : "text-[#626C70] hover:bg-gray-100"
               }`}
-              onClick={() => onClick(page)}
+              onClick={() => onClick && onClick(page, {})}
             >
               {String(page).padStart(2, "0")}
             </button>
@@ -96,8 +100,8 @@ const Pagination: FC<PROP_TYPE> = ({
         )}
         <button
           className="bg-[#F0F6FF] p-2 rounded-full"
-          disabled={currentPage === totalPages}
-          onClick={() => onClick(currentPage + 1)}
+          disabled={!nextUrl}
+          onClick={() => onClick && onClick(currentPage + 1, [])}
         >
           <MoveRight
             color="#5D54C9"

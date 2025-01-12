@@ -35,6 +35,7 @@ const BaseLayout = () => {
   const navigate = useNavigate();
   // Dynamic Table Architechture API Fetcher Function
   const dynamicTableArchitectureFunction = handleAsync(async () => {
+    // const API = Object.keys(titleObj).find(obj => obj.includes())
     const res = await DynamicTableArchitectureApi(titleObj[location.pathname]);
     dispatch(dynamicTableArchitectureList(res?.data?.data ?? null));
     return res;
@@ -44,6 +45,7 @@ const BaseLayout = () => {
     pending: architectureLoader,
     execute: dynamicDataArchitectureFetcher,
   } = useApi(dynamicTableArchitectureFunction);
+
   useEffect(() => {
     if (titleObj[location.pathname]) dynamicDataArchitectureFetcher();
   }, [location.pathname]);
@@ -105,7 +107,7 @@ const BaseLayout = () => {
                         <Popover>
                           <PopoverTrigger asChild>
                             {item?.type === "ACTION BUTTON" && (
-                              <span className="h-[28px] w-[43.27px] flex items-center justify-center bg-[#F0F6FF] rounded-[7.64px] cursor-pointer">
+                              <span className="h-[28px] w-[43.27px] flex items-center justify-center bg-[#F0F6FF] shadow-sm shadow-[var(--light-text)] rounded-[7.64px] cursor-pointer">
                                 <svg
                                   width="11"
                                   height="4"
@@ -145,6 +147,7 @@ const BaseLayout = () => {
                             ))}
                           </PopoverContent>
                         </Popover>
+<<<<<<< HEAD
                         {item?.type &&
                           (() => {
                             switch (item?.type) {
@@ -190,6 +193,17 @@ const BaseLayout = () => {
                                 return null; // Return null or any default fallback JSX
                             }
                           })()}
+=======
+                        {item?.type === "ADD BUTTON" && (
+                          <Button
+                            variant="filterButton"
+                            className="h-[31.83px!important] text-xs font-medium"
+                            onClick={() => navigate(item?.link)}
+                          >
+                            {item?.label}
+                          </Button>
+                        )}
+>>>>>>> cbe74cc7a110ccb69639c04ab43e4b009c210580
                       </Fragment>
                     )
                   )}

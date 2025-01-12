@@ -1,6 +1,8 @@
 import { FC } from "react";
 import SelectUi from "@/components/select-ui";
 import { FloatingTextArea, InputField } from "@/pages/items";
+import DatePicker from "@/components/DatePicker";
+
 type DynamicFormProps = {
   formData: any[];
 };
@@ -55,6 +57,22 @@ const DynamicForm: FC<DynamicFormProps> = ({ formData }) => {
                   />
                 </div>
               );
+            case "date":
+              return (
+                <div key={index} className="relative mb-6">
+                  {/* <input
+                    type="text"
+                    name={field?.key}
+                    placeholder={placeholder}
+                    defaultValue={field.field_value ?? ""}
+                    disabled={field?.read_only}
+                    required={field?.required}
+                    className="peer w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  /> */}
+
+                  <DatePicker />
+                </div>
+              );
             case "number":
               return (
                 <div key={index} className="mb-4">
@@ -88,7 +106,7 @@ const DynamicForm: FC<DynamicFormProps> = ({ formData }) => {
                   </label> */}
                   <SelectUi
                     options={field?.menu}
-                    placeholder={field?.placeholder}
+                    placeholder={field?.placeholder ?? field?.label}
                   />
                 </div>
               );

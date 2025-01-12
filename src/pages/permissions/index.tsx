@@ -1,6 +1,5 @@
 import PermissionsTable from "@/components/PermissionsTable";
 import { Check } from "lucide-react";
-import { Link } from "react-router-dom";
 
 const Permissions = () => {
   return (
@@ -28,12 +27,16 @@ const Permissions = () => {
             className={`w-[80%] pl-1 outline-none text-xs ${styles.searchPlaceholder}`}
           />
         </div> */}
-              <Link
+              {/* <Link
                 to={"/"}
                 className="text-[#666666] font-normal text-xl border-b-[1px] border-[#666666]"
               >
                 New Role
-              </Link>
+              </Link> */}
+              <input
+                className="border-b-2 border-[#999999] bg-transparent p-1 pb-0 focus:outline-none placeholder:font-normal w-[200px]"
+                placeholder="New Role"
+              />
             </div>
             <div className="w-[30%] sm:w-1/2 flex items-center justify-end pr-4 cursor-pointer ">
               {/* View Setting Button */}
