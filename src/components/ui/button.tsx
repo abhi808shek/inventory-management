@@ -12,7 +12,7 @@ const buttonVariants = cva(
         destructive:
           "bg-red-600 h-[31.83px!important] font-normal text-base text-white rounded-[6.92px]",
         success:
-          "bg-green-600  h-[31.83px!important] font-normal text-base text-white rounded-[6.92px]",
+          "bg-green-600 h-[31.83px!important] font-normal text-base text-white rounded-[6.92px]",
         filterButton:
           "h-[31.83px!important] font-normal text-base text-white bg-[#5159B8] rounded-[6.92px]",
         secondary:
