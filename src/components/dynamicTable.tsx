@@ -77,7 +77,7 @@ const DynamicTable: FC<PROP_TYPE> = ({
   const StatusCell = ({ status }: { status: string }) => {
     return (
       <div
-        className={` flex w-24 items-center px-2 py-1 rounded ${getStatusStyles(
+        className={`flex w-24 items-center px-2 py-1 rounded ${getStatusStyles(
           status
         )}`}
       >
@@ -315,6 +315,7 @@ const DynamicTable: FC<PROP_TYPE> = ({
         prevUrl={prevUrl}
         nextUrl={nextUrl}
         rowsPerPage={rowsPerPage}
+        totalCount={count}
       />
     </div>
   );

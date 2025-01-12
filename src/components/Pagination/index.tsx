@@ -4,6 +4,7 @@ import { MoveLeft, MoveRight } from "lucide-react";
 type PROP_TYPE = {
   currentPage: number;
   totalPages: number;
+  totalCount: number;
   rowsPerPage: number;
   onClick?: (page: number, data: any) => void;
   prevUrl: null | string;
@@ -14,6 +15,7 @@ const Pagination: FC<PROP_TYPE> = ({
   currentPage,
   totalPages,
   rowsPerPage,
+  totalCount,
   onClick,
   prevUrl = null,
   nextUrl = null,
@@ -60,8 +62,8 @@ const Pagination: FC<PROP_TYPE> = ({
     <div className="flex flex-col md:flex-row justify-between items-center px-4 py-3 border-t">
       <span className="text-[#666666] text-[10px] font-normal py-2">
         Showing {rowsPerPage * (currentPage - 1) + 1} to{" "}
-        {Math.min(rowsPerPage * currentPage, totalPages * rowsPerPage)} of{" "}
-        {totalPages * rowsPerPage} entries
+        {Math.min(rowsPerPage * currentPage, totalCount)} of {totalCount}{" "}
+        entries
       </span>
       <div className="flex gap-2 items-center justify-center">
         <button

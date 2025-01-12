@@ -155,7 +155,7 @@ export const InputField = ({
   maxLength,
   onHandleChange,
 }: any) => {
-  const [value, setValue] = useState(defaultValue ?? "");
+  const [value] = useState(defaultValue ?? "");
   const [focused, setFocused] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -206,7 +206,7 @@ export const FloatingTextArea = ({
   required,
   onHandleChange,
 }: any) => {
-  const [value, setValue] = useState(defaultValue ?? "");
+  const [value, setValue] = useState<string>(defaultValue ?? "");
   const [focused, setFocused] = useState(false);
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -239,7 +239,10 @@ export const FloatingTextArea = ({
         className="border border-gray-300 rounded-md p-2 pt-6 w-full focus:outline-none placeholder:text-xs"
         placeholder={focused ? placeholder : ""}
         value={value}
-        onChange={onHandleChange}
+        onChange={(event) => {
+          setValue(event.target.value);
+          onHandleChange(event);
+        }}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
         rows={4}

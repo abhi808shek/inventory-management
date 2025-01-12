@@ -1,6 +1,6 @@
 import { FC } from "react";
 import SelectUi from "@/components/select-ui";
-import { FloatingTextArea, InputField } from "@/pages/item";
+import { FloatingTextArea, InputField } from "@/pages/addItem";
 import DatePicker from "@/components/DatePicker";
 
 type DynamicFormProps = {

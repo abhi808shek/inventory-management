@@ -14,6 +14,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "../style.module.css";
 import ViewSettings from "@/components/ViewSettings";
+import TableSkeleton from "@/components/TableSkeleton";
+
 const PurchaseOrders = () => {
   const [viewSettingMode, setViewSettingMode] = useState(false);
   const { dynamictableHeader, dynamicTableData } = useSelector(
@@ -39,15 +41,19 @@ const PurchaseOrders = () => {
     return res;
   });
 
-  const { execute: dynamicWorkflowDataTableFetcher } = useApi(
-    dynamicWorkflowTableDataFunction
-  );
+  const {
+    execute: dynamicWorkflowDataTableFetcher,
+    pending: loadingTableData,
+  } = useApi(dynamicWorkflowTableDataFunction);
   useEffect(() => {
     dynamicDataHeaderFetcher();
     dynamicWorkflowDataTableFetcher();
   }, []);
+
+  console.log("dynamicTableData", dynamicTableData);
+
   return (
-    <div className=" w-full h-full flex overflow-hidden">
+    <div className="w-full h-full flex overflow-hidden">
       {/* Left Table Sections */}
       <div className={`leftTable h-max max-h-[92%] w-full overflow-x-auto`}>
         <div className="bg-white h-full w-full rounded-lg ">
@@ -58,10 +64,17 @@ const PurchaseOrders = () => {
             dynamictableHeader={dynamictableHeader}
           />
           <div className="w-full overflow-x-auto">
-            <DynamicTable
-              colsData={colsFormat}
-              data={dynamicTableData?.results}
-            />
+            {loadingTableData ? (
+              <TableSkeleton />
+            ) : (
+              <DynamicTable
+                colsData={colsFormat}
+                data={dynamicTableData?.results}
+                count={dynamicTableData.count}
+                prevUrl={dynamicTableData.previous}
+                nextUrl={dynamicTableData.next}
+              />
+            )}
           </div>
         </div>
       </div>
