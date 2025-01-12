@@ -1,8 +1,15 @@
 import AXIOS from "../configs/axios.config";
 
-export const DynamicTableArchitectureApi = async (tableName: string) => {
-  const endpoint = `/portal/v1/page?page=${tableName}`;
-  const response = await AXIOS.get(endpoint);
+export const DynamicTableArchitectureApi = async (
+  tableName: string,
+  id?: string
+) => {
+  const endpoint = `/portal/v1/page`;
+  const params: any = { page: tableName };
+  if (id) {
+    params["id"] = id;
+  }
+  const response = await AXIOS.get(endpoint, { params });
   return response;
 };
 export const DynamicTableHeaderApi = async (tableName: string) => {
