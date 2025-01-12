@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/popover";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { Fragment, useEffect, useState } from "react";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ChevronRight } from "lucide-react";
 import SearchCommand from "@/components/ui/search-command";
@@ -28,6 +28,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 const BaseLayout = () => {
   const [open, setOpen] = useState(false);
   const location = useLocation();
+  const { id } = useParams();
+
   const { dynamicTableArchitecture } = useSelector(
     (state: any) => state.dynamictableHeader
   );
@@ -35,8 +37,18 @@ const BaseLayout = () => {
   const navigate = useNavigate();
   // Dynamic Table Architechture API Fetcher Function
   const dynamicTableArchitectureFunction = handleAsync(async () => {
-    // const API = Object.keys(titleObj).find(obj => obj.includes())
-    const res = await DynamicTableArchitectureApi(titleObj[location.pathname]);
+    const key =
+      Object.keys(titleObj).find((obj) => {
+        if (location.pathname.includes(obj)) {
+          return obj;
+        }
+      }) ?? "";
+
+    if (!key.trim()) {
+      return;
+    }
+    const API = titleObj[key];
+    const res = await DynamicTableArchitectureApi(API, id);
     dispatch(dynamicTableArchitectureList(res?.data?.data ?? null));
     return res;
   });
@@ -47,7 +59,7 @@ const BaseLayout = () => {
   } = useApi(dynamicTableArchitectureFunction);
 
   useEffect(() => {
-    if (titleObj[location.pathname]) dynamicDataArchitectureFetcher();
+    dynamicDataArchitectureFetcher();
   }, [location.pathname]);
 
   return (

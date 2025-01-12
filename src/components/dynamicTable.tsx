@@ -12,7 +12,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AllColsType, DataItem, DataType } from "@/types/tableDataType";
 import { ChevronDown, EllipsisVertical, MoveDown, MoveUp } from "lucide-react";
 import Pagination from "@/components/Pagination";
@@ -42,12 +42,19 @@ const DynamicTable: FC<PROP_TYPE> = ({
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+
   const resolveNestedKey = (obj: any, key: string): any => {
     return key.split(".").reduce((acc, part) => acc && acc[part], obj);
   };
 
+  const onClickEdit = (id: string) => {
+    navigate(`${pathname}/update/${id}`);
+  };
+
   const actionButtonOptions = [
-    { Icon: Pencil, label: "Edit" },
+    { Icon: Pencil, label: "Edit", onClick: onClickEdit },
     { Icon: Trash2, label: "Delete" },
     { Icon: Eye, label: "View" },
   ];
@@ -264,13 +271,19 @@ const DynamicTable: FC<PROP_TYPE> = ({
                       sideOffset={0}
                     >
                       <ul>
-                        {actionButtonOptions?.map((item, index) => (
+                        {actionButtonOptions?.map((btn, index) => (
                           <li
                             className="flex gap-3 cursor-pointer hover:bg-[var(--hover-bg-option)] p-2 pl-1 rounded text-sm"
                             key={index}
+                            onClick={() => {
+                              if (btn.onClick) {
+                                console.log("item ------", item);
+                                btn.onClick(item.id);
+                              }
+                            }}
                           >
-                            {item?.Icon && <item.Icon size={18} />}
-                            {item?.label}
+                            {btn?.Icon && <btn.Icon size={18} />}
+                            {btn?.label}
                           </li>
                         ))}
                       </ul>
