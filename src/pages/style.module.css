@@ -1,0 +1,4 @@
+.searchPlaceholder input::placeholder {
+  font-size: 12px;
+  color: white; /* Optional: Customize placeholder text color */
+}

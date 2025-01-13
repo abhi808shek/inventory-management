@@ -11,13 +11,17 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { loginSchema } from "@/validations/auth.validation";
 import { LoginIFormInputs } from "@/types/auth.types";
 import { useMutation } from "@tanstack/react-query";
 import { loginApi } from "@/api/auth.api";
 import { ChangeEvent } from "react";
 import toast from "react-hot-toast";
+// import { customLocalStorage } from "@/utils/customLocalStorage";
+import { useDispatch } from "react-redux";
+import { setUserData } from "@/store/user/user-reducer";
+import { customLocalStorage } from "@/utils/customLocalStorage";
 
 export function LoginForm({
   className,
@@ -36,17 +40,44 @@ export function LoginForm({
     },
     resolver: yupResolver(loginSchema),
   });
-
-  // Toaster
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   // Handling Login Mutations
   const { mutate: loginFunction, isPending } = useMutation({
     mutationFn: loginApi,
     onSuccess: (data) => {
-      toast(data?.data?.message ?? "Loggedin successfull");
+      const {
+        id,
+        name,
+        email,
+        mobile_number,
+        user_role,
+        status,
+        address,
+        permissions,
+        access,
+      } = data?.data?.data;
+      dispatch(
+        setUserData({
+          id,
+          name,
+          email,
+          mobile_number,
+          user_role,
+          status,
+          address,
+          permissions,
+        })
+      );
+      customLocalStorage.setData("token", access);
+      navigate("/");
+      toast.success(data?.data?.message ?? "Loggedin successfull");
       reset();
     },
     onError: (error) => {
+      console.log("Inside");
+
       toast.error(error.message);
     },
   });

@@ -9,15 +9,22 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: "bg-[#5D54C9] text-primary-foreground hover:bg-primary/90",
-        destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
         outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+          "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
+        destructive:
+          "bg-red-600 h-[31.83px!important] font-medium text-xs text-white rounded-[6.92px]",
+        success:
+          "bg-green-600 h-[31.83px!important] font-medium text-xs text-white rounded-[6.92px]",
+        filterButton:
+          "h-[31.83px!important] font-medium text-xs text-white bg-[#5159B8] rounded-[6.92px]",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         socialMedia:
           "w-full bg-[var(--input-bg-color)] border-none text-[#313957] font-normal text-sm",
         link: "text-primary underline-offset-4 hover:underline",
+        datePicker:
+          "bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
       },
       size: {
         default: "h-10 px-4 py-2",

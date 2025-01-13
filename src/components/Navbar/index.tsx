@@ -12,30 +12,32 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import LOGO from "../../assets/images/logo.png";
+import LOGO from "@/assets/images/logo.png";
 import { useSidebar } from "@/components/ui/sidebar";
-
+import { MENU_OPTIONS } from "@/assets/data/menuOptions";
+import { useNavigate } from "react-router-dom";
+import { setUserData } from "@/store/user/user-reducer";
+import { useDispatch } from "react-redux";
 type PROP_TYPES = {
   setOpen: (open: boolean) => void;
 };
 
 const Navbar: FC<PROP_TYPES> = ({ setOpen }) => {
   const { toggleSidebar, openMobile } = useSidebar();
-
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const STATIC_USER = {
     name: "vidu.pareek2000",
     email: "vidu.pareek2000@gmail.com",
     avatar: "https://cdn.flyonui.com/fy-assets/avatar/avatar-1.png",
   };
 
-  const MENU_OPTIONS = [
-    { label: "Profile", href: "#", key: "profile" },
-    { label: "Personal settings", href: "#", key: "settings" },
-    { label: "Notifications", href: "#", key: "notifications", new: true },
-    { label: "Theme", href: "#", key: "theme" },
-    { label: "Log out", href: "#", key: "logout" },
-  ];
+  const logoutFunc = () => {
+    dispatch(setUserData(null));
 
+    localStorage.clear();
+    navigate("/login");
+  };
   return (
     <div className="flex justify-between w-full h-[60px] px-5 shadow-md mb-2">
       <div className="flex w-1/2 items-center h-full gap-3">
@@ -53,7 +55,7 @@ const Navbar: FC<PROP_TYPES> = ({ setOpen }) => {
             }}
           />
         )}
-        <img src={LOGO} alt="Logo" className="h-[60%] md:h-[80%]" />
+        <img src={LOGO} alt="Logo" className="h-[60%] md:h-[70%]" />
       </div>
       <div className="w-1/2 flex justify-end items-center gap-6">
         <Search className="cursor-pointer" onClick={() => setOpen(true)} />
@@ -101,7 +103,7 @@ const Navbar: FC<PROP_TYPES> = ({ setOpen }) => {
             </div>
 
             {/* Manage Account Option */}
-            <div className="flex items-center justify-between mt-3 mb-3 pb-7 border-b">
+            <div className="flex items-center justify-between mt-3 mb-3 pb-7 pl-2 border-b">
               <a
                 href="#"
                 className="text-gray-700 hover:text-blue-500 text-sm font-medium"
@@ -116,13 +118,18 @@ const Navbar: FC<PROP_TYPES> = ({ setOpen }) => {
               {MENU_OPTIONS.map((option) => (
                 <li
                   key={option.key}
-                  className={`py-2 ${
+                  className={` ${
                     option.key === "logout" ? "border-t mt-2 pt-2" : ""
                   }`}
+                  onClick={() => {
+                    if (option.key === "logout") {
+                      logoutFunc();
+                    }
+                  }}
                 >
-                  <a
-                    href={option.href}
-                    className="flex justify-between items-center text-gray-700 hover:text-blue-500"
+                  <div
+                    className="flex justify-between items-center text-gray-700 hover:text-white py-2 pl-2 hover:bg-[#5159B8] mb-1 hover:rounded-lg cursor-pointer"
+                    onClick={() => option.key === "logout" && logoutFunc()}
                   >
                     {option.label}
                     {option.new && (
@@ -130,7 +137,7 @@ const Navbar: FC<PROP_TYPES> = ({ setOpen }) => {
                         NEW
                       </span>
                     )}
-                  </a>
+                  </div>
                 </li>
               ))}
             </ul>

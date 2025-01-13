@@ -19,12 +19,14 @@ export default tseslint.config(
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
+      "react/react-in-jsx-scope": "off",
       "react-refresh/only-export-components": [
         "warn",
         { allowConstantExport: true },
       ],
       // Replace with TypeScript-specific rule
       "no-unused-vars": "off",
+      "no-unsafe-optional-chaining": "off",
       "@typescript-eslint/no-unused-vars": [
         "error",
         {
@@ -39,6 +41,7 @@ export default tseslint.config(
           additionalHooks: "useMyCustomHook",
         },
       ],
+      "@typescript-eslint/no-explicit-any": "off",
     },
   }
 );

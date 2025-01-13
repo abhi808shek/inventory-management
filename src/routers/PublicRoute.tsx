@@ -1,24 +1,18 @@
-import { Navigate, Outlet, useLocation } from "react-router-dom";
-
+// import { useMemo } from "react";
+import { Navigate, Outlet } from "react-router-dom";
+// import { RootState } from "@/store/rootReducer";
+// import { useSelector } from "react-redux";
+import { customLocalStorage } from "@/utils/customLocalStorage";
 const PublicRoute = () => {
-  const location = useLocation();
+  // const { user } = useSelector((state: RootState) => state.user);
 
-  // const { user } = useSelector((state: RootState) => state.userReducer);
-  const user = true;
-  if (user) {
-    let prevUrl =
-      new URLSearchParams(location.search).get("prevUrl") || location.pathname;
-    if (prevUrl.includes("/signin") || prevUrl.includes("/signup")) {
-      prevUrl = "/";
-    }
-    return <Navigate to={prevUrl} state={{ prevUrl: location.pathname }} />;
+  // const memoizedUser = useMemo(() => user, [user]);
+  const token = customLocalStorage.getData("token");
+  if (token) {
+    return <Navigate to="/" />;
   }
 
-  return (
-    <>
-      <Outlet />
-    </>
-  );
+  return <Outlet />;
 };
 
 export default PublicRoute;

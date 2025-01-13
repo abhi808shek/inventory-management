@@ -27,22 +27,38 @@ import COLLAPSABLE_ICON from "../assets/images/collapsable.svg";
 import "./style.css";
 
 const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
-  const [activeOption, setActiveOption] = useState("/dashboard");
+  const [activeOption, setActiveOption] = useState("/");
   const [openDropdown, setOpenDropdown] = useState<null | string>(null);
+  const [isHovered, setIsHovered] = useState("");
 
-  const { setOpen, toggleMouseEvent, isHoverOpen, toggleSidebar, open } =
-    useSidebar();
-
+  const {
+    setOpen,
+    toggleMouseEvent,
+    isHoverOpen,
+    toggleSidebar,
+    open,
+    setIsOnlyHoverOpen,
+  } = useSidebar();
   const { pathname } = useLocation();
+
+  const getLabel = () => {
+    const option = sidebarOptions.find(
+      (sOption) =>
+        sOption.children &&
+        sOption.children.findIndex((child) => pathname === child.path) >= 0
+    );
+    return option?.label ?? null;
+  };
 
   useEffect(() => {
     setActiveOption(pathname);
-    const mainOption = sidebarOptions.find((option) =>
-      pathname.includes(option.path)
-    );
-    if (mainOption) {
-      setOpenDropdown(mainOption.label);
+    const label = getLabel();
+    if (label) {
+      setOpenDropdown(label);
     }
+    return () => {
+      setActiveOption("/");
+    };
   }, []);
 
   return (
@@ -54,10 +70,11 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
           toggleMouseEvent(false);
         }
       }}
+      className="flex flex-col justify-between sm:content-between"
     >
       <SidebarContent>
         <SidebarGroup>
-          <SidebarMenu className="p-5 pt-0">
+          <SidebarMenu className="p-4 sm:p-2 pt-0">
             {sidebarOptions.map(({ label, path, Icon, children }) => (
               <Collapsible
                 key={label}
@@ -69,11 +86,11 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
                   <CollapsibleTrigger asChild>
                     <SidebarMenuButton
                       asChild
-                      className={`py-6 cursor-pointer transition-all duration-300 ${
+                      className={`py-6 font-normal text-black cursor-pointer transition-all duration-300 ${
                         activeOption === path
-                          ? "bg-[var(--sidebar-selected-option-bg)] text-white hover:bg-[var(--sidebar-selected-option-bg)] hover:text-white"
+                          ? "bg-[var(--sidebar-selected-option-bg)] text-white hover:bg-[var(--sidebar-selected-option-bg)]"
                           : !children
-                          ? "hover:bg-[var(--sidebar-hover-option-bg)] hover:text-white"
+                          ? "hover:bg-[var(--hover-bg-option)]"
                           : ""
                       }`}
                       onClick={() => {
@@ -89,7 +106,7 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
                       }}
                     >
                       {children ? (
-                        <div className="font-medium flex items-center">
+                        <div className="font-normal text-base flex items-center">
                           {Icon && <Icon />}
                           <span>{label}</span>
                           <ChevronDown
@@ -101,19 +118,27 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
                       ) : (
                         <Link
                           to={path}
-                          className="font-medium flex items-center"
+                          className={`font-normal text-base flex items-center ${
+                            isHovered === label
+                              ? activeOption === path
+                                ? "text-white"
+                                : "text-black"
+                              : ""
+                          }`}
+                          onMouseEnter={() =>
+                            activeOption !== path && setIsHovered(label)
+                          }
+                          onMouseLeave={() => setIsHovered("")}
                         >
                           {Icon && (
                             <Icon
-                              // color={`${
-                              //   activeOption === path ? "white" : "black"
-                              // }`}
-                              className={`transition-colors duration-200 ${
-                                activeOption.includes(path)
-                                  ? "text-white"
-                                  : "text-black"
-                              } 
-                      hover:text-white`}
+                              className={`transition-colors duration-100 ${
+                                isHovered === label
+                                  ? activeOption === path
+                                    ? "text-white"
+                                    : "text-black"
+                                  : ""
+                              } `}
                             />
                           )}
                           <span>{label}</span>
@@ -128,18 +153,14 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
                           <SidebarMenuSubItem key={child.label}>
                             <SidebarMenuSubButton
                               asChild
-                              className={`cursor-pointer py-5 transition-all duration-300 ${
-                                activeOption === path + child.path
+                              className={`pl-5 cursor-pointer py-5 transition-all duration-300  ${
+                                activeOption === child.path
                                   ? "bg-[var(--sidebar-selected-option-bg)] text-white hover:bg-[var(--sidebar-selected-option-bg)] hover:text-white"
-                                  : "hover:bg-[var(--sidebar-hover-option-bg)] hover:text-white"
-                              }`}
-                              onClick={() =>
-                                setActiveOption(`${path}${child.path}`)
-                              }
+                                  : "text-[var(--light-text)] hover:text-[var(--light-text)] hover:bg-[var(--hover-bg-option)]"
+                              } font-normal text-sm`}
+                              onClick={() => setActiveOption(child.path)}
                             >
-                              <Link to={`${path}${child.path}`}>
-                                {child.label}
-                              </Link>
+                              <Link to={`${child.path}`}>{child.label}</Link>
                             </SidebarMenuSubButton>
                           </SidebarMenuSubItem>
                         ))}
@@ -152,15 +173,16 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="relative">
+      <SidebarFooter className={"relative"}>
         <img
           src={COLLAPSABLE_ICON}
-          width="35px"
-          height="35px"
+          width="40px"
+          height="40px"
           className={`absolute right-[-15px] top-[-7px] z-30 cursor-pointer transition-transform duration-200 ${
             open ? "rotate-0" : "rotate-180"
           }`}
           onClick={() => {
+            setIsOnlyHoverOpen(open);
             toggleSidebar();
             toggleMouseEvent(false);
           }}
@@ -168,17 +190,17 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
         <Separator className="" />
         <SidebarMenuButton asChild>
           <Link to="/help" className="font-medium">
-            <span className="pr-2">{""}</span>
+            <span className="sm:hidden">{""}</span>
             <img src={BULB_ICON} width="20px" height="20px" />
-            <span>Help</span>
+            <span className="font-medium">Help</span>
           </Link>
         </SidebarMenuButton>
       </SidebarFooter>
       <SidebarRail
         onMouseEnter={() => {
           if (!isHoverOpen) {
-            toggleMouseEvent(true);
             setOpen(true);
+            toggleMouseEvent(true);
           }
         }}
       />

@@ -32,15 +32,15 @@ const LoginLayout = () => {
               />
             </AspectRatio>
           </div>
-          <div
+          {/* <div
             className="outlet-wrapper"
             style={{ height: "calc(100vh - 180px)" }}
-          >
-            <Outlet />
-          </div>
+          > */}
+          <Outlet />
         </div>
       </div>
     </div>
+    // </div>
   );
 };
 

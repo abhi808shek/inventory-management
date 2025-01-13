@@ -1,10 +1,9 @@
-import { Button } from "@/components/ui/button";
+import TableUi from "../../components/table-ui";
 
 const Home = () => {
   return (
     <div>
-      <h1 className="text-blue-600 font-bold">Home page</h1>
-      <Button className="p-4 bg-slate-950 text-white font-bold">Submit</Button>
+      <TableUi />
     </div>
   );
 };
