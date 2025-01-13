@@ -62,6 +62,9 @@ const Invoices = () => {
             <DynamicTable
               colsData={colsFormat}
               data={dynamicTableData?.results}
+              count={dynamicTableData.count}
+              prevUrl={dynamicTableData.previous}
+              nextUrl={dynamicTableData.next}
             />
           </div>
         </div>

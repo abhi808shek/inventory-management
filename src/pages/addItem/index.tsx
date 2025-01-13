@@ -174,7 +174,7 @@ export const InputField = ({
         className={`text-xs sm:text-sm absolute left-2 px-1 bg-white transition-all ${
           focused || value
             ? "text-[12px] -top-2 text-[#999999]"
-            : "text-gray-400 top-[1/2] -translate-y-1/2"
+            : "text-gray-400 top-[18px] -translate-y-1/2"
         }`}
         onClick={handleLabelClick}
       >
