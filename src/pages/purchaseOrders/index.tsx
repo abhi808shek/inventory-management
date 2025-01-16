@@ -18,6 +18,8 @@ import TableSkeleton from "@/components/TableSkeleton";
 
 const PurchaseOrders = () => {
   const [viewSettingMode, setViewSettingMode] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+
   const { dynamictableHeader, dynamicTableData } = useSelector(
     (state: any) => state.dynamictableHeader
   );
@@ -35,11 +37,18 @@ const PurchaseOrders = () => {
     dynamicTableHeaderFunction
   );
   // Dynamic Table Data API Fetcher Function
-  const dynamicWorkflowTableDataFunction = handleAsync(async () => {
-    const res = await DynamicWorkflowTableDataApi("purchase-order");
-    dispatch(dynamicTableDataList(res.data?.data ?? null));
-    return res;
-  });
+  const dynamicWorkflowTableDataFunction = handleAsync(
+    async (colName, sortingType) => {
+      const res = await DynamicWorkflowTableDataApi(
+        "purchase-order",
+        currentPage,
+        colName,
+        sortingType
+      );
+      dispatch(dynamicTableDataList(res.data?.data ?? null));
+      return res;
+    }
+  );
 
   const {
     execute: dynamicWorkflowDataTableFetcher,
@@ -49,8 +58,6 @@ const PurchaseOrders = () => {
     dynamicDataHeaderFetcher();
     dynamicWorkflowDataTableFetcher();
   }, []);
-
-  console.log("dynamicTableData", dynamicTableData);
 
   return (
     <div className="w-full h-full flex overflow-hidden">
@@ -73,6 +80,9 @@ const PurchaseOrders = () => {
                 count={dynamicTableData.count}
                 prevUrl={dynamicTableData.previous}
                 nextUrl={dynamicTableData.next}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                tableDataHandle={dynamicWorkflowDataTableFetcher}
               />
             )}
           </div>

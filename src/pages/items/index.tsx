@@ -16,6 +16,8 @@ import { useDispatch, useSelector } from "react-redux";
 import styles from "../style.module.css";
 const Items = () => {
   const [viewSettingMode, setViewSettingMode] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+
   const { dynamictableHeader, dynamicTableData } = useSelector(
     (state: any) => state.dynamictableHeader
   );
@@ -33,18 +35,25 @@ const Items = () => {
     dynamicTableHeaderFunction
   );
   // Dynamic Table Data API Fetcher Function
-  const dynamicUserTableDataFunction = handleAsync(async () => {
-    const res = await DynamicUserTableDataApi("user");
-    dispatch(dynamicTableDataList(res.data?.data ?? null));
-    return res;
-  });
+  const dynamicItemTableDataFunction = handleAsync(
+    async (colName, sortingType) => {
+      const res = await DynamicUserTableDataApi(
+        "item",
+        currentPage,
+        colName,
+        sortingType
+      );
+      dispatch(dynamicTableDataList(res.data?.data ?? null));
+      return res;
+    }
+  );
 
-  const { execute: dynamicUserDataTableFetcher } = useApi(
-    dynamicUserTableDataFunction
+  const { execute: dynamicItemDataTableFetcher } = useApi(
+    dynamicItemTableDataFunction
   );
   useEffect(() => {
     dynamicDataHeaderFetcher();
-    dynamicUserDataTableFetcher();
+    dynamicItemDataTableFetcher();
   }, []);
 
   return (
@@ -65,6 +74,9 @@ const Items = () => {
               count={dynamicTableData.count}
               prevUrl={dynamicTableData.previous}
               nextUrl={dynamicTableData.next}
+              tableDataHandle={dynamicItemDataTableFetcher}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
             />
           </div>
         </div>

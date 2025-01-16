@@ -76,8 +76,6 @@ export function LoginForm({
       reset();
     },
     onError: (error) => {
-      console.log("Inside");
-
       toast.error(error.message);
     },
   });

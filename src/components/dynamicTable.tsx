@@ -29,6 +29,9 @@ type PROP_TYPE = {
   onClick?: (data: void) => void;
   prevUrl?: string | null;
   nextUrl?: string | null;
+  tableDataHandle: any;
+  currentPage: number;
+  setCurrentPage: (data: number) => void;
 };
 
 const DynamicTable: FC<PROP_TYPE> = ({
@@ -39,12 +42,13 @@ const DynamicTable: FC<PROP_TYPE> = ({
   onClick,
   prevUrl = null,
   nextUrl = null,
+  tableDataHandle,
+  currentPage,
+  setCurrentPage,
 }) => {
-  const [currentPage, setCurrentPage] = useState(1);
-
   const navigate = useNavigate();
   const { pathname } = useLocation();
-
+  const [sortingValue, setSortValue] = useState<any>(null);
   const resolveNestedKey = (obj: any, key: string): any => {
     return key.split(".").reduce((acc, part) => acc && acc[part], obj);
   };
@@ -53,10 +57,22 @@ const DynamicTable: FC<PROP_TYPE> = ({
     navigate(`${pathname}/update/${id}`);
   };
 
+  const onClickView = (id: string | number) => {
+    navigate(`${pathname}/view/${id}`);
+  };
+  const selectedColsForSorting = (colName: any, sortingType: string) => {
+    const { key, type } = colName;
+    setSortValue({
+      coleNam: type === "multi_row" ? key[0] : key,
+      stype: sortingType,
+    });
+    tableDataHandle(key, sortingType);
+  };
+
   const actionButtonOptions = [
     { Icon: Pencil, label: "Edit", onClick: onClickEdit },
     { Icon: Trash2, label: "Delete" },
-    { Icon: Eye, label: "View" },
+    { Icon: Eye, label: "View", onClickView },
   ];
 
   const getStatusStyles = (status: string) => {
@@ -106,11 +122,32 @@ const DynamicTable: FC<PROP_TYPE> = ({
                 } font-medium`}
                 key={index}
               >
+                {sortingValue?.colName === col?.config?.key}
                 <div className="flex items-center gap-1">
                   <span> {col.headerName}</span>
                   <span className="cursor-pointer flex">
-                    <MoveUp size={14} className="text-[#c0c0c0]" />
-                    <MoveDown size={14} className="text-[#c0c0c0] ml-[-7px]" />
+                    <MoveUp
+                      size={14}
+                      className={`text-${
+                        sortingValue?.colName === col?.config?.key &&
+                        sortingValue?.stype === "asc"
+                          ? "[var(--dark-text)]"
+                          : "[#c0c0c0]"
+                      }`}
+                      onClick={() => selectedColsForSorting(col?.config, "asc")}
+                    />
+                    <MoveDown
+                      size={14}
+                      className={`text-${
+                        sortingValue?.colName === col?.config?.key &&
+                        sortingValue?.stype === "desc"
+                          ? "[var(--dark-text)]"
+                          : "[#c0c0c0]"
+                      } ml-[-4.8px]`}
+                      onClick={() =>
+                        selectedColsForSorting(col?.config, "desc")
+                      }
+                    />
                   </span>
                 </div>
               </TableHead>
@@ -277,7 +314,6 @@ const DynamicTable: FC<PROP_TYPE> = ({
                             key={index}
                             onClick={() => {
                               if (btn.onClick) {
-                                console.log("item ------", item);
                                 btn.onClick(item.id);
                               }
                             }}

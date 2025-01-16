@@ -22,10 +22,7 @@ const ViewSettings = ({
       </div>
 
       {/* View Settings Filter Box */}
-      <div
-        className="w-[90%] px-5 bg-white rounded-lg border-[1px] py-3 overflow-auto"
-        // style={{ height: "calc(100dvh - var(--navbar-height) - 100px)" }}
-      >
+      <div className="w-[90%] px-5 bg-white rounded-lg border-[1px] py-3 overflow-auto">
         <div className="flex items-center justify-between h-5 py-4">
           <span className="font-medium text-sm">Filters</span>
           <span>
