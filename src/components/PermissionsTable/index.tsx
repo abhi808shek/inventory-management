@@ -34,7 +34,7 @@ const PermissionsTable: FC<any> = ({ permissionsData, isSelectedAll }) => {
       }
     };
 
-    return permissionsData.permission_types.map((type: any) => (
+    return permissionsData?.permission_types?.map((type: any) => (
       <td key={type} className="px-4 py-2 text-center">
         <label className="inline-flex items-center cursor-pointer">
           <input
@@ -71,7 +71,7 @@ const PermissionsTable: FC<any> = ({ permissionsData, isSelectedAll }) => {
             <th className="px-4 py-2 text-left font-medium text-[14px] min-w-[180px]">
               Permission
             </th>
-            {permissionsData.permission_types.map((type: any) => (
+            {permissionsData.permission_types?.map((type: any) => (
               <th
                 key={type}
                 className="px-4 py-2 text-center font-medium min-w-[180px] flex-1"
@@ -82,12 +82,12 @@ const PermissionsTable: FC<any> = ({ permissionsData, isSelectedAll }) => {
           </tr>
         </thead>
         <tbody>
-          {permissionsData.results.map((group: any, groupIndex: number) => (
+          {permissionsData?.formBody?.map((group: any, groupIndex: number) => (
             <Fragment key={group.label}>
               {/* Parent Row */}
               <tr
                 className={`bg-[#ffffff] cursor-pointer ${
-                  groupIndex < permissionsData.results.length - 1
+                  groupIndex < permissionsData?.formBody?.length - 1
                     ? "border-b border-[#F3F3F3]"
                     : ""
                 }`}
@@ -101,10 +101,10 @@ const PermissionsTable: FC<any> = ({ permissionsData, isSelectedAll }) => {
                       height={14}
                       width={14}
                       className={`mr-2 transform transition-transform duration-300 ${
-                        expandedGroups[group.label] ? "rotate-180" : ""
+                        expandedGroups[group?.label] ? "rotate-180" : ""
                       }`}
                     />
-                    {group.label}
+                    {group?.label}
                   </span>
                 </td>
                 {/* {renderPermissionCells(group.perms)} */}
@@ -112,7 +112,7 @@ const PermissionsTable: FC<any> = ({ permissionsData, isSelectedAll }) => {
 
               {/* Child Rows */}
               {expandedGroups[group.label] &&
-                group.children.map((child: any, childIndex: number) => (
+                group.children?.map((child: any, childIndex: number) => (
                   <tr
                     key={child.label}
                     className={`bg-[#f5f6f7] text-[#999999] ${

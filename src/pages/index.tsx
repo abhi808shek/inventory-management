@@ -28,7 +28,6 @@ const Users = () => {
   // Dynamic Table Data API Fetcher Function
   const dynamicTableDataFunction = handleAsync(async () => {
     const res = await DynamicTableDataApi();
-    console.log("res", res);
     dispatch(dynamicTableDataList(res.data?.data ?? null));
     return res;
   });

@@ -7,7 +7,7 @@ import { roleIdListSetter } from "@/store/roles/roles-reducer";
 
 const permissionsData: any = {
   permission_types: ["View", "Create", "Modify", "Delete"],
-  results: [
+  formBody: [
     {
       label: "Items",
       children: [
@@ -57,22 +57,24 @@ const permissionsData: any = {
 
 const Permissions = () => {
   const { roleIdList } = useSelector((state: any) => state.roles);
-
+  const { dynamicTableArchitecture } = useSelector(
+    (state: any) => state.dynamictableHeader
+  );
   const areAllIdsSelected = (): boolean => {
-    const allPermissionIds = permissionsData.results
-      .flatMap((group: any) =>
+    const allPermissionIds = permissionsData.formBody
+      ?.flatMap((group: any) =>
         group.children.flatMap((child: any) =>
           Object.values(child.perms || {}).map((perm: any) => perm?.id)
         )
       )
       .filter(Boolean);
 
-    return allPermissionIds.every((id: any) => roleIdList.includes(id));
+    return allPermissionIds?.every((id: any) => roleIdList.includes(id));
   };
 
   const handleSelectAll = (event: ChangeEvent<HTMLInputElement>) => {
-    const allPermissionIds = permissionsData.results
-      .flatMap((group: any) =>
+    const allPermissionIds = permissionsData.formBody
+      ?.flatMap((group: any) =>
         group.children.flatMap((child: any) =>
           Object.values(child.perms || {}).map((perm: any) => perm?.id)
         )
@@ -146,7 +148,7 @@ const Permissions = () => {
           </div>
           <div className="w-full overflow-x-auto">
             <PermissionsTable
-              permissionsData={permissionsData}
+              permissionsData={dynamicTableArchitecture}
               isSelectedAll={areAllIdsSelected()}
             />
           </div>
