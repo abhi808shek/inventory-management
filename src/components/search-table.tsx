@@ -10,6 +10,8 @@ const SearchTable = ({
   viewSettingMode,
   dynamictableHeader,
 }: any) => {
+  console.log("dynamictableHeader", dynamictableHeader);
+
   const searchField = dynamictableHeader?.table_top?.search_field;
   const viewSettingsButton = dynamictableHeader?.table_top?.buttons?.type;
   return (
@@ -17,7 +19,7 @@ const SearchTable = ({
       {/* Search Section */}
 
       <div className="w-[70%] sm:w-1/2 flex items-center pl-4">
-        {searchField === "SEARCH" && (
+        {searchField.type === "SEARCH" && (
           <div className="flex items-center justify-evenly w-[170px] h-[32px] border-2 rounded-lg">
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
               <path

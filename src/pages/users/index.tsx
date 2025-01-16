@@ -18,9 +18,8 @@ const Users = () => {
   const [viewSettingMode, setViewSettingMode] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { dynamictableHeader, dynamicTableData } = useSelector(
-    (state: any) => state.dynamictableHeader
-  );
+  const { dynamictableHeader, dynamicTableData, dynamicTableArchitecture } =
+    useSelector((state: any) => state.dynamictableHeader);
   const dispatch = useDispatch();
 
   // Dynamic Table Header API Fetcher Function
