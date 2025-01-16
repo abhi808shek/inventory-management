@@ -73,6 +73,7 @@ const Users = () => {
         <ViewSettings
           dynamictableHeader={dynamictableHeader}
           setViewSettingMode={setViewSettingMode}
+          all_cols={colsFormat}
         />
       )}
     </div>
