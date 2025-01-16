@@ -16,6 +16,8 @@ import styles from "../style.module.css";
 import ViewSettings from "@/components/ViewSettings";
 const Users = () => {
   const [viewSettingMode, setViewSettingMode] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+
   const { dynamictableHeader, dynamicTableData } = useSelector(
     (state: any) => state.dynamictableHeader
   );
@@ -33,11 +35,18 @@ const Users = () => {
     dynamicTableHeaderFunction
   );
   // Dynamic Table Data API Fetcher Function
-  const dynamicUserTableDataFunction = handleAsync(async () => {
-    const res = await DynamicUserTableDataApi("user");
-    dispatch(dynamicTableDataList(res.data?.data ?? null));
-    return res;
-  });
+  const dynamicUserTableDataFunction = handleAsync(
+    async (colName, sortingType) => {
+      const res = await DynamicUserTableDataApi(
+        "user",
+        currentPage,
+        colName,
+        sortingType
+      );
+      dispatch(dynamicTableDataList(res.data?.data ?? null));
+      return res;
+    }
+  );
 
   const { execute: dynamicUserDataTableFetcher } = useApi(
     dynamicUserTableDataFunction
@@ -64,6 +73,9 @@ const Users = () => {
               count={dynamicTableData.count}
               prevUrl={dynamicTableData.previous}
               nextUrl={dynamicTableData.next}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              tableDataHandle={dynamicUserDataTableFetcher}
             />
           </div>
         </div>

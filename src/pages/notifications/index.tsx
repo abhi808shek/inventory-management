@@ -1,19 +1,19 @@
 import { DynamicTableHeaderApi } from "@/api/table.api";
-import DynamicTable from "@/components/dynamicTable";
+// import DynamicTable from "@/components/dynamicTable";
 import SearchTable from "@/components/search-table";
 import useApi from "@/hooks/useApi";
 import { dynamicTableHeaderList } from "@/store/dynamicTable/dynamic-table-reducer";
 import handleAsync from "@/utils/handleAsync";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import styles from "../style.module.css";
 
 const Notifications = () => {
   const [viewSettingMode, setViewSettingMode] = useState(false);
-  const {
-    dynamictableHeader,
-    // , dynamicTableData
-  } = useSelector((state: any) => state.dynamictableHeader);
+  // const {
+  //   // dynamictableHeader,
+  //   // , dynamicTableData
+  // } = useSelector((state: any) => state.dynamictableHeader);
   const dispatch = useDispatch();
 
   // Dynamic Table Header API Fetcher Function
@@ -22,8 +22,8 @@ const Notifications = () => {
     dispatch(dynamicTableHeaderList(res.data?.data ?? null));
     return res;
   });
-  const colsFormat =
-    dynamictableHeader?.table_top?.buttons?.menu?.columns?.all_cols;
+  // const colsFormat =
+  //   dynamictableHeader?.table_top?.buttons?.menu?.columns?.all_cols;
   const { execute: dynamicDataHeaderFetcher } = useApi(
     dynamicTableHeaderFunction
   );
@@ -51,7 +51,7 @@ const Notifications = () => {
             styles={styles}
           />
           <div className="w-full overflow-x-auto">
-            <DynamicTable colsData={colsFormat} data={[]} />
+            {/* <DynamicTable colsData={colsFormat} data={[]} /> */}
           </div>
         </div>
       </div>

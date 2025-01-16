@@ -36,10 +36,6 @@ const DynamicForm: FC<DynamicFormProps> = ({ formData }) => {
           const placeholder = field?.required
             ? `${field.placeholder ?? ""} *`
             : field.placeholder ?? "";
-          console.log(
-            `name - ${field?.placeholder}, field.field_value - ${field.field_value}`
-          );
-
           switch (field?.type) {
             case "input":
               return (

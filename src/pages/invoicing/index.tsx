@@ -17,6 +17,8 @@ import ViewSettings from "@/components/ViewSettings";
 
 const Invoices = () => {
   const [viewSettingMode, setViewSettingMode] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+
   const { dynamictableHeader, dynamicTableData } = useSelector(
     (state: any) => state.dynamictableHeader
   );
@@ -34,11 +36,18 @@ const Invoices = () => {
     dynamicTableHeaderFunction
   );
   // Dynamic Table Data API Fetcher Function
-  const dynamicWorkflowTableDataFunction = handleAsync(async () => {
-    const res = await DynamicWorkflowTableDataApi("invoice-order");
-    dispatch(dynamicTableDataList(res.data?.data ?? null));
-    return res;
-  });
+  const dynamicWorkflowTableDataFunction = handleAsync(
+    async (colName, sortingType) => {
+      const res = await DynamicWorkflowTableDataApi(
+        "invoice-order",
+        currentPage,
+        colName,
+        sortingType
+      );
+      dispatch(dynamicTableDataList(res.data?.data ?? null));
+      return res;
+    }
+  );
 
   const { execute: dynamicWorkflowDataTableFetcher } = useApi(
     dynamicWorkflowTableDataFunction
@@ -65,6 +74,9 @@ const Invoices = () => {
               count={dynamicTableData.count}
               prevUrl={dynamicTableData.previous}
               nextUrl={dynamicTableData.next}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              tableDataHandle={dynamicWorkflowDataTableFetcher}
             />
           </div>
         </div>

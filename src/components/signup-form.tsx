@@ -102,7 +102,7 @@ export function SignupForm({
                     onChange={handleChange}
                   />
                   <p className="text-red-500 font-light text-xs pl-1">
-                    {errors.email?.message}
+                    &nbsp;{errors.email?.message}
                   </p>
                 </div>
 
@@ -119,7 +119,7 @@ export function SignupForm({
                     error={!!errors.mobile_number}
                   />
                   <p className="text-red-500 font-light text-xs pl-1">
-                    {errors.mobile_number?.message}
+                    &nbsp;{errors.mobile_number?.message}
                   </p>
                 </div>
 
@@ -137,7 +137,7 @@ export function SignupForm({
                     onChange={handleChange}
                   />
                   <p className="text-red-500 font-light text-xs pl-1">
-                    {errors.password?.message}
+                    &nbsp;{errors.password?.message}
                   </p>
                 </div>
                 <Button

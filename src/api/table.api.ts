@@ -17,13 +17,33 @@ export const DynamicTableHeaderApi = async (tableName: string) => {
   const response = await AXIOS.get(endpoint);
   return response;
 };
-export const DynamicUserTableDataApi = async (type: string) => {
+export const DynamicUserTableDataApi = async (
+  type: string,
+  currentPage: number,
+  colName?: any,
+  sortingType?: any
+) => {
+  const params: any = {};
+  if (colName) {
+    params[colName] = sortingType;
+  }
+  params["page"] = currentPage;
   const endpoint = `/auth/v1/${type}`;
-  const response = await AXIOS.get(endpoint);
+  const response = await AXIOS.get(endpoint, { params });
   return response;
 };
-export const DynamicWorkflowTableDataApi = async (type: string) => {
+export const DynamicWorkflowTableDataApi = async (
+  type: string,
+  currentPage: number,
+  colName?: any,
+  sortingType?: any
+) => {
+  const params: any = {};
+  if (colName) {
+    params[colName] = sortingType;
+  }
+  params["page"] = currentPage;
   const endpoint = `/workflow/v1/${type}`;
-  const response = await AXIOS.get(endpoint);
+  const response = await AXIOS.get(endpoint, { params });
   return response;
 };

@@ -17,6 +17,8 @@ import ViewSettings from "@/components/ViewSettings";
 
 const Roles = () => {
   const [viewSettingMode, setViewSettingMode] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+
   const { dynamictableHeader, dynamicTableData } = useSelector(
     (state: any) => state.dynamictableHeader
   );
@@ -35,15 +37,23 @@ const Roles = () => {
     dynamicTableHeaderFunction
   );
   // Dynamic Table Data API Fetcher Function
-  const dynamicRoleTableDataFunction = handleAsync(async () => {
-    const res = await DynamicUserTableDataApi("user-role");
-    dispatch(dynamicTableDataList(res.data?.data ?? null));
-    return res;
-  });
+  const dynamicRoleTableDataFunction = handleAsync(
+    async (colName, sortingType) => {
+      const res = await DynamicUserTableDataApi(
+        "user-role",
+        currentPage,
+        colName,
+        sortingType
+      );
+      dispatch(dynamicTableDataList(res.data?.data ?? null));
+      return res;
+    }
+  );
 
   const { execute: dynamicRoleDataTableFetcher } = useApi(
     dynamicRoleTableDataFunction
   );
+
   useEffect(() => {
     dynamicDataHeaderFetcher();
     dynamicRoleDataTableFetcher();
@@ -68,6 +78,9 @@ const Roles = () => {
               count={dynamicTableData.count}
               prevUrl={dynamicTableData.previous}
               nextUrl={dynamicTableData.next}
+              tableDataHandle={dynamicRoleDataTableFetcher}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
             />
           </div>
         </div>
