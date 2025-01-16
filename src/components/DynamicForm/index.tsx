@@ -2,6 +2,7 @@ import { FC } from "react";
 import SelectUi from "@/components/select-ui";
 import { FloatingTextArea, InputField } from "@/pages/addItem";
 import DatePicker from "@/components/DatePicker";
+import { Button } from "@/components/ui/button";
 
 type DynamicFormProps = {
   formData: any[];
@@ -139,12 +140,20 @@ const DynamicForm: FC<DynamicFormProps> = ({ formData }) => {
                   />
                 </div>
               );
-            default:
+
+            case "fetch_details":
               return (
-                <div key={index} className="text-red-500">
-                  Unsupported field type: {field?.type}
+                <div className="flex justify-end">
+                  <Button variant="filterButton">{field.label}</Button>
                 </div>
               );
+            default:
+              // return (
+              //   <div key={index} className="text-red-500">
+              //     Unsupported field type: {field?.type}
+              //   </div>
+              // );
+              return null;
           }
         })}
       </div>
