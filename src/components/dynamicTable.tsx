@@ -60,10 +60,12 @@ const DynamicTable: FC<PROP_TYPE> = ({
   const onClickView = (id: string | number) => {
     navigate(`${pathname}/view/${id}`);
   };
+
   const selectedColsForSorting = (colName: any, sortingType: string) => {
     const { key, type } = colName;
+
     setSortValue({
-      coleNam: type === "multi_row" ? key[0] : key,
+      colName: type === "multi_row" ? key[0] : key,
       stype: sortingType,
     });
     tableDataHandle(key, sortingType);
@@ -128,21 +130,26 @@ const DynamicTable: FC<PROP_TYPE> = ({
                   <span className="cursor-pointer flex">
                     <MoveUp
                       size={14}
-                      className={`text-${
-                        sortingValue?.colName === col?.config?.key &&
-                        sortingValue?.stype === "asc"
-                          ? "[var(--dark-text)]"
-                          : "[#c0c0c0]"
+                      className={`${
+                        sortingValue?.colName ===
+                          (col?.config?.type === "multi_row"
+                            ? col?.config?.key[0]
+                            : col?.config?.key) && sortingValue?.stype === "asc"
+                          ? "text-[var(--dark-text)]"
+                          : "text-[#c0c0c0]"
                       }`}
                       onClick={() => selectedColsForSorting(col?.config, "asc")}
                     />
                     <MoveDown
                       size={14}
-                      className={`text-${
-                        sortingValue?.colName === col?.config?.key &&
+                      className={`${
+                        sortingValue?.colName ===
+                          (col?.config?.type === "multi_row"
+                            ? col?.config?.key[0]
+                            : col?.config?.key) &&
                         sortingValue?.stype === "desc"
-                          ? "[var(--dark-text)]"
-                          : "[#c0c0c0]"
+                          ? "text-[var(--dark-text)]"
+                          : "text-[#c0c0c0]"
                       } ml-[-4.8px]`}
                       onClick={() =>
                         selectedColsForSorting(col?.config, "desc")
