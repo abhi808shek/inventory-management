@@ -2,6 +2,7 @@ import { FC } from "react";
 import SelectUi from "@/components/select-ui";
 import { FloatingTextArea, InputField } from "@/pages/addItem";
 import DatePicker from "@/components/DatePicker";
+import { Button } from "@/components/ui/button";
 
 type DynamicFormProps = {
   formData: any[];
@@ -36,9 +37,12 @@ const DynamicForm: FC<DynamicFormProps> = ({ formData }) => {
           const placeholder = field?.required
             ? `${field.placeholder ?? ""} *`
             : field.placeholder ?? "";
-          console.log(
-            `name - ${field?.placeholder}, field.field_value - ${field.field_value}`
-          );
+          // console.log(
+          //   `name - ${field?.placeholder}, field.field_value - ${field.field_value}`
+          // );
+          if (field.type === "fetch_details") {
+            console.log("field", field);
+          }
 
           switch (field?.type) {
             case "input":
@@ -143,12 +147,20 @@ const DynamicForm: FC<DynamicFormProps> = ({ formData }) => {
                   />
                 </div>
               );
-            default:
+
+            case "fetch_details":
               return (
-                <div key={index} className="text-red-500">
-                  Unsupported field type: {field?.type}
+                <div className="flex justify-end">
+                  <Button variant="filterButton">{field.label}</Button>
                 </div>
               );
+            default:
+              // return (
+              //   <div key={index} className="text-red-500">
+              //     Unsupported field type: {field?.type}
+              //   </div>
+              // );
+              return null;
           }
         })}
       </div>
