@@ -1,10 +1,93 @@
 import PermissionsTable from "@/components/PermissionsTable";
 import { roleNameSetter } from "@/store/roles/roles-reducer";
 import { Check } from "lucide-react";
-import { useDispatch } from "react-redux";
+import { ChangeEvent } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { roleIdListSetter } from "@/store/roles/roles-reducer";
+
+const permissionsData: any = {
+  permission_types: ["View", "Create", "Modify", "Delete"],
+  results: [
+    {
+      label: "Items",
+      children: [
+        {
+          label: "Stock",
+          perms: {
+            view: { id: 1, codename: "itemview" },
+            create: { id: 2, codename: "itemcreate" },
+            modify: { id: 3, codename: "itemupdate" },
+            delete: { id: 4, codename: "itemdelete" },
+          },
+        },
+      ],
+    },
+    {
+      label: "Workflows",
+      children: [
+        {
+          label: "Purchase Orders",
+          perms: {
+            view: { id: 23, codename: "orderview" },
+            create: { id: 25, codename: "ordercreate" },
+            modify: { id: 26, codename: "ordermodify" },
+            delete: { id: 28, codename: "orderdelete" },
+          },
+        },
+        {
+          label: "Invoicing",
+          perms: {
+            view: { id: 31, codename: "invoiceview" },
+            create: { id: 32, codename: "invoicecreate" },
+            modify: { id: 35, codename: "invoicemodify" },
+          },
+        },
+        {
+          label: "Challan",
+          perms: {
+            view: { id: 51, codename: "challanview" },
+            create: { id: 52, codename: "challancreate" },
+            modify: { id: 55, codename: "challanmodify" },
+          },
+        },
+      ],
+    },
+  ],
+};
 
 const Permissions = () => {
+  const { roleIdList } = useSelector((state: any) => state.roles);
+
+  const areAllIdsSelected = (): boolean => {
+    const allPermissionIds = permissionsData.results
+      .flatMap((group: any) =>
+        group.children.flatMap((child: any) =>
+          Object.values(child.perms || {}).map((perm: any) => perm?.id)
+        )
+      )
+      .filter(Boolean);
+
+    return allPermissionIds.every((id: any) => roleIdList.includes(id));
+  };
+
+  const handleSelectAll = (event: ChangeEvent<HTMLInputElement>) => {
+    const allPermissionIds = permissionsData.results
+      .flatMap((group: any) =>
+        group.children.flatMap((child: any) =>
+          Object.values(child.perms || {}).map((perm: any) => perm?.id)
+        )
+      )
+      .filter(Boolean);
+
+    if (!event.target.checked) {
+      dispatch(roleIdListSetter([]));
+    } else {
+      dispatch(roleIdListSetter(allPermissionIds));
+    }
+  };
+
   const dispatch = useDispatch();
+
   return (
     <div className="bg-white w-full rounded-sm max-h-[calc(100svh-var(--navbar-height)-100px)] flex overflow-hidden shadow">
       {/* Left Table Sections */}
@@ -15,27 +98,6 @@ const Permissions = () => {
           <div className="h-[56px] flex">
             {/* Search Section */}
             <div className="w-[70%] sm:w-1/2 flex items-center pl-4">
-              {/* <div className="flex items-center justify-evenly w-[170px] h-[32px] border-2 rounded-lg">
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-            <path
-              fillRule="evenodd"
-              clipRule="evenodd"
-              d="M4.70768 1.33317C2.77469 1.33317 1.20768 2.90017 1.20768 4.83317C1.20768 6.76617 2.77469 8.33317 4.70768 8.33317C6.64068 8.33317 8.20768 6.76617 8.20768 4.83317C8.20768 2.90017 6.64068 1.33317 4.70768 1.33317ZM0.0410156 4.83317C0.0410156 2.25584 2.13035 0.166504 4.70768 0.166504C7.28501 0.166504 9.37435 2.25584 9.37435 4.83317C9.37435 5.91159 9.00855 6.90456 8.39427 7.6948L11.5368 10.8374C11.7646 11.0652 11.7646 11.4345 11.5368 11.6623C11.309 11.8901 10.9397 11.8901 10.7119 11.6623L7.56931 8.51975C6.77908 9.13404 5.7861 9.49984 4.70768 9.49984C2.13035 9.49984 0.0410156 7.4105 0.0410156 4.83317Z"
-              fill="#7F7D8F"
-            />
-          </svg>
-          <input
-            type="search"
-            placeholder="Search"
-            className={`w-[80%] pl-1 outline-none text-xs ${styles.searchPlaceholder}`}
-          />
-        </div> */}
-              {/* <Link
-                to={"/"}
-                className="text-[#666666] font-normal text-xl border-b-[1px] border-[#666666]"
-              >
-                New Role
-              </Link> */}
               <input
                 className="border-b-[1px] border-[var(--light-text)] bg-transparent p-1 pb-0 focus:outline-none placeholder:font-normal w-[200px]"
                 placeholder="New Role"
@@ -45,40 +107,15 @@ const Permissions = () => {
               />
             </div>
             <div className="w-[30%] sm:w-1/2 flex items-center justify-end pr-4 cursor-pointer ">
-              {/* View Setting Button */}
-              {/* <span
-          className="bg-blue-500"
-          onClick={() =>
-            setViewSettingMode && setViewSettingMode(!viewSettingMode)
-          }
-        >
-          <svg
-            width="13"
-            height="12"
-            viewBox="0 0 13 12"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fillRule="evenodd"
-              clipRule="evenodd"
-              d="M2.12549 0C2.49368 0 2.79216 0.298477 2.79216 0.666667V6.78047C3.56895 7.05503 4.12549 7.79585 4.12549 8.66667C4.12549 9.53748 3.56895 10.2783 2.79216 10.5529V11.3333C2.79216 11.7015 2.49368 12 2.12549 12C1.7573 12 1.45882 11.7015 1.45882 11.3333V10.5529C0.682027 10.2783 0.125488 9.53748 0.125488 8.66667C0.125488 7.79585 0.682027 7.05503 1.45882 6.78047V0.666667C1.45882 0.298477 1.7573 0 2.12549 0ZM6.12549 0C6.49368 0 6.79216 0.298477 6.79216 0.666667V1.44714C7.56895 1.72169 8.12549 2.46252 8.12549 3.33333C8.12549 4.20415 7.56895 4.94497 6.79216 5.21953V11.3333C6.79216 11.7015 6.49368 12 6.12549 12C5.7573 12 5.45882 11.7015 5.45882 11.3333V5.21953C4.68203 4.94497 4.12549 4.20415 4.12549 3.33333C4.12549 2.46252 4.68203 1.72169 5.45882 1.44714V0.666667C5.45882 0.298477 5.7573 0 6.12549 0ZM10.1255 0C10.4937 0 10.7922 0.298477 10.7922 0.666667V6.78047C11.5689 7.05503 12.1255 7.79585 12.1255 8.66667C12.1255 9.53748 11.5689 10.2783 10.7922 10.5529V11.3333C10.7922 11.7015 10.4937 12 10.1255 12C9.7573 12 9.45882 11.7015 9.45882 11.3333V10.5529C8.68203 10.2783 8.12549 9.53748 8.12549 8.66667C8.12549 7.79585 8.68203 7.05503 9.45882 6.78047V0.666667C9.45882 0.298477 9.7573 0 10.1255 0ZM6.12549 2.66667C5.7573 2.66667 5.45882 2.96514 5.45882 3.33333C5.45882 3.70152 5.7573 4 6.12549 4C6.49368 4 6.79216 3.70152 6.79216 3.33333C6.79216 2.96514 6.49368 2.66667 6.12549 2.66667ZM2.12549 8C1.7573 8 1.45882 8.29848 1.45882 8.66667C1.45882 9.03486 1.7573 9.33333 2.12549 9.33333C2.49368 9.33333 2.79216 9.03486 2.79216 8.66667C2.79216 8.29848 2.49368 8 2.12549 8ZM10.1255 8C9.7573 8 9.45882 8.29848 9.45882 8.66667C9.45882 9.03486 9.7573 9.33333 10.1255 9.33333C10.4937 9.33333 10.7922 9.03486 10.7922 8.66667C10.7922 8.29848 10.4937 8 10.1255 8Z"
-              fill="#5D54C9"
-            />
-          </svg>
-        </span> */}
-
               {/* Select All Button */}
               <div className=" flex justify-center items-center gap-4 sm:gap-5">
                 <span className="w-[75px] sm:w-[83px] flex items-center gap-1">
                   <label className="inline-flex items-center cursor-pointer">
                     <input
                       type="checkbox"
-                      // disabled={!perms?.[type.toLowerCase() as keyof typeof perms]}
-                      //   defaultChecked={
-                      //     !!perms?.[type.toLowerCase() as keyof typeof perms]
-                      //   }
                       className="hidden peer"
+                      checked={areAllIdsSelected()}
+                      onChange={handleSelectAll}
                     />
                     <div className="w-5 h-5 flex items-center border-2 border-gray-300 rounded bg-white peer-checked:bg-[#5159B8] peer-checked:border-[#5159B8] relative">
                       <Check
@@ -108,7 +145,10 @@ const Permissions = () => {
             </div>
           </div>
           <div className="w-full overflow-x-auto">
-            <PermissionsTable />
+            <PermissionsTable
+              permissionsData={permissionsData}
+              isSelectedAll={areAllIdsSelected()}
+            />
           </div>
         </div>
       </div>

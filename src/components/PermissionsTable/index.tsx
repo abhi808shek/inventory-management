@@ -1,95 +1,16 @@
-import React, { useState } from "react";
+import { FC, Fragment, useState } from "react";
 import { ChevronDown, Check } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { roleIdListSetter } from "@/store/roles/roles-reducer";
 
-interface Permission {
-  id: number;
-  codename: string;
-}
-
-interface PERMS {
-  view?: Permission;
-  create?: Permission;
-  modify?: Permission;
-  delete?: Permission;
-}
-
-interface PermissionRow {
-  label: string;
-  perms: PERMS;
-}
-
-interface PermissionGroup {
-  label: string;
-  perms?: PERMS;
-  children: PermissionRow[];
-}
-
-interface PermissionsResponse {
-  permission_types: string[];
-  results: PermissionGroup[];
-}
-
-const permissionsData: PermissionsResponse = {
-  permission_types: ["View", "Create", "Modify", "Delete"],
-  results: [
-    {
-      label: "Items",
-      children: [
-        {
-          label: "Stock",
-          perms: {
-            view: { id: 1, codename: "itemview" },
-            create: { id: 2, codename: "itemcreate" },
-            modify: { id: 3, codename: "itemupdate" },
-            delete: { id: 4, codename: "itemdelete" },
-          },
-        },
-      ],
-    },
-    {
-      label: "Workflows",
-      children: [
-        {
-          label: "Purchase Orders",
-          perms: {
-            view: { id: 23, codename: "orderview" },
-            create: { id: 25, codename: "ordercreate" },
-            modify: { id: 26, codename: "ordermodify" },
-            delete: { id: 28, codename: "orderdelete" },
-          },
-        },
-        {
-          label: "Invoicing",
-          perms: {
-            view: { id: 31, codename: "invoiceview" },
-            create: { id: 32, codename: "invoicecreate" },
-            modify: { id: 35, codename: "invoicemodify" },
-          },
-        },
-        {
-          label: "Challan",
-          perms: {
-            view: { id: 51, codename: "challanview" },
-            create: { id: 52, codename: "challancreate" },
-            modify: { id: 55, codename: "challanmodify" },
-          },
-        },
-      ],
-    },
-  ],
-};
-
-const PermissionsTable: React.FC = () => {
+const PermissionsTable: FC<any> = ({ permissionsData, isSelectedAll }) => {
   const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>(
     {}
   );
-  const { dynamicTableArchitecture } = useSelector(
-    (state: any) => state.dynamictableHeader
-  );
+
+  const { roleIdList } = useSelector((state: any) => state.roles);
+
   const dispatch = useDispatch();
-  console.log("dynamicTableArchitecture", dynamicTableArchitecture);
 
   const toggleGroup = (label: string) => {
     setExpandedGroups((prev) => ({
@@ -99,20 +20,39 @@ const PermissionsTable: React.FC = () => {
   };
 
   const renderPermissionCells = (perms?: any) => {
-    const onHandleSelect = (type: any) => {
-      dispatch(roleIdListSetter(perms[type.toLowerCase()].id));
+    const onHandleSelect = (type: string) => {
+      if (perms?.[type.toLowerCase() as keyof any].id) {
+        const id = perms[type.toLowerCase() as keyof any].id;
+        let newRoleIdList = JSON.parse(JSON.stringify(roleIdList));
+
+        if (newRoleIdList.includes(id)) {
+          newRoleIdList = newRoleIdList.filter((num: number) => num !== id);
+        } else {
+          newRoleIdList.push(id);
+        }
+        dispatch(roleIdListSetter(newRoleIdList));
+      }
     };
-    return permissionsData.permission_types.map((type) => (
+
+    return permissionsData.permission_types.map((type: any) => (
       <td key={type} className="px-4 py-2 text-center">
         <label className="inline-flex items-center cursor-pointer">
           <input
             type="checkbox"
-            disabled={!perms?.[type.toLowerCase() as keyof typeof perms]}
-            // defaultChecked={!!perms?.[type.toLowerCase() as keyof typeof perms]}
-            onChange={() => onHandleSelect(type)}
+            disabled={!perms?.[type.toLowerCase() as keyof any]}
+            checked={
+              perms?.[type.toLowerCase() as keyof any] &&
+              (isSelectedAll ||
+                roleIdList.includes(perms[type.toLowerCase() as keyof any]?.id))
+            }
+            onChange={() => {
+              onHandleSelect(type);
+            }}
             className="hidden peer"
           />
-          <div className="w-5 h-5 flex items-center border-[1px] border-[#D7D7DD] rounded bg-white peer-checked:bg-[#5159B8] peer-checked:border-[#5159B8] relative">
+          <div
+            className={`w-5 h-5 flex items-center border-[1px] border-[#D7D7DD] rounded bg-white peer-checked:bg-[#5159B8] peer-checked:border-[#5159B8] relative`}
+          >
             <Check
               className="absolute inset-0 m-auto text-white peer-checked:block peer-checked:text-white"
               size={16}
@@ -131,7 +71,7 @@ const PermissionsTable: React.FC = () => {
             <th className="px-4 py-2 text-left font-medium text-[14px] min-w-[180px]">
               Permission
             </th>
-            {permissionsData.permission_types.map((type) => (
+            {permissionsData.permission_types.map((type: any) => (
               <th
                 key={type}
                 className="px-4 py-2 text-center font-medium min-w-[180px] flex-1"
@@ -142,8 +82,8 @@ const PermissionsTable: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {permissionsData.results.map((group, groupIndex) => (
-            <React.Fragment key={group.label}>
+          {permissionsData.results.map((group: any, groupIndex: number) => (
+            <Fragment key={group.label}>
               {/* Parent Row */}
               <tr
                 className={`bg-[#ffffff] cursor-pointer ${
@@ -172,7 +112,7 @@ const PermissionsTable: React.FC = () => {
 
               {/* Child Rows */}
               {expandedGroups[group.label] &&
-                group.children.map((child, childIndex) => (
+                group.children.map((child: any, childIndex: number) => (
                   <tr
                     key={child.label}
                     className={`bg-[#f5f6f7] text-[#999999] ${
@@ -185,7 +125,7 @@ const PermissionsTable: React.FC = () => {
                     {renderPermissionCells(child.perms)}
                   </tr>
                 ))}
-            </React.Fragment>
+            </Fragment>
           ))}
         </tbody>
       </table>

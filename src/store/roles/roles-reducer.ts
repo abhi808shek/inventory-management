@@ -22,21 +22,12 @@ export const dynamicTableHeaderSlice = createSlice({
         roleName: action.payload,
       };
     },
+
     roleIdListSetter: (state, action: PayloadAction<[] | any>) => {
-      const roleIndex = state.roleIdList?.findIndex(
-        (item: any) => item === action.payload
-      );
-      if (roleIndex >= 0) {
-        const filteredRoleList = state.roleIdList?.filter(
-          (item: any) => item !== action.payload
-        );
-        return { ...state, roleIdList: filteredRoleList };
-      } else {
-        return {
-          ...state,
-          roleIdList: [action.payload, ...state.roleIdList],
-        };
-      }
+      return {
+        ...state,
+        roleIdList: action.payload,
+      };
     },
   },
 });
