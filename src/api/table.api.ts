@@ -1,3 +1,4 @@
+import { portalList } from "@/assets/data/routeOptions";
 import AXIOS from "../configs/axios.config";
 
 export const DynamicTableArchitectureApi = async (
@@ -20,30 +21,58 @@ export const DynamicTableHeaderApi = async (tableName: string) => {
 export const DynamicUserTableDataApi = async (
   type: string,
   currentPage: number,
-  colName?: any,
-  sortingType?: any
+  colName: string = "",
+  sortingType: string = "",
+  searchInput: string = ""
 ) => {
   const params: any = {};
   if (colName) {
     params[colName] = sortingType;
   }
+  if (searchInput) {
+    params["search"] = searchInput;
+  }
   params["page"] = currentPage;
-  const endpoint = `/auth/v1/${type}`;
+  const endpoint =
+    location.pathname === "/items" ? `/portal/v1/${type}` : `/auth/v1/${type}`;
   const response = await AXIOS.get(endpoint, { params });
   return response;
 };
 export const DynamicWorkflowTableDataApi = async (
   type: string,
   currentPage: number,
-  colName?: any,
-  sortingType?: any
+  colName: string = "",
+  sortingType: string = "",
+  searchInput: string = ""
 ) => {
   const params: any = {};
   if (colName) {
     params[colName] = sortingType;
   }
+  if (searchInput) {
+    params["search"] = searchInput;
+  }
   params["page"] = currentPage;
   const endpoint = `/workflow/v1/${type}`;
   const response = await AXIOS.get(endpoint, { params });
+  return response;
+};
+
+export const DynamicDeleteTableDatabyIdApi = async (
+  page: string,
+  id: number
+) => {
+  console.log("Page", page);
+
+  let portal: string | undefined;
+  // Determine portal based on location.pathname
+  for (const path in portalList) {
+    if (location.pathname.startsWith(path)) {
+      portal = portalList[path];
+      break; // Exit loop once a match is found
+    }
+  }
+  const endpoint = `/${portal}/v1/${page}/${id}`;
+  const response = await AXIOS.delete(endpoint);
   return response;
 };

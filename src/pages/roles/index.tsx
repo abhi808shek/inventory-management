@@ -38,12 +38,13 @@ const Roles = () => {
   );
   // Dynamic Table Data API Fetcher Function
   const dynamicRoleTableDataFunction = handleAsync(
-    async (colName, sortingType) => {
+    async (colName = "", sortingType = "", searchInput = "") => {
       const res = await DynamicUserTableDataApi(
         "user-role",
         currentPage,
         colName,
-        sortingType
+        sortingType,
+        searchInput
       );
       dispatch(dynamicTableDataList(res.data?.data ?? null));
       return res;
@@ -69,6 +70,7 @@ const Roles = () => {
             viewSettingMode={viewSettingMode}
             styles={styles}
             dynamictableHeader={dynamictableHeader}
+            tableDataHandle={dynamicRoleDataTableFetcher}
           />
 
           <div className="w-full overflow-x-auto">

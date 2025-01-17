@@ -36,12 +36,13 @@ const Items = () => {
   );
   // Dynamic Table Data API Fetcher Function
   const dynamicItemTableDataFunction = handleAsync(
-    async (colName, sortingType) => {
+    async (colName = "", sortingType = "", searchInput = "") => {
       const res = await DynamicUserTableDataApi(
         "item",
         currentPage,
         colName,
-        sortingType
+        sortingType,
+        searchInput
       );
       dispatch(dynamicTableDataList(res.data?.data ?? null));
       return res;
@@ -66,6 +67,7 @@ const Items = () => {
             viewSettingMode={viewSettingMode}
             styles={styles}
             dynamictableHeader={dynamictableHeader}
+            tableDataHandle={dynamicItemDataTableFetcher}
           />
           <div className="w-full overflow-x-auto">
             <DynamicTable

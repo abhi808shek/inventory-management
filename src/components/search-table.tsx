@@ -1,15 +1,26 @@
+import { useState } from "react";
+
 const SearchTable = ({
   styles,
   setViewSettingMode,
   viewSettingMode,
   dynamictableHeader,
+  tableDataHandle,
 }: any) => {
+  const [searchInput, setSearchInput] = useState("");
   const searchField = dynamictableHeader?.table_top?.search_field;
   const viewSettingsButton = dynamictableHeader?.table_top?.buttons?.type;
+  const onHandleSearch = (event: any) => {
+    if (event.target.value.trim().length === 0) {
+      tableDataHandle();
+    } else if (event.target.value.trim().length >= 3) {
+      tableDataHandle("", "", event.target.value);
+    }
+    setSearchInput(event.target.value);
+  };
   return (
     <div className="h-[56px] flex">
       {/* Search Section */}
-
       <div className="w-[70%] sm:w-1/2 flex items-center pl-4">
         {searchField?.type === "SEARCH" && (
           <div className="flex items-center justify-evenly w-[170px] h-[32px] border-2 rounded-lg">
@@ -23,8 +34,10 @@ const SearchTable = ({
             </svg>
             <input
               type="search"
-              placeholder="Search"
+              placeholder={searchField?.placeholder}
               className={`w-[80%] pl-1 outline-none text-xs ${styles.searchPlaceholder}`}
+              value={searchInput}
+              onChange={onHandleSearch}
             />
           </div>
         )}
@@ -52,33 +65,6 @@ const SearchTable = ({
               />
             </svg>
           </span>
-
-          {/* Select All Button */}
-          {/* <div className=" flex justify-center items-center gap-4 sm:gap-5">
-          <span className="w-[75px] sm:w-[83px] flex items-center gap-1">
-            <input
-              type="checkbox"
-              id="selectAll"
-              className="w-5 h-5 b-2 border-[#D7D7DD!important]"
-            />
-            <label
-              htmlFor="selectAll"
-              className="text-xs sm:text-sm font-medium text-[#999999]"
-            >
-              Select All
-            </label>
-          </span>
-          <span>
-            <svg width="13" height="12" viewBox="0 0 13 12" fill="none">
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M0.792216 0C1.16041 0 1.45888 0.298477 1.45888 0.666667V2.22866C2.55847 0.86964 4.24001 0 6.12555 0C9.18577 0 11.71 2.29042 12.0792 5.25084C12.1247 5.6162 11.8655 5.94932 11.5001 5.99488C11.1348 6.04044 10.8016 5.78119 10.7561 5.41583C10.4691 3.11449 8.50482 1.33333 6.12555 1.33333C4.54043 1.33333 3.13887 2.12378 2.29517 3.33333H4.12555C4.49374 3.33333 4.79222 3.63181 4.79222 4C4.79222 4.36819 4.49374 4.66667 4.12555 4.66667H0.792216C0.424026 4.66667 0.125549 4.36819 0.125549 4V0.666667C0.125549 0.298477 0.424026 0 0.792216 0ZM0.750985 6.00512C1.11635 5.95956 1.44946 6.21881 1.49502 6.58417C1.78199 8.88551 3.74628 10.6667 6.12555 10.6667C7.71067 10.6667 9.11223 9.87622 9.95593 8.66667H8.12555C7.75736 8.66667 7.45888 8.36819 7.45888 8C7.45888 7.63181 7.75736 7.33333 8.12555 7.33333H11.4589C11.8271 7.33333 12.1255 7.63181 12.1255 8V11.3333C12.1255 11.7015 11.8271 12 11.4589 12C11.0907 12 10.7922 11.7015 10.7922 11.3333V9.77134C9.69263 11.1304 8.01109 12 6.12555 12C3.06533 12 0.541094 9.70958 0.171935 6.74916C0.126376 6.3838 0.385625 6.05068 0.750985 6.00512Z"
-                fill="#999999"
-              />
-            </svg>
-          </span>
-        </div> */}
         </div>
       )}
     </div>

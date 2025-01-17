@@ -37,12 +37,13 @@ const Invoices = () => {
   );
   // Dynamic Table Data API Fetcher Function
   const dynamicWorkflowTableDataFunction = handleAsync(
-    async (colName, sortingType) => {
+    async (colName = "", sortingType = "", searchInput = "") => {
       const res = await DynamicWorkflowTableDataApi(
         "invoice-order",
         currentPage,
         colName,
-        sortingType
+        sortingType,
+        searchInput
       );
       dispatch(dynamicTableDataList(res.data?.data ?? null));
       return res;
@@ -66,6 +67,7 @@ const Invoices = () => {
             viewSettingMode={viewSettingMode}
             styles={styles}
             dynamictableHeader={dynamictableHeader}
+            tableDataHandle={dynamicWorkflowDataTableFetcher}
           />
           <div className="w-full overflow-x-auto">
             <DynamicTable

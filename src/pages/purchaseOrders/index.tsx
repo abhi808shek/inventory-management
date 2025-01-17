@@ -38,12 +38,13 @@ const PurchaseOrders = () => {
   );
   // Dynamic Table Data API Fetcher Function
   const dynamicWorkflowTableDataFunction = handleAsync(
-    async (colName, sortingType) => {
+    async (colName = "", sortingType = "", searchInput = "") => {
       const res = await DynamicWorkflowTableDataApi(
         "purchase-order",
         currentPage,
         colName,
-        sortingType
+        sortingType,
+        searchInput
       );
       dispatch(dynamicTableDataList(res.data?.data ?? null));
       return res;
@@ -69,6 +70,7 @@ const PurchaseOrders = () => {
             viewSettingMode={viewSettingMode}
             styles={styles}
             dynamictableHeader={dynamictableHeader}
+            tableDataHandle={dynamicWorkflowDataTableFetcher}
           />
           <div className="w-full overflow-x-auto">
             {loadingTableData ? (

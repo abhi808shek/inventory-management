@@ -19,6 +19,13 @@ import Pagination from "@/components/Pagination";
 import { Pencil, Trash2, Eye } from "lucide-react";
 import moment from "moment";
 import "./style.css";
+import handleAsync from "@/utils/handleAsync";
+import useApi from "@/hooks/useApi";
+import { DynamicDeleteTableDatabyIdApi } from "@/api/table.api";
+import { deleteRoutes } from "@/assets/data/routeOptions";
+import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import { dynamicTableDataList } from "@/store/dynamicTable/dynamic-table-reducer";
 
 // Static column definitions (all_cols)
 type PROP_TYPE = {
@@ -47,8 +54,12 @@ const DynamicTable: FC<PROP_TYPE> = ({
   setCurrentPage,
 }) => {
   const navigate = useNavigate();
-  const { pathname } = useLocation();
   const [sortingValue, setSortValue] = useState<any>(null);
+  const dispatch = useDispatch();
+  const { pathname } = useLocation();
+  const { dynamicTableData } = useSelector(
+    (state: any) => state.dynamictableHeader
+  );
   const resolveNestedKey = (obj: any, key: string): any => {
     return key.split(".").reduce((acc, part) => acc && acc[part], obj);
   };
@@ -71,10 +82,32 @@ const DynamicTable: FC<PROP_TYPE> = ({
     tableDataHandle(key, sortingType);
   };
 
+  // Dynamic Delete Table Data API Fetcher Function
+  const DynamicDeleteTableDatabyIdFunction = handleAsync(async (id) => {
+    const res = await DynamicDeleteTableDatabyIdApi(
+      deleteRoutes[pathname],
+      id as any
+    );
+    const filteredList = dynamicTableData?.results?.filter(
+      (item: any) => item.id !== id
+    );
+    dispatch(
+      dynamicTableDataList({ ...dynamicTableData, results: filteredList })
+    );
+    toast.success(res?.data?.message);
+    return res;
+  });
+  const { execute: dynamicDeleteTableDataByIdFetcher } = useApi(
+    DynamicDeleteTableDatabyIdFunction
+  );
+  const onClickDeleteFunction = (id: number) => {
+    dynamicDeleteTableDataByIdFetcher(id);
+  };
+
   const actionButtonOptions = [
     { Icon: Pencil, label: "Edit", onClick: onClickEdit },
-    { Icon: Trash2, label: "Delete" },
-    { Icon: Eye, label: "View", onClickView },
+    { Icon: Trash2, label: "Delete", onClick: onClickDeleteFunction },
+    { Icon: Eye, label: "View", onClick: onClickView },
   ];
 
   const getStatusStyles = (status: string) => {

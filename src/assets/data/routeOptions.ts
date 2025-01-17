@@ -71,3 +71,19 @@ export const titleObj: any = {
   "/challan": "CHALLAN-LIST",
   "/challan/update": "CHALLAN-UPDATE",
 };
+
+export const deleteRoutes: any = {
+  "/invoicing": "invoice-order",
+  "/challan": "challan-order",
+  "/purchase-orders": "purchase-order",
+  "/users": "",
+  "/items": "item",
+  "/roles": "",
+};
+
+export const portalList: Record<string, string> = {
+  "/items": "portal",
+  "/purchase-orders": "workflow",
+  "/invoicing": "workflow",
+  "/challan": "workflow",
+};
