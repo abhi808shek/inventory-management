@@ -42,9 +42,9 @@ const Challan = () => {
       const res = await DynamicWorkflowTableDataApi(
         "challan-order",
         currentPage,
-        colName,
-        sortingType,
-        searchInput
+        colName as any,
+        sortingType as any,
+        searchInput as any
       );
       dispatch(dynamicTableDataList(res.data?.data ?? null));
       return res;

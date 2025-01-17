@@ -74,12 +74,11 @@ const DynamicTable: FC<PROP_TYPE> = ({
 
   const selectedColsForSorting = (colName: any, sortingType: string) => {
     const { key, type } = colName;
-
     setSortValue({
       colName: type === "multi_row" ? key[0] : key,
       stype: sortingType,
     });
-    tableDataHandle(key, sortingType);
+    tableDataHandle(type === "multi_row" ? key[0] : key, sortingType);
   };
 
   // Dynamic Delete Table Data API Fetcher Function

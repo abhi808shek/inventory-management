@@ -21,12 +21,12 @@ export const DynamicTableHeaderApi = async (tableName: string) => {
 export const DynamicUserTableDataApi = async (
   type: string,
   currentPage: number,
-  colName: string = "",
+  colName: string | string[] = "",
   sortingType: string = "",
   searchInput: string = ""
 ) => {
   const params: any = {};
-  if (colName) {
+  if (colName && typeof colName === "string") {
     params[colName] = sortingType;
   }
   if (searchInput) {
@@ -64,7 +64,7 @@ export const DynamicDeleteTableDatabyIdApi = async (
 ) => {
   console.log("Page", page);
 
-  let portal: string | undefined;
+  let portal: string = "";
   // Determine portal based on location.pathname
   for (const path in portalList) {
     if (location.pathname.startsWith(path)) {
