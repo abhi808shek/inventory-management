@@ -5,9 +5,11 @@ import { Separator } from "@/components/ui/separator";
 import SelectUi from "@/components/select-ui";
 import { modifiedFieldList } from "@/utils/globalUtils";
 const ViewSettings = ({
+  all_cols,
   dynamictableHeader,
   setViewSettingMode,
-  all_cols,
+  tableDataHandle,
+  tableHeaderHandler,
 }: any) => {
   return (
     <div className="viewSettings hidden h-[calc(100svh - var(--navbar-height) sm:w-[30%] px-5 gap-2 sm:flex items-center flex-col bg-white rounded-t-lg">
@@ -70,7 +72,11 @@ const ViewSettings = ({
             <div className="w-full flex justify-between py-3" key={index}>
               <span className="text-xs font-normal">{item.name}</span>
               <span>
-                <SwitchUi />
+                <SwitchUi
+                  item={item}
+                  tableDataHandle={tableDataHandle}
+                  tableHeaderHandler={tableHeaderHandler}
+                />
               </span>
             </div>
           ))}

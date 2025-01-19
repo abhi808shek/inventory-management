@@ -26,11 +26,13 @@ const PurchaseOrders = () => {
   const dispatch = useDispatch();
 
   // Dynamic Table Header API Fetcher Function
-  const dynamicTableHeaderFunction = handleAsync(async () => {
-    const res = await DynamicTableHeaderApi("PO-LIST");
-    dispatch(dynamicTableHeaderList(res.data?.data ?? null));
-    return res;
-  });
+  const dynamicTableHeaderFunction = handleAsync(
+    async (key: string, value: boolean) => {
+      const res = await DynamicTableHeaderApi("PO-LIST", key, value);
+      dispatch(dynamicTableHeaderList(res.data?.data ?? null));
+      return res;
+    }
+  );
   const colsFormat =
     dynamictableHeader?.table_top?.buttons?.menu?.columns?.all_cols;
   const { execute: dynamicDataHeaderFetcher } = useApi(
@@ -96,6 +98,8 @@ const PurchaseOrders = () => {
           dynamictableHeader={dynamictableHeader}
           setViewSettingMode={setViewSettingMode}
           all_cols={colsFormat}
+          // tableDataHandle={dynamicUserDataTableFetcher}
+          tableHeaderHandler={dynamicDataHeaderFetcher}
         />
       )}
     </div>

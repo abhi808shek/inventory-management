@@ -13,9 +13,17 @@ export const DynamicTableArchitectureApi = async (
   const response = await AXIOS.get(endpoint, { params });
   return response;
 };
-export const DynamicTableHeaderApi = async (tableName: string) => {
+export const DynamicTableHeaderApi = async (
+  tableName: string,
+  key?: string,
+  value?: boolean
+) => {
+  const params: any = {};
+  if (key) {
+    params[key] = value;
+  }
   const endpoint = `/portal/v1/table?table=${tableName}`;
-  const response = await AXIOS.get(endpoint);
+  const response = await AXIOS.get(endpoint, { params });
   return response;
 };
 export const DynamicUserTableDataApi = async (

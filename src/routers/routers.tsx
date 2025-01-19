@@ -16,8 +16,6 @@ const LoginPage = lazy(() => import("@/pages/login"));
 const SignupPage = lazy(() => import("@/pages/signup"));
 const NotFound = lazy(() => import("@/pages/notfound"));
 const Notifications = lazy(() => import("@/pages/notifications"));
-const AddOrUpdateUI = lazy(() => import("@/pages/items/add"));
-const UpdateItem = lazy(() => import("@/pages/items/update"));
 
 // Users routes Page
 const AddForm = lazy(() => import("@/pages/addForm"));
@@ -42,27 +40,20 @@ const Routers = () => {
                   component: Component,
                   mainRoute,
                   addComponent: AddComponent,
-                  hasCustomAddComponent,
-                  hasCustomUpdateComponent,
                 }: any,
                 index: number
               ) => (
                 <Route path={mainRoute} key={index}>
                   <Route index element={<Component />} />
-                  {!hasCustomAddComponent ? (
-                    <Route
-                      path="add"
-                      element={AddComponent ? <AddComponent /> : <AddForm />}
-                    />
-                  ) : null}
-                  {!hasCustomUpdateComponent ? (
-                    <Route path="update/:id" element={<UpdateForm />} />
-                  ) : null}
+
+                  <Route
+                    path="add"
+                    element={AddComponent ? <AddComponent /> : <AddForm />}
+                  />
+                  <Route path="update/:id" element={<UpdateForm />} />
                 </Route>
               )
             )}
-            <Route path="/items/add" element={<AddOrUpdateUI />} />
-            <Route path="/items/update/:id" element={<UpdateItem />} />
             <Route path="/notifications">
               <Route index element={<Notifications />} />
             </Route>
