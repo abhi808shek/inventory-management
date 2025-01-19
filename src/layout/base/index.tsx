@@ -79,8 +79,7 @@ const BaseLayout = () => {
     const res = await executeSubmit(
       api,
       storeData[
-        REDUCERS[location.pathname as keyof typeof REDUCERS]?.value ??
-          "defaultValue"
+        REDUCERS[location.pathname as keyof typeof REDUCERS]?.value ?? "roles"
       ]
     );
     notification.success(res?.data?.message ?? "Created Successfully");

@@ -71,7 +71,7 @@ const Users = () => {
             dynamictableHeader={dynamictableHeader}
             tableDataHandle={dynamicUserDataTableFetcher}
           />
-          <div className="w-full overflow-x-auto">
+          <div className="w-full overflow-x-auto ">
             <DynamicTable
               colsData={colsFormat}
               data={dynamicTableData?.results}
