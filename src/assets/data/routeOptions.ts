@@ -78,9 +78,9 @@ export const deleteRoutes: any = {
   "/invoicing": "invoice-order",
   "/challan": "challan-order",
   "/purchase-orders": "purchase-order",
-  "/users": "",
+  "/users": "user",
   "/items": "item",
-  "/roles": "",
+  "/roles": "user-role",
 };
 
 export const portalList: Record<string, string> = {
@@ -88,4 +88,6 @@ export const portalList: Record<string, string> = {
   "/purchase-orders": "workflow",
   "/invoicing": "workflow",
   "/challan": "workflow",
+  "/roles": "auth",
+  "/users": "auth",
 };
