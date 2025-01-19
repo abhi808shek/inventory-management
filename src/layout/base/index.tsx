@@ -24,8 +24,14 @@ import useApi from "@/hooks/useApi";
 import { dynamicTableArchitectureList } from "@/store/dynamicTable/dynamic-table-reducer";
 import { titleObj } from "@/assets/data/routeOptions";
 import { Skeleton } from "@/components/ui/skeleton";
+import { submitDataApi } from "../../api/submit.api";
+import { notification } from "@/configs/notification.config";
 
 const BaseLayout = () => {
+  const REDUCERS = {
+    "/items/add": { reducerName: "itemReducer", value: "addRolesObject" },
+    "/roles/add": { reducerName: "roles", value: "permissions" },
+  };
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const { id } = useParams();
@@ -33,6 +39,12 @@ const BaseLayout = () => {
   const { dynamicTableArchitecture } = useSelector(
     (state: any) => state.dynamictableHeader
   );
+  const storeData = useSelector((state: any) => {
+    const reducerName =
+      REDUCERS[location.pathname as keyof typeof REDUCERS]?.reducerName ??
+      "roles";
+    return state[reducerName];
+  });
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // Dynamic Table Architechture API Fetcher Function
@@ -57,6 +69,23 @@ const BaseLayout = () => {
     pending: architectureLoader,
     execute: dynamicDataArchitectureFetcher,
   } = useApi(dynamicTableArchitectureFunction);
+
+  const { pending: isPendingSubmit, execute: executeSubmit } =
+    useApi(submitDataApi);
+
+  console.log("isPendingSubmit", isPendingSubmit);
+
+  const handleSubmit = handleAsync(async (api: string) => {
+    const res = await executeSubmit(
+      api,
+      storeData[
+        REDUCERS[location.pathname as keyof typeof REDUCERS]?.value ??
+          "defaultValue"
+      ]
+    );
+    notification.success(res?.data?.message ?? "Created Successfully");
+    navigate(-1);
+  });
 
   useEffect(() => {
     dynamicDataArchitectureFetcher();
@@ -201,10 +230,7 @@ const BaseLayout = () => {
                                   <Button
                                     variant="success"
                                     className="h-[31.83px!important]"
-                                    onClick={() => {
-                                      // navigate(item?.link);
-                                      // setExpandedGroups(false); // Uncomment if needed
-                                    }}
+                                    onClick={() => handleSubmit(item.api)}
                                   >
                                     {item?.label}
                                   </Button>

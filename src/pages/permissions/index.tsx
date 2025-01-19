@@ -90,6 +90,8 @@ const Permissions = () => {
 
   const dispatch = useDispatch();
 
+  console.log("roleIdList", roleIdList);
+
   return (
     <div className="bg-white w-full rounded-sm max-h-[calc(100svh-var(--navbar-height)-100px)] flex overflow-hidden shadow">
       {/* Left Table Sections */}
@@ -133,7 +135,7 @@ const Permissions = () => {
                     Select All
                   </label>
                 </span>
-                <span>
+                <span onClick={() => dispatch(roleIdListSetter([]))}>
                   <svg width="13" height="12" viewBox="0 0 13 12" fill="none">
                     <path
                       fillRule="evenodd"

@@ -4,6 +4,7 @@ const initialState: any = {
   addRolesObject: null,
   roleName: "",
   roleIdList: [],
+  permissions: [],
 };
 
 export const dynamicTableHeaderSlice = createSlice({
@@ -26,6 +27,7 @@ export const dynamicTableHeaderSlice = createSlice({
     roleIdListSetter: (state, action: PayloadAction<[] | any>) => {
       return {
         ...state,
+        permissions: action.payload,
         roleIdList: action.payload,
       };
     },

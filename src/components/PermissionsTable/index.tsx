@@ -1,4 +1,4 @@
-import { FC, Fragment, useState } from "react";
+import { FC, Fragment, useEffect, useState } from "react";
 import { ChevronDown, Check } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { roleIdListSetter } from "@/store/roles/roles-reducer";
@@ -62,6 +62,22 @@ const PermissionsTable: FC<any> = ({ permissionsData, isSelectedAll }) => {
       </td>
     ));
   };
+
+  useEffect(() => {
+    if (permissionsData) {
+      // Initialize expandedGroups with all groups expanded
+      console.log("initialExpandedGroups", permissionsData);
+      const initialExpandedGroups =
+        permissionsData?.formBody?.reduce(
+          (acc: Record<string, boolean>, group: any) => {
+            acc[group.label] = true;
+            return acc;
+          },
+          {}
+        ) ?? {};
+      setExpandedGroups(initialExpandedGroups);
+    }
+  }, [permissionsData]);
 
   return (
     <div className="overflow-auto py-4 h-auto">
