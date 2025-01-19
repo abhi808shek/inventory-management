@@ -12,7 +12,7 @@ const ViewSettings = ({
   tableHeaderHandler,
 }: any) => {
   return (
-    <div className="viewSettings hidden h-[calc(100svh - var(--navbar-height) sm:w-[30%] px-5 gap-2 sm:flex items-center flex-col bg-white rounded-t-lg">
+    <div className="viewSettings hidden h-[calc(100svh - var(--navbar-height) sm:w-[30%] px-5 gap-2 sm:flex items-center flex-col bg-white rounded-lg  pb-5">
       <div className="h-[52px] flex justify-between  items-center w-full border-b-[1px] border-[#E5E7E8] ">
         <span> {dynamictableHeader?.table_top?.buttons?.menu?.title}</span>
         <span

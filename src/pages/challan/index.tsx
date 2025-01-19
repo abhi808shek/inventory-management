@@ -61,7 +61,7 @@ const Challan = () => {
     dynamicWorkflowDataTableFetcher();
   }, []);
   return (
-    <div className=" w-full h-full flex overflow-hidden">
+    <div className=" w-full h-full flex overflow-hidden gap-2 items-start">
       {/* Left Table Sections */}
       <div className={`leftTable h-max max-h-[92%] w-full overflow-x-auto`}>
         <div className="bg-white h-full w-full rounded-lg ">
