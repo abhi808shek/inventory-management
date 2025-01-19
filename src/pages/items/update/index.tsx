@@ -99,7 +99,7 @@ const UpdateItem: FC = () => {
         ...files,
       ]);
     } else {
-      notification.error("You can only select a maximum of 8 images");
+      notification.error("You can only select a maximum of 8 images ");
     }
   };
 
