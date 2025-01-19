@@ -155,7 +155,7 @@ export const InputField = ({
   maxLength,
   onHandleChange,
 }: any) => {
-  const [value, setValue] = useState(defaultValue ?? "");
+  const [value] = useState(defaultValue ?? "");
   const [focused, setFocused] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -171,7 +171,7 @@ export const InputField = ({
     <div className="relative w-full">
       {/* Label inside the border */}
       <label
-        className={`text-xs cursor-text sm:text-sm absolute left-2 px-1 bg-white transition-all ${
+        className={`text-xs sm:text-sm absolute left-2 px-1 bg-white transition-all ${
           focused || value
             ? "text-[12px] -top-2 text-[#999999]"
             : "text-gray-400 top-[18px] -translate-y-1/2"
@@ -187,13 +187,10 @@ export const InputField = ({
         type={type}
         required={required}
         maxLength={maxLength}
-        className="no-spin border border-gray-300 rounded-md px-2 pt-2 pb-1 w-full focus:outline-none  placeholder:text-xs"
+        className="border border-gray-300 rounded-md px-2 pt-2 pb-1 w-full focus:outline-none  placeholder:text-xs"
         // placeholder={focused ? placeholder : ""}
         value={value}
-        onChange={(event) => {
-          setValue(event.target.value);
-          if (onHandleChange) onHandleChange(event);
-        }}
+        onChange={onHandleChange}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
       />
@@ -204,6 +201,7 @@ export const InputField = ({
 export const FloatingTextArea = ({
   name,
   label = "Label",
+  placeholder = "Placeholder",
   defaultValue,
   required,
   onHandleChange,
@@ -224,7 +222,7 @@ export const FloatingTextArea = ({
     <div className="relative w-full">
       {/* Floating Label */}
       <label
-        className={`text-xs cursor-text sm:text-sm absolute left-2 px-1 bg-white transition-all ${
+        className={`text-xs sm:text-sm absolute left-2 px-1 bg-white transition-all ${
           focused || value
             ? "text-sm -top-2 text-[#999999]"
             : "text-gray-400 top-3"
@@ -239,11 +237,11 @@ export const FloatingTextArea = ({
         ref={textAreaRef}
         required={required}
         className="border border-gray-300 rounded-md p-2 pt-6 w-full focus:outline-none placeholder:text-xs"
-        // placeholder={focused ? "" : ""}
+        placeholder={focused ? placeholder : ""}
         value={value}
         onChange={(event) => {
           setValue(event.target.value);
-          if (onHandleChange) onHandleChange(event);
+          onHandleChange(event);
         }}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}

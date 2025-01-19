@@ -24,11 +24,13 @@ const Items = () => {
   const dispatch = useDispatch();
 
   // Dynamic Table Header API Fetcher Function
-  const dynamicTableHeaderFunction = handleAsync(async () => {
-    const res = await DynamicTableHeaderApi("ITEM-LIST");
-    dispatch(dynamicTableHeaderList(res.data?.data ?? null));
-    return res;
-  });
+  const dynamicTableHeaderFunction = handleAsync(
+    async (key: string, value: boolean) => {
+      const res = await DynamicTableHeaderApi("ITEM-LIST", key, value);
+      dispatch(dynamicTableHeaderList(res.data?.data ?? null));
+      return res;
+    }
+  );
   const colsFormat =
     dynamictableHeader?.table_top?.buttons?.menu?.columns?.all_cols;
   const { execute: dynamicDataHeaderFetcher } = useApi(
@@ -58,7 +60,7 @@ const Items = () => {
   }, []);
 
   return (
-    <div className="w-full h-full flex overflow-hidden">
+    <div className=" w-full h-full flex overflow-hidden">
       {/* Left Table Sections */}
       <div className={`leftTable h-max max-h-[92%] w-full overflow-x-auto`}>
         <div className="bg-white h-full w-full rounded-lg ">
@@ -89,6 +91,8 @@ const Items = () => {
           dynamictableHeader={dynamictableHeader}
           setViewSettingMode={setViewSettingMode}
           all_cols={colsFormat}
+          // tableDataHandle={dynamicUserDataTableFetcher}
+          tableHeaderHandler={dynamicDataHeaderFetcher}
         />
       )}
     </div>

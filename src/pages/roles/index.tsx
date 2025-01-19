@@ -25,11 +25,13 @@ const Roles = () => {
   const dispatch = useDispatch();
 
   // Dynamic Table Header API Fetcher Function
-  const dynamicTableHeaderFunction = handleAsync(async () => {
-    const res = await DynamicTableHeaderApi("ROLE-LIST");
-    dispatch(dynamicTableHeaderList(res.data?.data ?? null));
-    return res;
-  });
+  const dynamicTableHeaderFunction = handleAsync(
+    async (key: string, value: boolean) => {
+      const res = await DynamicTableHeaderApi("ROLE-LIST", key, value);
+      dispatch(dynamicTableHeaderList(res.data?.data ?? null));
+      return res;
+    }
+  );
   const colsFormat =
     dynamictableHeader?.table_top?.buttons?.menu?.columns?.all_cols;
 
@@ -92,6 +94,8 @@ const Roles = () => {
         <ViewSettings
           dynamictableHeader={dynamictableHeader}
           setViewSettingMode={setViewSettingMode}
+          // tableDataHandle={dynamicUserDataTableFetcher}
+          tableHeaderHandler={dynamicDataHeaderFetcher}
           all_cols={colsFormat}
         />
       )}
