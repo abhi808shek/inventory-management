@@ -41,9 +41,9 @@ const Invoices = () => {
       const res = await DynamicWorkflowTableDataApi(
         "invoice-order",
         currentPage,
-        colName,
-        sortingType,
-        searchInput
+        colName as any,
+        sortingType as any,
+        searchInput as any
       );
       dispatch(dynamicTableDataList(res.data?.data ?? null));
       return res;

@@ -36,6 +36,8 @@ export const ROUTE_OPTIONS = [
     mainRoute: "/items",
     component: Items,
     addComponent: AddItems,
+    hasCustomAddComponent: true,
+    hasCustomUpdateComponent: true,
   },
   {
     mainRoute: "/purchase-orders",

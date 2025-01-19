@@ -15,6 +15,16 @@ body {
   overscroll-behavior: none;
 }
 
+.no-spin::-webkit-inner-spin-button,
+.no-spin::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.no-spin {
+  -moz-appearance: textfield;
+}
+
 input::placeholder {
   /* font-size: 16px; */
   font-weight: 300;

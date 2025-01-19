@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import {
   Select,
   SelectContent,
@@ -15,7 +15,7 @@ interface SelectOption {
 interface SelectUiProps {
   placeholder?: string;
   options?: SelectOption[];
-  onHandleChange?: any;
+  onHandleChange?: (value: string | number) => void;
 }
 
 const SelectUi: React.FC<SelectUiProps> = ({
@@ -23,32 +23,33 @@ const SelectUi: React.FC<SelectUiProps> = ({
   options,
   onHandleChange,
 }) => {
-  const [value] = useState("");
-  const selectRef = useRef<HTMLSelectElement>(null);
+  const [value, setValue] = useState<string | number>("");
 
-  const handleLabelClick = () => {
-    if (selectRef.current) {
-      selectRef.current.focus();
-    }
+  const handleValueChange = (newValue: string) => {
+    setValue(newValue);
+    if (onHandleChange) onHandleChange(newValue);
   };
 
   return (
     <div className="relative w-full">
       <label
-        className={`text-sm absolute left-2 px-1 bg-white transition-all z-10 ${
+        className={`cursor-pointer text-sm absolute left-2 px-1 bg-white transition-all z-10 ${
           value
             ? "text-xs -top-[8px] text-[#999999]"
             : "text-gray-400 top-1/2 -translate-y-1/2"
         }`}
-        onClick={handleLabelClick}
+        onClick={(e) => {
+          const triggerElement = e.currentTarget.parentElement?.querySelector(
+            "[data-state='closed']"
+          ) as HTMLElement;
+          if (triggerElement) {
+            triggerElement.click(); // Simulates a click on the `SelectTrigger` to open the dropdown
+          }
+        }}
       >
         {placeholder}
       </label>
-      <Select
-        onValueChange={(event) => {
-          if (onHandleChange) onHandleChange(event);
-        }}
-      >
+      <Select onValueChange={handleValueChange}>
         <SelectTrigger className="w-full h-10 pt-2 pb-2 outline-none">
           <SelectValue placeholder="" />
         </SelectTrigger>

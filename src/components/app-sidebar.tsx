@@ -110,7 +110,7 @@ const AppSidebar = ({ ...props }: ComponentProps<typeof Sidebar>) => {
                           {Icon && <Icon />}
                           <span>{label}</span>
                           <ChevronDown
-                            className={`ml-auto transition-transform duration-200 ${
+                            className={`ml-auto mr-3 transition-transform duration-200 ${
                               openDropdown === label ? "rotate-180" : "rotate-0"
                             }`}
                           />
